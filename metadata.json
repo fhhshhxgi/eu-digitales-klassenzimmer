@@ -1,0 +1,10 @@
+{
+  "name": "Die Europäische Union – Interaktives Informationsportal",
+  "description": "Ein hochmodernes, interaktives Lernportal über die Geschichte, Institutionen und Zukunft der EU, entwickelt für Schüler.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "3D Visualisierungen",
+    "Interaktive Karten",
+    "Datenvisualisierung"
+  ]
+}
