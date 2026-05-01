@@ -1028,7 +1028,7 @@ export default function App() {
               </h4>
             </div>
             <p className="text-sm text-slate-500 max-w-sm mx-auto md:mx-0">
-              Ein interaktives Bildungsprojekt über die Europäische Union. Entwickelt für modernen Politik- und Wirtschaftsunterricht.
+              Ein interaktives Bildungsprojekt über die Europäische Union. Entwickelt für den EU-Tag 2026 am GymGa.
             </p>
           </div>
           <div className="flex gap-12 text-center md:text-left">
