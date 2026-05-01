@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { HeroScene } from './components/HeroScene';
 import { Section } from './components/Section';
 import { QuizPrompt } from './components/QuizPrompt';
+import { TiltCard } from './components/TiltCard';
 import { DisclaimerModal } from './components/DisclaimerModal';
 import { ImpressumModal } from './components/ImpressumModal';
 import { PrivacyModal } from './components/PrivacyModal';
@@ -22,7 +23,9 @@ import {
   TrendingUp,
   Cpu,
   Leaf,
-  BookOpen
+  BookOpen,
+  Menu,
+  X
 } from 'lucide-react';
 import { 
   BarChart, 
@@ -45,6 +48,20 @@ export default function App() {
   const [isImpressumOpen, setIsImpressumOpen] = useState(false);
   const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
   const [activeDetailedTopic, setActiveDetailedTopic] = useState<number | null>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showDeviceNotice, setShowDeviceNotice] = useState(true);
+
+  // Lock body scroll when mobile menu is open
+  React.useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileMenuOpen]);
 
   const detailedContent = [
     {
@@ -378,15 +395,60 @@ export default function App() {
         title={activeDetailedTopic !== null ? detailedContent[activeDetailedTopic].title : ""}
         content={activeDetailedTopic !== null ? detailedContent[activeDetailedTopic] : { sections: [] }}
       />
+
+      {/* Device Orientation Notice - Visible on mobile/tablet and portrait orientations */}
+      {showDeviceNotice && (
+        <motion.div 
+          initial={{ y: 100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          className="fixed bottom-6 left-6 right-6 z-[60] lg:landscape:hidden"
+        >
+          <div className="glass-card p-4 flex items-center justify-between gap-4 border-l-4 border-l-eu-gold bg-eu-dark/95 shadow-2xl">
+            <div className="flex items-center gap-3">
+              <div className="text-eu-gold shrink-0">
+                <Sparkles size={20} />
+              </div>
+              <p className="text-[11px] font-medium leading-tight text-white/90">
+                <span className="text-eu-gold font-bold block mb-0.5">Optimierungshinweis</span>
+                Am besten auf Desktop oder Tablet (Querformat) zu erleben.
+              </p>
+            </div>
+            <button 
+              onClick={() => setShowDeviceNotice(false)}
+              className="p-2 hover:bg-white/10 rounded-lg transition-colors text-white/40"
+              aria-label="Hinweis schließen"
+            >
+              <X size={16} />
+            </button>
+          </div>
+        </motion.div>
+      )}
+
       {/* Decorative background elements from theme */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-white/5 rounded-full" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-white/5 rounded-full" />
+        <motion.div 
+          animate={{ 
+            scale: [1, 1.1, 1],
+            rotate: [0, 5, 0],
+            opacity: [0.3, 0.4, 0.3]
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-white/5 rounded-full" 
+        />
+        <motion.div 
+          animate={{ 
+            scale: [1, 1.2, 1],
+            rotate: [0, -5, 0],
+            opacity: [0.2, 0.3, 0.2]
+          }}
+          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-white/5 rounded-full" 
+        />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,#003399_0%,#000F26_70%)] opacity-40" />
       </div>
 
       {/* Navigation Layer */}
-      <nav className="fixed top-0 left-0 w-full h-16 z-50 px-10 flex justify-between items-center bg-eu-panel backdrop-blur-md border-b border-white/10">
+      <nav className="fixed top-0 left-0 w-full h-16 z-50 px-6 md:px-10 flex justify-between items-center bg-eu-panel backdrop-blur-md border-b border-white/10">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 relative flex items-center justify-center">
             <div className="absolute inset-0 border border-eu-gold rounded-full animate-pulse" />
@@ -394,19 +456,78 @@ export default function App() {
           </div>
           <span className="tracking-[0.2em] font-light text-xs uppercase text-white/80 hidden sm:block">EU Knowledge Archive</span>
         </div>
+        
+        {/* Desktop Links */}
         <div className="hidden md:flex gap-8 text-[10px] font-semibold tracking-widest uppercase text-white/60">
           <a href="#" className="text-white border-b border-eu-gold pb-1 transition-all">Home</a>
           <a href="#diversity" className="hover:text-white transition-colors">Mitgliedstaaten</a>
           <a href="#institutions" className="hover:text-white transition-colors">Institutionen</a>
           <a href="#future" className="hover:text-white transition-colors">Zukunft</a>
         </div>
+
+        {/* Mobile Menu Toggle */}
+        <button 
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="md:hidden text-white/80 hover:text-eu-gold p-2 transition-colors relative z-50"
+          aria-label="Toggle Menu"
+        >
+          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+
+        {/* Mobile Menu Overlay */}
+        <motion.div
+          initial={false}
+          animate={isMobileMenuOpen ? "open" : "closed"}
+          variants={{
+            open: { 
+              opacity: 1, 
+              x: 0,
+              visibility: "visible" as const,
+              transition: { type: "spring", stiffness: 300, damping: 30 }
+            },
+            closed: { 
+              opacity: 0, 
+              x: "100%",
+              transitionEnd: { visibility: "hidden" as const },
+              transition: { type: "spring", stiffness: 300, damping: 30 }
+            }
+          }}
+          className="fixed inset-0 bg-eu-dark/95 backdrop-blur-xl z-40 flex flex-col items-center justify-center gap-8 md:hidden"
+        >
+          {[
+            { label: 'Home', href: '#' },
+            { label: 'Mitgliedstaaten', href: '#diversity' },
+            { label: 'Institutionen', href: '#institutions' },
+            { label: 'Wirtschaft', href: '#economy' },
+            { label: 'Zukunft', href: '#future' }
+          ].map((item, i) => (
+            <motion.a
+              key={item.label}
+              initial={{ opacity: 0, y: 20 }}
+              animate={isMobileMenuOpen ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ delay: i * 0.1 }}
+              href={item.href}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="text-2xl font-display font-bold text-white hover:text-eu-gold tracking-tight"
+            >
+              <span className="text-eu-gold/40 mr-4 font-mono text-sm">0{i+1}</span>
+              {item.label}
+            </motion.a>
+          ))}
+          
+          <div className="mt-12 flex gap-6">
+            <div className="w-10 h-px bg-white/20" />
+            <span className="text-eu-gold text-lg">★ ★ ★</span>
+            <div className="w-10 h-px bg-white/20" />
+          </div>
+        </motion.div>
       </nav>
 
-      <header className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
+      <header className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden pt-16">
         <HeroScene />
         
-        {/* Left Focus Card */}
-        <div className="absolute top-32 left-10 w-80 z-20 hidden lg:block space-y-6">
+        {/* Left Focus Card - Hidden on mobile/tablet */}
+        <div className="absolute top-32 left-10 w-80 z-20 hidden xl:block space-y-6">
           <motion.div 
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -424,8 +545,8 @@ export default function App() {
           </motion.div>
         </div>
 
-        {/* Right Info Card */}
-        <div className="absolute top-32 right-10 w-80 z-20 hidden lg:block space-y-6">
+        {/* Right Info Card - Hidden on mobile/tablet */}
+        <div className="absolute top-32 right-10 w-80 z-20 hidden xl:block space-y-6">
           <motion.div 
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -453,16 +574,16 @@ export default function App() {
           </motion.div>
         </div>
         
-        <div className="relative z-10 text-center px-6 max-w-4xl">
+        <div className="relative z-10 text-center px-4 md:px-6 max-w-4xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
           >
-            <h1 className="text-6xl md:text-8xl font-display font-extrabold text-white mb-4 leading-tight tracking-tighter uppercase">
+            <h1 className="text-5xl sm:text-6xl md:text-8xl font-display font-extrabold text-white mb-4 leading-tight tracking-tighter uppercase">
               Die <span className="text-eu-gold">Europäische</span> Union
             </h1>
-            <p className="text-white/40 uppercase tracking-[0.5em] text-sm font-medium mb-12">
+            <p className="text-white/40 uppercase tracking-[0.3em] md:tracking-[0.5em] text-xs md:text-sm font-medium mb-8 md:mb-12">
               Politik • Wirtschaft • Zukunft Europas
             </p>
             
@@ -471,7 +592,7 @@ export default function App() {
                 href="#history"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-10 py-5 bg-eu-gold text-black font-bold rounded-2xl flex items-center gap-3 transition-shadow shadow-[0_0_30px_rgba(255,204,0,0.2)] hover:shadow-[0_0_40px_rgba(255,204,0,0.4)]"
+                className="px-8 py-4 md:px-10 md:py-5 bg-eu-gold text-black font-bold rounded-2xl flex items-center gap-3 transition-shadow shadow-[0_0_30px_rgba(255,204,0,0.2)] hover:shadow-[0_0_40px_rgba(255,204,0,0.4)] text-sm md:text-base"
               >
                 Archiv öffnen <ArrowRight size={20} />
               </motion.a>
@@ -482,16 +603,16 @@ export default function App() {
         <motion.div 
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50"
+          className="absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50 hidden sm:flex"
         >
-          <span className="text-[10px] uppercase font-bold tracking-[0.2em] text-slate-300">Scrollen zum Entdecken</span>
-          <div className="w-px h-12 bg-gradient-to-b from-eu-gold font-bold to-transparent" />
+          <span className="text-[10px] uppercase font-bold tracking-[0.2em] text-slate-300">Entdecken</span>
+          <div className="w-px h-8 md:h-12 bg-gradient-to-b from-eu-gold font-bold to-transparent" />
         </motion.div>
       </header>
 
       {/* Intro Text */}
-      <div className="max-w-4xl mx-auto py-24 px-6 text-center">
-        <p className="text-2xl md:text-3xl font-medium text-slate-300 leading-relaxed italic">
+      <div className="max-w-4xl mx-auto py-16 md:py-24 px-6 text-center">
+        <p className="text-xl md:text-3xl font-medium text-slate-300 leading-relaxed italic">
           "Die Europäische Union ist eines der größten Projekte unserer Zeit. Sie verbindet 27 Länder mit ganz unterschiedlichen Kulturen, Sprachen und Werten zu einer starken Gemeinschaft."
         </p>
       </div>
@@ -502,30 +623,36 @@ export default function App() {
         title="1. Wie alles anfing" 
         subtitle="Vom zerstörten Kontinent zum Friedensprojekt. Ein Rückblick auf die wichtigsten Schritte."
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div className="glass-card p-6 border-l-4 border-l-eu-gold">
-            <History className="text-eu-gold mb-4" size={32} />
-            <h3 className="text-xl font-bold mb-3">Europa nach 1945</h3>
-            <p className="text-slate-400 text-sm leading-relaxed">
-              Nach dem Zweiten Weltkrieg lag Europa am Boden. Die Idee: Dauerhafter Frieden durch enge Zusammenarbeit. Besonders Deutschland und Frankreich sollten keine Feinde mehr sein.
-            </p>
-          </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <TiltCard>
+            <div className="glass-card p-6 border-l-4 border-l-eu-gold h-full">
+              <History className="text-eu-gold mb-4" size={32} />
+              <h3 className="text-xl font-bold mb-3">Europa nach 1945</h3>
+              <p className="text-slate-400 text-sm leading-relaxed">
+                Nach dem Zweiten Weltkrieg lag Europa am Boden. Die Idee: Dauerhafter Frieden durch enge Zusammenarbeit. Besonders Deutschland und Frankreich sollten keine Feinde mehr sein.
+              </p>
+            </div>
+          </TiltCard>
           
-          <div className="glass-card p-6 border-l-4 border-l-eu-blue">
-            <Map className="text-eu-blue mb-4" size={32} />
-            <h3 className="text-xl font-bold mb-3">Erste Schritte (1951-1957)</h3>
-            <p className="text-slate-400 text-sm leading-relaxed">
-              1951 startete die Gemeinschaft für Kohle und Stahl. Wer diese wichtigen Rohstoffe gemeinsam verwaltet, kann keinen heimlichen Krieg mehr vorbereiten.
-            </p>
-          </div>
+          <TiltCard>
+            <div className="glass-card p-6 border-l-4 border-l-eu-blue h-full">
+              <Map className="text-eu-blue mb-4" size={32} />
+              <h3 className="text-xl font-bold mb-3">Erste Schritte (1951-1957)</h3>
+              <p className="text-slate-400 text-sm leading-relaxed">
+                1951 startete die Gemeinschaft für Kohle und Stahl. Wer diese wichtigen Rohstoffe gemeinsam verwaltet, kann keinen heimlichen Krieg mehr vorbereiten.
+              </p>
+            </div>
+          </TiltCard>
           
-          <div className="glass-card p-6 border-l-4 border-l-white/20">
-            <ShieldCheck className="text-white/60 mb-4" size={32} />
-            <h3 className="text-xl font-bold mb-3">Die EU entsteht</h3>
-            <p className="text-slate-400 text-sm leading-relaxed">
-              1993 wurde die Europäische Union (EU) offiziell gegründet. Jetzt arbeiteten die Länder nicht mehr nur in der Wirtschaft, sondern auch in der Politik eng zusammen.
-            </p>
-          </div>
+          <TiltCard className="sm:col-span-2 lg:col-span-1">
+            <div className="glass-card p-6 border-l-4 border-l-white/20 h-full">
+              <ShieldCheck className="text-white/60 mb-4" size={32} />
+              <h3 className="text-xl font-bold mb-3">Die EU entsteht</h3>
+              <p className="text-slate-400 text-sm leading-relaxed">
+                1993 wurde die Europäische Union (EU) offiziell gegründet. Jetzt arbeiteten die Länder nicht mehr nur in der Wirtschaft, sondern auch in der Politik eng zusammen.
+              </p>
+            </div>
+          </TiltCard>
         </div>
 
         <div className="flex justify-center mt-12 pb-8 border-b border-white/5">
@@ -633,54 +760,45 @@ export default function App() {
 
       {/* TOPIC 3: Institutions */}
       <Section id="institutions" title="3. Institutionen & Politik">
-         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="relative group">
-              <motion.div 
-                whileHover={{ scale: 1.02 }}
-                className="glass-card p-8 h-full border-t-4 border-t-blue-500"
-              >
-                <Building2 className="text-blue-500 mb-6" size={40} />
-                <h3 className="text-2xl font-bold mb-4">EU-Kommission</h3>
+         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            <TiltCard className="group">
+              <div className="glass-card p-6 md:p-8 h-full border-t-4 border-t-blue-500">
+                <Building2 className="text-blue-500 mb-6 group-hover:scale-110 transition-transform" size={40} />
+                <h3 className="text-xl md:text-2xl font-bold mb-4">EU-Kommission</h3>
                 <p className="text-slate-400 mb-6 font-medium italic">"Die Exekutive"</p>
-                <ul className="text-sm text-slate-300 space-y-3">
+                <ul className="text-xs md:text-sm text-slate-300 space-y-3">
                   <li className="flex items-center gap-2"><ArrowRight size={12} className="text-eu-gold" /> Initiativmonopol für Gesetze</li>
                   <li className="flex items-center gap-2"><ArrowRight size={12} className="text-eu-gold" /> Wächterin der Verträge</li>
                   <li className="flex items-center gap-2"><ArrowRight size={12} className="text-eu-gold" /> Verwaltung des Haushalts</li>
                 </ul>
-              </motion.div>
-            </div>
-
-            <div className="relative group">
-              <motion.div 
-                whileHover={{ scale: 1.02 }}
-                className="glass-card p-8 h-full border-t-4 border-t-eu-gold"
-              >
-                <Users className="text-eu-gold mb-6" size={40} />
-                <h3 className="text-2xl font-bold mb-4">Parlament</h3>
+              </div>
+            </TiltCard>
+ 
+            <TiltCard className="group">
+              <div className="glass-card p-6 md:p-8 h-full border-t-4 border-t-eu-gold">
+                <Users className="text-eu-gold mb-6 group-hover:scale-110 transition-transform" size={40} />
+                <h3 className="text-xl md:text-2xl font-bold mb-4">Parlament</h3>
                 <p className="text-slate-400 mb-6 font-medium italic">"Die Volksvertreter"</p>
-                <ul className="text-sm text-slate-300 space-y-3">
+                <ul className="text-xs md:text-sm text-slate-300 space-y-3">
                   <li className="flex items-center gap-2"><ArrowRight size={12} className="text-eu-gold" /> Direkt gewählt durch EU-Bürger</li>
                   <li className="flex items-center gap-2"><ArrowRight size={12} className="text-eu-gold" /> Gesetzgebung (Legislative)</li>
                   <li className="flex items-center gap-2"><ArrowRight size={12} className="text-eu-gold" /> Kontrolle der Exekutive</li>
                 </ul>
-              </motion.div>
-            </div>
-
-            <div className="relative group">
-              <motion.div 
-                whileHover={{ scale: 1.02 }}
-                className="glass-card p-8 h-full border-t-4 border-t-slate-400"
-              >
-                <Building2 className="text-slate-400 mb-6" size={40} />
-                <h3 className="text-2xl font-bold mb-4">Rat der EU</h3>
+              </div>
+            </TiltCard>
+ 
+            <TiltCard className="group sm:col-span-2 lg:col-span-1">
+              <div className="glass-card p-6 md:p-8 h-full border-t-4 border-t-slate-400">
+                <Building2 className="text-slate-400 mb-6 group-hover:scale-110 transition-transform" size={40} />
+                <h3 className="text-xl md:text-2xl font-bold mb-4">Rat der EU</h3>
                 <p className="text-slate-400 mb-6 font-medium italic">"Die Minister"</p>
-                <ul className="text-sm text-slate-300 space-y-3">
+                <ul className="text-xs md:text-sm text-slate-300 space-y-3">
                   <li className="flex items-center gap-2"><ArrowRight size={12} className="text-eu-gold" /> Fachminister der 27 Staaten</li>
                   <li className="flex items-center gap-2"><ArrowRight size={12} className="text-eu-gold" /> Vertretung nationaler Belange</li>
                   <li className="flex items-center gap-2"><ArrowRight size={12} className="text-eu-gold" /> Politische Koordination</li>
                 </ul>
-              </motion.div>
-            </div>
+              </div>
+            </TiltCard>
          </div>
 
          <div className="mt-16 p-8 glass-card border-eu-blue/30 overflow-hidden relative">
@@ -714,39 +832,39 @@ export default function App() {
       {/* TOPIC 4: Economy */}
       <Section id="economy" color="blue" title="4. Wirtschaft, Binnenmarkt & Euro">
          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <div className="space-y-8">
-              <div className="flex gap-6 items-start">
-                <div className="p-3 bg-eu-gold/20 rounded-2xl text-eu-gold"><Briefcase /></div>
+            <div className="space-y-6 md:space-y-8">
+              <div className="flex gap-4 md:gap-6 items-start">
+                <div className="p-3 bg-eu-gold/20 rounded-2xl text-eu-gold shrink-0"><Briefcase className="w-5 h-5 md:w-6 md:h-6" /></div>
                 <div>
-                  <h3 className="text-2xl font-bold mb-2">Die 4 Grundfreiheiten</h3>
-                  <p className="text-slate-400 leading-relaxed">
+                  <h3 className="text-xl md:text-2xl font-bold mb-2">Die 4 Grundfreiheiten</h3>
+                  <p className="text-sm md:text-base text-slate-400 leading-relaxed">
                     Der Binnenmarkt ist das Herzstück. Waren, Dienstleistungen, Kapital und Personen können sich frei über Grenzen hinweg bewegen.
                   </p>
                 </div>
               </div>
-              <div className="flex gap-6 items-start">
-                <div className="p-3 bg-eu-blue/20 rounded-2xl text-eu-blue"><Coins /></div>
+              <div className="flex gap-4 md:gap-6 items-start">
+                <div className="p-3 bg-eu-blue/20 rounded-2xl text-eu-blue shrink-0"><Coins className="w-5 h-5 md:w-6 md:h-6" /></div>
                 <div>
-                  <h3 className="text-2xl font-bold mb-2">Der Euro (€)</h3>
-                  <p className="text-slate-400 leading-relaxed">
-                    Eingeführt zur Vertiefung der Integration. Er spart Wechselkursgebühren und macht Preise vergleichbar, birgt aber auch Risiken für wirtschaftlich schwächere Länder.
+                  <h3 className="text-xl md:text-2xl font-bold mb-2">Der Euro (€)</h3>
+                  <p className="text-sm md:text-base text-slate-400 leading-relaxed">
+                    Eingeführt zur Vertiefung der Integration. Er spart Wechselkursgebühren und macht Preise vergleichbar, birgt aber auch Risiken.
                   </p>
                 </div>
               </div>
-              <div className="flex gap-6 items-start">
-                <div className="p-3 bg-white/10 rounded-2xl text-white"><TrendingUp /></div>
+              <div className="flex gap-4 md:gap-6 items-start">
+                <div className="p-3 bg-white/10 rounded-2xl text-white shrink-0"><TrendingUp className="w-5 h-5 md:w-6 md:h-6" /></div>
                 <div>
-                  <h3 className="text-2xl font-bold mb-2">Globaler Player</h3>
-                  <p className="text-slate-400 leading-relaxed">
+                  <h3 className="text-xl md:text-2xl font-bold mb-2">Globaler Player</h3>
+                  <p className="text-sm md:text-base text-slate-400 leading-relaxed">
                     Zusammen bildet die EU einen der größten Wirtschaftsräume der Welt mit enormer Verhandlungsmacht im globalen Handel.
                   </p>
                 </div>
               </div>
             </div>
-
-            <div className="glass-card p-8 flex flex-col items-center justify-center min-h-[400px]">
-              <h4 className="text-xs font-bold text-slate-500 uppercase mb-8">EU Wirtschaftsstruktur (Schätzung)</h4>
-              <div className="w-full h-[300px]">
+ 
+            <div className="glass-card p-6 md:p-8 flex flex-col items-center justify-center min-h-[350px] md:min-h-[400px]">
+              <h4 className="text-[10px] md:text-xs font-bold text-slate-500 uppercase mb-8">EU Wirtschaftsstruktur (Schätzung)</h4>
+              <div className="w-full h-[250px] md:h-[300px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie
@@ -754,19 +872,19 @@ export default function App() {
                       cx="50%"
                       cy="50%"
                       innerRadius={60}
-                      outerRadius={100}
+                      outerRadius={80}
                       paddingAngle={5}
                       dataKey="value"
                     >
-                      <Cell fill="#003399" />
-                      <Cell fill="#FFCC00" />
-                      <Cell fill="#444" />
+                      {gdpData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={index === 0 ? '#003399' : index === 1 ? '#FFCC00' : '#475569'} />
+                      ))}
                     </Pie>
-                    <Tooltip contentStyle={{ backgroundColor: '#001A4D', border: '1px solid #333' }} />
+                    <Tooltip contentStyle={{ backgroundColor: '#001A4D', border: '1px solid #333', borderRadius: '8px' }} />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
-              <div className="flex gap-4 text-[10px] uppercase font-bold text-slate-500 mt-4">
+              <div className="flex flex-wrap justify-center gap-4 text-[10px] uppercase font-bold text-slate-500 mt-4">
                  <div className="flex items-center gap-1"><div className="w-2 h-2 bg-eu-blue rounded-full" /> Industrie</div>
                  <div className="flex items-center gap-1"><div className="w-2 h-2 bg-eu-gold rounded-full" /> Dienstleistung</div>
                  <div className="flex items-center gap-1"><div className="w-2 h-2 bg-slate-600 rounded-full" /> Landwirtschaft</div>
@@ -791,37 +909,45 @@ export default function App() {
       {/* TOPIC 5: Future */}
       <Section id="future" title="5. Herausforderungen & Zukunft">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-           <div className="p-8 glass-card border-l-4 border-l-green-500">
-             <Leaf className="text-green-500 mb-4" size={32} />
-             <h3 className="text-xl font-bold mb-4">Green Deal</h3>
-             <p className="text-slate-400 text-sm leading-relaxed">
-               Die EU will bis 2050 klimaneutral werden. Das erfordert massive Investitionen in Erneuerbare Energien und den Umbau der gesamten Industrie.
-             </p>
-           </div>
+           <TiltCard>
+             <div className="p-8 glass-card border-l-4 border-l-green-500 h-full">
+               <Leaf className="text-green-500 mb-4" size={32} />
+               <h3 className="text-xl font-bold mb-4">Green Deal</h3>
+               <p className="text-slate-400 text-sm leading-relaxed">
+                 Die EU will bis 2050 klimaneutral werden. Das erfordert massive Investitionen in Erneuerbare Energien und den Umbau der gesamten Industrie.
+               </p>
+             </div>
+           </TiltCard>
            
-           <div className="p-8 glass-card border-l-4 border-l-orange-500">
-             <Map className="text-orange-500 mb-4" size={32} />
-             <h3 className="text-xl font-bold mb-4">Migration</h3>
-             <p className="text-slate-400 text-sm leading-relaxed">
-               Eine der schwierigsten Fragen: Wie verteilt man Geflüchtete fair und sichert gleichzeitig die Außengrenzen? Hier prallen nationale Interessen hart aufeinander.
-             </p>
-           </div>
-
-           <div className="p-8 glass-card border-l-4 border-l-purple-500">
-             <Cpu className="text-purple-500 mb-4" size={32} />
-             <h3 className="text-xl font-bold mb-4">Digitalisierung</h3>
-             <p className="text-slate-400 text-sm leading-relaxed">
-               Europa möchte die Hoheit über seine Daten behalten und mit KI-Giganten aus den USA und China konkurrieren. Der "Digital Services Act" setzt hier globale Standards.
-             </p>
-           </div>
-
-           <div className="p-8 glass-card border-l-4 border-l-eu-gold">
-             <Globe className="text-eu-gold mb-4" size={32} />
-             <h3 className="text-xl font-bold mb-4">Globale Rolle</h3>
-             <p className="text-slate-400 text-sm leading-relaxed">
-               In einer instabilen Welt sucht die EU nach einer gemeinsamen Stimme in der Außenpolitik. Diplomatie und Entwicklungszusammenarbeit sind ihre stärksten Waffen.
-             </p>
-           </div>
+           <TiltCard>
+             <div className="p-8 glass-card border-l-4 border-l-orange-500 h-full">
+               <Map className="text-orange-500 mb-4" size={32} />
+               <h3 className="text-xl font-bold mb-4">Migration</h3>
+               <p className="text-slate-400 text-sm leading-relaxed">
+                 Eine der schwierigsten Fragen: Wie verteilt man Geflüchtete fair und sichert gleichzeitig die Außengrenzen? Hier prallen nationale Interessen hart aufeinander.
+               </p>
+             </div>
+           </TiltCard>
+ 
+           <TiltCard>
+             <div className="p-8 glass-card border-l-4 border-l-purple-500 h-full">
+               <Cpu className="text-purple-500 mb-4" size={32} />
+               <h3 className="text-xl font-bold mb-4">Digitalisierung</h3>
+               <p className="text-slate-400 text-sm leading-relaxed">
+                 Europa möchte die Hoheit über seine Daten behalten und mit KI-Giganten aus den USA und China konkurrieren. Der "Digital Services Act" setzt hier globale Standards.
+               </p>
+             </div>
+           </TiltCard>
+ 
+           <TiltCard>
+             <div className="p-8 glass-card border-l-4 border-l-eu-gold h-full">
+               <Globe className="text-eu-gold mb-4" size={32} />
+               <h3 className="text-xl font-bold mb-4">Globale Rolle</h3>
+               <p className="text-slate-400 text-sm leading-relaxed">
+                 In einer instabilen Welt sucht die EU nach einer gemeinsamen Stimme in der Außenpolitik. Diplomatie und Entwicklungszusammenarbeit sind ihre stärksten Waffen.
+               </p>
+             </div>
+           </TiltCard>
         </div>
 
         <div className="mt-16 text-center max-w-3xl mx-auto">
@@ -848,31 +974,31 @@ export default function App() {
       </Section>
 
       {/* Footer */}
-      <footer className="py-20 border-t border-white/5 bg-eu-dark/30 px-6">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12">
-          <div>
+      <footer className="py-12 md:py-20 border-t border-white/5 bg-eu-dark/30 px-6">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 md:gap-12">
+          <div className="text-center md:text-left">
             <h4 className="text-xl font-display font-black text-white mb-4">
               EU KNOWLEDGE <span className="text-eu-gold">ARCHIVE</span>
             </h4>
-            <p className="text-sm text-slate-500 max-w-sm">
+            <p className="text-sm text-slate-500 max-w-sm mx-auto md:mx-0">
               Ein interaktives Bildungsprojekt über die Europäische Union. Entwickelt für modernen Politik- und Wirtschaftsunterricht.
             </p>
           </div>
-          <div className="flex gap-12">
+          <div className="flex gap-12 text-center md:text-left">
             <div className="space-y-2">
               <h5 className="text-[10px] font-bold text-eu-gold uppercase tracking-widest">Rechtliches</h5>
-              <p 
+              <button 
                 onClick={() => setIsImpressumOpen(true)}
-                className="text-xs text-slate-400 hover:text-white cursor-pointer transition-colors"
+                className="block w-full text-left text-xs text-slate-400 hover:text-white cursor-pointer transition-colors"
               >
                 Impressum
-              </p>
-              <p 
+              </button>
+              <button 
                 onClick={() => setIsPrivacyOpen(true)}
-                className="text-xs text-slate-400 hover:text-white cursor-pointer transition-colors"
+                className="block w-full text-left text-xs text-slate-400 hover:text-white cursor-pointer transition-colors"
               >
                 Datenschutz
-              </p>
+              </button>
             </div>
           </div>
         </div>
