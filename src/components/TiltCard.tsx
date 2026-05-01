@@ -39,12 +39,15 @@ export const TiltCard: React.FC<TiltCardProps> = ({ children, className = "" }) 
     <motion.div
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
+      whileHover={{ 
+        scale: 1.02,
+      }}
       style={{
         rotateY,
         rotateX,
         transformStyle: "preserve-3d",
       }}
-      className={`relative ${className}`}
+      className={`relative transition-shadow duration-500 hover:shadow-[0_30px_60px_rgba(0,0,0,0.5),0_0_30px_rgba(255,204,0,0.1)] ${className}`}
     >
       <div
         style={{

@@ -8,6 +8,8 @@ import { DisclaimerModal } from './components/DisclaimerModal';
 import { ImpressumModal } from './components/ImpressumModal';
 import { PrivacyModal } from './components/PrivacyModal';
 import { DetailedSectionModal } from './components/DetailedSectionModal';
+import { EUTimeline } from './components/EUTimeline';
+import { EUMap } from './components/EUMap';
 import { 
   History, 
   Globe, 
@@ -580,9 +582,28 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
           >
-            <h1 className="text-5xl sm:text-6xl md:text-8xl font-display font-extrabold text-white mb-4 leading-tight tracking-tighter uppercase">
-              Die <span className="text-eu-gold">Europäische</span> Union
-            </h1>
+            <motion.h1 
+              initial={{ opacity: 0, y: 30, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+              className="relative text-6xl sm:text-7xl md:text-9xl font-display font-black text-white mb-6 leading-[0.85] tracking-tighter uppercase cursor-default group"
+              style={{ transformStyle: "preserve-3d", perspective: "1200px" }}
+            >
+              <span className="relative z-10 block drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+                Die <span className="text-eu-gold transition-all duration-500 hover:text-white hover:tracking-normal inline-block">Europäische</span> Union
+              </span>
+              
+              {/* Massive 3D Shadow Layers */}
+              <span className="absolute inset-0 translate-y-[4px] translate-x-[4px] text-eu-blue/40 -z-10 select-none blur-[1px]">
+                Die Europäische Union
+              </span>
+              <span className="absolute inset-0 translate-y-[8px] translate-x-[8px] text-eu-gold/20 -z-20 select-none blur-[3px] opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                Die Europäische Union
+              </span>
+              <span className="absolute inset-0 translate-y-[12px] translate-x-[12px] text-black/40 -z-30 select-none blur-[6px]">
+                Die Europäische Union
+              </span>
+            </motion.h1>
             <p className="text-white/40 uppercase tracking-[0.3em] md:tracking-[0.5em] text-xs md:text-sm font-medium mb-8 md:mb-12">
               Politik • Wirtschaft • Zukunft Europas
             </p>
@@ -653,6 +674,12 @@ export default function App() {
               </p>
             </div>
           </TiltCard>
+        </div>
+
+        <div className="mt-20 border-t border-white/5 pt-16">
+          <h3 className="text-3xl font-display font-bold text-white mb-4 text-center">Meilensteine der EU</h3>
+          <p className="text-slate-400 text-center mb-12 max-w-2xl mx-auto">Ein Zeitstrahl der wichtigsten Ereignisse in der Geschichte der europäischen Einigung.</p>
+          <EUTimeline />
         </div>
 
         <div className="flex justify-center mt-12 pb-8 border-b border-white/5">
@@ -742,6 +769,12 @@ export default function App() {
               </BarChart>
             </ResponsiveContainer>
            </div>
+        </div>
+
+        <div className="mt-16 border-t border-white/5 pt-16">
+           <h3 className="text-3xl font-display font-bold text-white mb-4 text-center">Interaktive EU-Karte</h3>
+           <p className="text-slate-400 text-center mb-12 max-w-2xl mx-auto">Entdecken Sie die Vielfalt der Mitgliedstaaten. Klicken Sie auf ein Land, um Bevölkerung und Beitrittsjahr zu sehen.</p>
+           <EUMap />
         </div>
 
         <div className="flex justify-center mt-12 pb-8 border-b border-white/5">
