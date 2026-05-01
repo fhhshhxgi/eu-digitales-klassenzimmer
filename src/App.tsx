@@ -1049,8 +1049,8 @@ export default function App() {
             </div>
           </div>
         </div>
-        <div className="mt-12 text-center text-[10px] text-slate-600 font-mono">
-          &copy; 2026 Europäisches Klassenzimmer • In Vielfalt geeint
+        <div className="mt-12 text-center text-[12px] text-slate-600 font-mono">
+          &copy; 2026 Cristian Liebrecht
         </div>
       </footer>
     </div>
