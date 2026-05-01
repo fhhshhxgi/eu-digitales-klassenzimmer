@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { HeroScene } from './components/HeroScene';
 import { Section } from './components/Section';
 import { QuizPrompt } from './components/QuizPrompt';

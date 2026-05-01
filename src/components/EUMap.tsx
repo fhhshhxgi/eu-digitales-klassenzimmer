@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import React, { useState, useEffect } from 'react';
+import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Users, Calendar, MapPin, Info } from 'lucide-react';
-import * as d3 from 'd3-geo';
-import { feature } from 'topojson-client';
 
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 
@@ -48,35 +47,17 @@ const euCountries: Record<string, CountryData> = {
 export function EUMap() {
   const [selectedCountry, setSelectedCountry] = useState<CountryData | null>(null);
   const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
-  const [geographies, setGeographies] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetch(geoUrl)
       .then(res => res.json())
-      .then(data => {
-        const countries = feature(data, data.objects.countries) as any;
-        setGeographies(countries.features);
-        setIsLoading(false);
-      })
-      .catch(err => {
-        console.error("Error loading geometries:", err);
-        setIsLoading(false);
-      });
+      .then(() => setIsLoading(false))
+      .catch(() => setIsLoading(false));
   }, []);
 
-  const projection = useMemo(() => {
-    return d3.geoAzimuthalEqualArea()
-      .rotate([-10.0, -54.0, 0])
-      .scale(800)
-      .translate([400, 300]);
-  }, []);
-
-  const pathGenerator = useMemo(() => {
-    return d3.geoPath().projection(projection);
-  }, [projection]);
-
-  const handleCountryClick = (name: string) => {
+  const handleCountryClick = (geo: any) => {
+    const name = geo.properties.name;
     if (euCountries[name]) {
       setSelectedCountry(euCountries[name]);
     }
@@ -101,36 +82,54 @@ export function EUMap() {
           </div>
         </div>
 
-        <svg viewBox="0 0 800 600" className="w-full h-auto">
-          <g>
-            {geographies.map((geo, i) => {
-              const name = geo.properties.name;
-              const isEU = !!euCountries[name];
-              const isSelected = selectedCountry?.name === euCountries[name]?.name;
-              const pathData = pathGenerator(geo);
+        <ComposableMap
+          projection="geoAzimuthalEqualArea"
+          projectionConfig={{
+            rotate: [-10.0, -54.0, 0],
+            scale: 900
+          }}
+          className="w-full h-full"
+        >
+          <Geographies geography={geoUrl}>
+            {({ geographies }) =>
+              geographies.map((geo) => {
+                const name = geo.properties.name;
+                const isEU = !!euCountries[name];
+                const isSelected = selectedCountry?.name === euCountries[name]?.name;
 
-              if (!pathData) return null;
-
-              return (
-                <path
-                  key={`path-${i}`}
-                  d={pathData}
-                  onMouseEnter={() => isEU && setHoveredCountry(name)}
-                  onMouseLeave={() => setHoveredCountry(null)}
-                  onClick={() => handleCountryClick(name)}
-                  className="transition-all duration-300 outline-none"
-                  style={{
-                    fill: isEU ? (isSelected ? "#FFCC00" : "#2D4B7C") : "#1e293b",
-                    stroke: "#0f172a",
-                    strokeWidth: 0.5,
-                    cursor: isEU ? "pointer" : "default",
-                    ...(isEU && hoveredCountry === name && !isSelected ? { fill: "#FFCC00" } : {})
-                  }}
-                />
-              );
-            })}
-          </g>
-        </svg>
+                return (
+                  <Geography
+                    key={geo.rsmKey}
+                    geography={geo}
+                    onMouseEnter={() => isEU && setHoveredCountry(name)}
+                    onMouseLeave={() => setHoveredCountry(null)}
+                    onClick={() => handleCountryClick(geo)}
+                    style={{
+                      default: {
+                        fill: isEU ? (isSelected ? "#FFCC00" : "#2D4B7C") : "#1e293b",
+                        stroke: "#0f172a",
+                        strokeWidth: 0.5,
+                        outline: "none",
+                        transition: "all 0.3s"
+                      },
+                      hover: {
+                        fill: isEU ? "#FFCC00" : "#1e293b",
+                        stroke: "#0f172a",
+                        strokeWidth: 0.8,
+                        outline: "none",
+                        cursor: isEU ? "pointer" : "default"
+                      },
+                      pressed: {
+                        fill: isEU ? "#E6B800" : "#1e293b",
+                        outline: "none"
+                      }
+                    }}
+                  />
+                );
+              })
+            }
+          </Geographies>
+        </ComposableMap>
       </div>
 
       <div className="space-y-6">
