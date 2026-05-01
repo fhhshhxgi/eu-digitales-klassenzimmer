@@ -6,6 +6,7 @@ import { QuizPrompt } from './components/QuizPrompt';
 import { DisclaimerModal } from './components/DisclaimerModal';
 import { ImpressumModal } from './components/ImpressumModal';
 import { PrivacyModal } from './components/PrivacyModal';
+import { DetailedSectionModal } from './components/DetailedSectionModal';
 import { 
   History, 
   Globe, 
@@ -20,7 +21,8 @@ import {
   Briefcase,
   TrendingUp,
   Cpu,
-  Leaf
+  Leaf,
+  BookOpen
 } from 'lucide-react';
 import { 
   BarChart, 
@@ -42,6 +44,305 @@ export default function App() {
   const [isDisclaimerOpen, setIsDisclaimerOpen] = useState(true);
   const [isImpressumOpen, setIsImpressumOpen] = useState(false);
   const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
+  const [activeDetailedTopic, setActiveDetailedTopic] = useState<number | null>(null);
+
+  const detailedContent = [
+    {
+      title: "Entstehung & Entwicklung (EGKS bis EU)",
+      sections: [
+        {
+          subtitle: "Frieden durch wirtschaftliche Verflechtung",
+          text: "Nach 1945 stand Europa vor der Trümmerwüste zweier Weltkriege. Die zentrale Erkenntnis von Denkern wie Robert Schuman und Jean Monnet war: Nur wenn die kriegswichtigen Industrien (Kohle und Stahl) gemeinsam kontrolliert werden, kann kein Staat mehr heimlich aufrüsten. Dies war die Geburtsstunde der EGKS (1951).",
+          points: [
+            { 
+              title: "Aussöhnung Deutschland-Frankreich", 
+              detail: "Die jahrhundertelange 'Erbfeindschaft' sollte durch gemeinsame Verwaltung von Ressourcen beendet werden. Der Schuman-Plan vom 9. Mai 1950 (heute Europatag) war das Fundament." 
+            },
+            { 
+              title: "Übertragung von Souveränität", 
+              detail: "Erstmals gaben Nationalstaaten freiwillig Macht an eine übernationale Behörde ab. Dies verhinderte nationale Alleingänge in der Rüstungsproduktion." 
+            },
+            { 
+              title: "Wirtschaftlicher Friedensgarant", 
+              detail: "Wer wirtschaftlich so eng verflochten ist, dass er auf die Lieferungen des Nachbarn angewiesen ist, kann materiell keinen Krieg mehr gegen ihn führen." 
+            }
+          ]
+        },
+        {
+          subtitle: "Vom gemeinsamen Markt zum Binnenmarkt",
+          text: "1957 weiteten die 'Römischen Verträge' die Zusammenarbeit auf die gesamte Wirtschaft aus. Die Europäische Wirtschaftsgemeinschaft (EWG) zielte auf einen gemeinsamen Markt ab. Dies legte das Fundament für die heutigen vier Grundfreiheiten.",
+          points: [
+            { 
+              title: "Gründung der EWG und EURATOM", 
+              detail: "Neben der allgemeinen Wirtschaft wurde auch die zivile Nutzung der Atomenergie gemeinsam koordiniert, um technologischen Anschluss zu halten." 
+            },
+            { 
+              title: "Abbau von Binnenzöllen", 
+              detail: "Der freie Warenverkehr wurde schrittweise eingeführt, was zu einem enormen Wirtschaftswachstum in den Gründungsstaaten führte." 
+            },
+            { 
+              title: "Harmonisierung der Wirtschaftsordnungen", 
+              detail: "Es wurden erste Regeln für fairen Wettbewerb geschaffen, damit kein Staat seine eigenen Firmen unzulässig bevorteilen konnte." 
+            }
+          ]
+        },
+        {
+          subtitle: "Maastricht und die Politische Union (EU)",
+          text: "Der Vertrag von Maastricht (1993) transformierte die Gemeinschaft in die 'Europäische Union'. Er führte das Drei-Säulen-Modell ein: EG, Gemeinsame Außenpolitik und Zusammenarbeit in Justiz/Inneres. Hier wurde auch die Grundlage für den Euro gelegt.",
+          points: [
+            { 
+              title: "Einführung der Unionsbürgerschaft", 
+              detail: "Jeder Bürger eines Mitgliedstaates erhielt das Recht, in der gesamten EU zu leben, zu arbeiten und an Kommunalwahlen teilzunehmen." 
+            },
+            { 
+              title: "Aufbau der Europäische Zentralbank (EZB)", 
+              detail: "Mit Sitz in Frankfurt wurde die Europäische Zentralbank geschaffen, um eine stabile gemeinsame Währung für den Weltmarkt vorzubereiten." 
+            },
+            { 
+              title: "Stärkung des EU-Parlaments", 
+              detail: "Das EU-Parlament erhielt erstmals echte Mitbestimmungsrechte bei der Gesetzgebung, um das sogenannte 'Demokratiedefizit' zu verringern." 
+            }
+          ]
+        }
+      ]
+    },
+    {
+      title: "Mitgliedsstaaten & Vielfalt",
+      sections: [
+        {
+          subtitle: "Drei sozioökonomische Welten",
+          text: "Die EU vereint höchst unterschiedliche Modelle. Während der Norden auf hohe soziale Absicherung (Wohlfahrtsstaat) setzt, stehen im Osten die Transformation alter Strukturen und im Süden der Tourismus sowie kleinmittelständische Betriebe im Fokus.",
+          points: [
+            { 
+              title: "Nordisches Wohlfahrtsmodell", 
+              detail: "Hohe Steuern finanzieren exzellente Bildung und soziale Sicherheit, was zu einer sehr hohen Lebensqualität und Innovationskraft führt." 
+            },
+            { 
+              title: "Strukturwandel im Osten", 
+              detail: "Seit der Osterweiterung 2004 mussten viele Staaten ihre Wirtschaft umstellen, massiv unterstützt durch Milliarden aus den EU-Strukturfonds." 
+            },
+            { 
+              title: "Herausforderung Südeuropa", 
+              detail: "Hohe Jugendarbeitslosigkeit und Abhängigkeit vom Tourismus erfordern oft spezielle EU-Investitionsprogramme zur Diversifizierung der Wirtschaft." 
+            }
+          ]
+        },
+        {
+          subtitle: "Kulturelle Identität und Mehrsprachigkeit",
+          text: "Die EU ist kein Schmelztiegel wie die USA, sondern ein Mosaik. Mit 24 Amtssprachen investiert die Union enorme Summen in Übersetzungsdienste, um sicherzustellen, dass jeder Bürger Gesetze in seiner Muttersprache verstehen kann.",
+          points: [
+            { 
+              title: "Motto: In Vielfalt geeint (United in Diversity)", 
+              detail: "Die Union schützt die nationale Identität der Staaten. Es gibt keine 'europäische Einheitskultur', sondern ein gemeinsames Wertefundament." 
+            },
+            { 
+              title: "Kulturförderprogramme", 
+              detail: "Über Programme wie 'Erasmus+' wird der Austausch gefördert, während gleichzeitig regionale Dialekte und Traditionen geschützt werden (Sprachencharta)." 
+            },
+            { 
+              title: "Sprachliche Gleichberechtigung", 
+              detail: "Alle offiziellen Dokumente müssen in alle 24 Sprachen übersetzt werden, damit der Zugang zum Recht für alle Europäer gleich ist." 
+            }
+          ]
+        },
+        {
+          subtitle: "Schengen: Ein Raum ohne Binnengrenzen",
+          text: "Das Schengener Abkommen ermöglicht Reisen ohne Grenzkontrollen. Dies ist für den Welthandel (Just-in-time-Lieferungen) und den Tourismus essenziell, fordert aber den verstärkten Schutz der Außengrenzen (Frontex).",
+          points: [
+            { 
+              title: "Das SIS-System", 
+              detail: "Das Schengener Informationssystem ermöglicht es der Polizei aller Länder, sekundenschnell nach verdächtigen Fahrzeugen oder Personen zu fahnden." 
+            },
+            { 
+              title: "Wegfall von Wartezeiten", 
+              detail: "Für LKW-Fahrer und Pendler bedeutet Schengen eine enorme Zeit- und Kostenersparnis, was die Preise von Waren für Verbraucher senkt." 
+            },
+            { 
+              title: "Frontex und Außenschutz", 
+              detail: "Da es innen keine Grenzen gibt, muss die Sicherheit an den Außengrenzen gemeinsam durch die europäische Grenzschutzagentur gewährleistet werden." 
+            }
+          ]
+        }
+      ]
+    },
+    {
+      title: "Institutionen & Prozesse",
+      sections: [
+        {
+          subtitle: "Die Hüterin der Verträge: Die Kommission",
+          text: "Die Kommission ist die Exekutive der EU und besitzt das sogenannte Initiativmonopol – sie ist die einzige Gruppe, die neue Gesetze vorschlagen darf. Sie besteht aus 27 Kommissaren (einer pro Land).",
+          points: [
+            { 
+              title: "Das Initiativmonopol", 
+              detail: "Weder das Parlament noch der Rat können formell ein Gesetz starten. Sie müssen die Kommission bitten, einen Vorschlag auszuarbeiten." 
+            },
+            { 
+              title: "Wächterin der Verträge", 
+              detail: "Wenn ein Land gegen EU-Recht verstößt (z.B. Umweltstandards ignoriert), kann die Kommission dieses Land vor dem Europäischen Gerichtshof (EuGH) verklagen." 
+            },
+            { 
+              title: "Verwaltung des EU-Haushalts", 
+              detail: "Die Kommission verwaltet die Gelder der EU (ca. 170 Mrd. Euro pro Jahr) und sorgt dafür, dass sie korrekt für Strukturprojekte ausgegeben werden." 
+            }
+          ]
+        },
+        {
+          subtitle: "Parlament: Die Legislative der Bürger",
+          text: "Das Europäische Parlament ist die einzige direkt gewählte Vertretung. Es entscheidet fast überall gleichberechtigt mit dem Rat (Ordentliches Gesetzgebungsverfahren) und kontrolliert die Kommission.",
+          points: [
+            { 
+              title: "Direktwahl alle 5 Jahre", 
+              detail: "Die Bürger wählen Parteien, die sich in europäischen Fraktionen (z.B. EVP, Sozialdemokraten) zusammenschließen, nicht nach Nationalität." 
+            },
+            { 
+              title: "Degressive Proportionalität", 
+              detail: "Kleine Länder haben im Verhältnis zur Einwohnerzahl mehr Abgeordnete als große, damit ihre Stimme im Plenum nicht völlig untergeht." 
+            },
+            { 
+              title: "Anhörung der Kommissare", 
+              detail: "Bevor die Kommission die Arbeit aufnimmt, muss jeder Kommissar eine harte Befragung im Parlament bestehen (Hearings). Fällt einer durch, muss das Land einen neuen schicken." 
+            }
+          ]
+        },
+        {
+          subtitle: "Rat der EU: Vertretung der Regierungen",
+          text: "Im 'Rat der EU' (Ministerrat) treffen sich die Fachminister. Viele Entscheidungen fallen mit 'Qualifizierter Mehrheit' (55% der Länder, 65% der Bevölkerung), was oft zähe Verhandlungen bedeuten kann.",
+          points: [
+            { 
+              title: "Verteidigung nationaler Interessen", 
+              detail: "Ein Minister achtet darauf, dass ein neues Gesetz gut für sein Heimatland ist, muss aber einen europäischen Kompromiss finden." 
+            },
+            { 
+              title: "Qualifizierte Mehrheit", 
+              detail: "Dieses Abstimmungssystem verhindert, dass ein einzelnes Land alles blockiert (Veto-Recht abgebaut), erfordert aber breite Bündnisse." 
+            },
+            { 
+              title: "Vorsitz-Rotation (Präsidentschaft)", 
+              detail: "Alle sechs Monate übernimmt ein anderes Land die Leitung des Rates und darf bestimmen, welche Themen besonders wichtig sind." 
+            }
+          ]
+        }
+      ]
+    },
+    {
+      title: "Wirtschaft & Binnenmarkt",
+      sections: [
+        {
+          subtitle: "Die vier Grundfreiheiten des Marktes",
+          text: "Der Binnenmarkt eliminiert nicht nur Zölle, sondern auch technische Hürden. Die vier Freiheiten (Waren, Personen, Dienstleistungen, Kapital) machen die EU zu einer der stärksten Wirtschaftsmächte der Welt.",
+          points: [
+            { 
+              title: "Freier Warenverkehr", 
+              detail: "Produkte, die in einem Land zugelassen sind, dürfen ohne neue Prüfung in alle 26 anderen Länder verkauft werden (Gegenseitige Anerkennung)." 
+            },
+            { 
+              title: "Arbeitnehmerfreizügigkeit", 
+              detail: "Jeder EU-Bürger kann ohne Arbeitsvisum in jedem Mitgliedstaat einen Job annehmen und dort mit seiner Familie leben." 
+            },
+            { 
+              title: "Freier Kapitalverkehr", 
+              detail: "Unternehmen und Bürger können ihr Geld dort investieren oder anlegen, wo sie die besten Bedingungen finden, ohne Behinderung durch den Staat." 
+            }
+          ]
+        },
+        {
+          subtitle: "Währungsunion und der Euro",
+          text: "Die Europäische Währungsunion (EWU) sollte das wirtschaftliche Zusammenwachsen beschleunigen. Da es aber keine gemeinsame Steuerpolitik gibt, müssen Länder mit unterschiedlicher Stärke mit demselben Zinssatz arbeiten.",
+          points: [
+            { 
+              title: "Preisstabilität als oberstes Ziel", 
+              detail: "Die Europäische Zentralbank (EZB) achtet darauf, dass die Inflation bei ca. 2% bleibt, um den Wert des Geldes dauerhaft zu sichern." 
+            },
+            { 
+              title: "Wegfall von Wechselkursrisiken", 
+              detail: "Firmen können langfristig planen, da sie nicht befürchten müssen, dass eine Währung plötzlich an Wert verliert und ihre Produkte im Ausland zu teuer werden." 
+            },
+            { 
+              title: "Stabilitäts- und Wachstumspakt", 
+              detail: "Regeln, die besagen, dass Länder nicht zu viele Schulden machen dürfen (max. 3% Defizit), um den Euro nicht zu gefährden." 
+            }
+          ]
+        },
+        {
+          subtitle: "Verbraucherschutz und Wettbewerbsrecht",
+          text: "Die EU bekämpft Monopole (z.B. Geldbußen gegen Tech-Giganten) und sichert hohe Standards. Beispiele sind die Abschaffung von Roaming-Gebühren oder die Fluggastrechte-Verordnung.",
+          points: [
+            { 
+              title: "Kampf gegen Kartelle", 
+              detail: "Die Wettbewerbskommissarin hat die Macht, Megafusionen zu verbieten, wenn dadurch die Preise für Verbraucher zu stark steigen würden." 
+            },
+            { 
+              title: "Verbot staatlicher Beihilfen", 
+              detail: "Staaten dürfen ihre eigenen Pleitefirmen nicht künstlich am Leben halten, wenn das den fairen Wettbewerb in Europa verzerrt." 
+            },
+            { 
+              title: "Digitale Rechte (DSGVO)", 
+              detail: "Gesetze wie die Datenschutz-Grundverordnung schützen die Daten der Europäer weltweit und zwingen US-Konzerne zu ethischen Standards." 
+            }
+          ]
+        }
+      ]
+    },
+    {
+      title: "Zukunft & Herausforderungen",
+      sections: [
+        {
+          subtitle: "Der Green Deal: Klima-Agenda 2050",
+          text: "Europa will der erste klimaneutrale Kontinent werden. Dies ist eine neue Wirtschaftsstrategie und erfordert den kompletten Umbau von Energie, Verkehr und Landwirtschaft unter hohem Zeitdruck.",
+          points: [
+            { 
+              title: "Klimaneutralität bis 2050", 
+              detail: "Bis 2050 darf die EU unter dem Strich keine Treibhausgase mehr ausstoßen. Alle Industrien müssen auf CO2-freie Prozesse umgestellt werden." 
+            },
+            { 
+              title: "CO2-Grenzausgleichssystem", 
+              detail: "Firmen von außerhalb sollen Abgaben zahlen, wenn sie Produkte in die EU liefern, die schmutzig produziert wurden, um fairen Wettbewerb zu sichern." 
+            },
+            { 
+              title: "Wasserstoff-Strategie", 
+              detail: "Die EU investiert Milliarden, um Schwerindustrie (Stahl, Chemie) von Kohle auf grünen Wasserstoff umzustellen." 
+            }
+          ]
+        },
+        {
+          subtitle: "Migration und Außenschutz (GEAS)",
+          text: "Die Dublin-Verordnung gilt als reformbedürftig. Ein Kompromiss zwischen Solidarität bei der Verteilung und strengem Grenzschutz (Frontex) ist politisch schwer zu finden.",
+          points: [
+            { 
+              title: "Reform des GEAS (Asylsystem)", 
+              detail: "Das neue Gemeinsame Europäische Asylsystem soll Verfahren direkt an der Außengrenze ermöglichen, um Rückführungen zu beschleunigen." 
+            },
+            { 
+              title: "Ausbau von Frontex", 
+              detail: "Die Grenzschutzagentur soll bis zu 10.000 Einsatzkräfte erhalten, um die Überwachung der Küsten und Landgrenzen zu professionalisieren." 
+            },
+            { 
+              title: "Solidaritätsmechanismus", 
+              detail: "Länder sollen entweder Geflüchtete aufnehmen oder finanzielle Beiträge zum Grenzschutz leisten, um die Staaten an den Grenzen zu entlasten." 
+            }
+          ]
+        },
+        {
+          subtitle: "Digitale Souveränität & KI",
+          text: "Im Wettlauf um KI darf Europa nicht zur digitalen Kolonie werden. Der 'AI Act' und der 'Chips Act' sollen europäische Werte weltweit zum Goldstandard für Technik machen.",
+          points: [
+            { 
+              title: "Der European AI Act", 
+              detail: "Das weltweit erste Gesetz, das Künstliche Intelligenz nach Risikoklassen einteilt. Gefährliche Anwendungen (Social Scoring) werden verboten." 
+            },
+            { 
+              title: "European Chips Act", 
+              detail: "Milliarden für den Bau eigener Chip-Fabriken in Europa, um bei der Hardware nicht nur von Asien abhängig zu sein." 
+            },
+            { 
+              title: "GAIA-X Infrastruktur", 
+              detail: "Ein Projekt für ein europäisches Cloud-System, damit Firmen ihre Daten sicher speichern können, ohne Zugriff fremder Geheimdienste." 
+            }
+          ]
+        }
+      ]
+    }
+  ];
 
   const populationData = [
     { name: 'Deutschland', pop: 83 },
@@ -70,6 +371,12 @@ export default function App() {
       <PrivacyModal 
         isOpen={isPrivacyOpen} 
         onClose={() => setIsPrivacyOpen(false)} 
+      />
+      <DetailedSectionModal
+        isOpen={activeDetailedTopic !== null}
+        onClose={() => setActiveDetailedTopic(null)}
+        title={activeDetailedTopic !== null ? detailedContent[activeDetailedTopic].title : ""}
+        content={activeDetailedTopic !== null ? detailedContent[activeDetailedTopic] : { sections: [] }}
       />
       {/* Decorative background elements from theme */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
@@ -107,7 +414,7 @@ export default function App() {
           >
             <h3 className="text-eu-gold uppercase text-[10px] tracking-widest mb-2 font-bold">Fokus: Archiv</h3>
             <p className="text-sm text-white/80 leading-relaxed font-light">
-              Entdecke die transformationelle Reise vom Schuman-Plan bis zum digitalen Zeitalter.
+              Entdecke die spannende Entwicklung vom ersten Friedensplan bis heute.
             </p>
             <div className="mt-4 flex gap-2">
               <div className="flex-1 h-1 bg-eu-gold" />
@@ -126,7 +433,6 @@ export default function App() {
           >
             <div className="flex justify-between items-center mb-4">
               <span className="text-[10px] uppercase tracking-widest text-eu-gold">EU Statistik</span>
-              <span className="text-[10px] opacity-40">LIVE: 2.1s</span>
             </div>
             <div className="space-y-4">
               <div className="flex justify-between items-center">
@@ -178,7 +484,7 @@ export default function App() {
           transition={{ duration: 2, repeat: Infinity }}
           className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50"
         >
-          <span className="text-[10px] uppercase font-bold tracking-[0.2em] text-slate-500">Scrollen zum Entdecken</span>
+          <span className="text-[10px] uppercase font-bold tracking-[0.2em] text-slate-300">Scrollen zum Entdecken</span>
           <div className="w-px h-12 bg-gradient-to-b from-eu-gold font-bold to-transparent" />
         </motion.div>
       </header>
@@ -186,22 +492,22 @@ export default function App() {
       {/* Intro Text */}
       <div className="max-w-4xl mx-auto py-24 px-6 text-center">
         <p className="text-2xl md:text-3xl font-medium text-slate-300 leading-relaxed italic">
-          "Die Europäische Union ist eines der größten politischen und wirtschaftlichen Projekte der modernen Geschichte. Sie verbindet 27 Staaten mit unterschiedlichen Kulturen, Sprachen und politischen Systemen."
+          "Die Europäische Union ist eines der größten Projekte unserer Zeit. Sie verbindet 27 Länder mit ganz unterschiedlichen Kulturen, Sprachen und Werten zu einer starken Gemeinschaft."
         </p>
       </div>
 
       {/* TOPIC 1: History */}
       <Section 
         id="history" 
-        title="1. Entstehung und Entwicklung" 
-        subtitle="Vom Trümmerhaufen zum Friedensnobelpreisträger. Ein Rückblick auf die Meilensteine europäischer Integration."
+        title="1. Wie alles anfing" 
+        subtitle="Vom zerstörten Kontinent zum Friedensprojekt. Ein Rückblick auf die wichtigsten Schritte."
       >
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <div className="glass-card p-6 border-l-4 border-l-eu-gold">
             <History className="text-eu-gold mb-4" size={32} />
             <h3 className="text-xl font-bold mb-3">Europa nach 1945</h3>
             <p className="text-slate-400 text-sm leading-relaxed">
-              Nach dem Zweiten Weltkrieg lag Europa am Boden. Die Vision: Dauerhafter Frieden durch wirtschaftliche Verflechtung. Besonders die Aussöhnung zwischen Deutschland und Frankreich stand im Zentrum.
+              Nach dem Zweiten Weltkrieg lag Europa am Boden. Die Idee: Dauerhafter Frieden durch enge Zusammenarbeit. Besonders Deutschland und Frankreich sollten keine Feinde mehr sein.
             </p>
           </div>
           
@@ -209,24 +515,28 @@ export default function App() {
             <Map className="text-eu-blue mb-4" size={32} />
             <h3 className="text-xl font-bold mb-3">Erste Schritte (1951-1957)</h3>
             <p className="text-slate-400 text-sm leading-relaxed">
-              1951 startete die Europäische Gemeinschaft für Kohle und Stahl (EGKS). 1957 folgten die Römischen Verträge und die Gründung der EWG. Kohle und Stahl – die Basis für Krieg – wurden gemeinsam verwaltet.
+              1951 startete die Gemeinschaft für Kohle und Stahl. Wer diese wichtigen Rohstoffe gemeinsam verwaltet, kann keinen heimlichen Krieg mehr vorbereiten.
             </p>
           </div>
-
+          
           <div className="glass-card p-6 border-l-4 border-l-white/20">
             <ShieldCheck className="text-white/60 mb-4" size={32} />
-            <h3 className="text-xl font-bold mb-3">Vertrag von Maastricht</h3>
+            <h3 className="text-xl font-bold mb-3">Die EU entsteht</h3>
             <p className="text-slate-400 text-sm leading-relaxed">
-              1993 markiert die Geburtsstunde der EU in ihrer heutigen Form. Neben der Wirtschaft kamen die Sicherheits- und Außenpolitik sowie die Justiz als gemeinsame Pfeiler hinzu.
+              1993 wurde die Europäische Union (EU) offiziell gegründet. Jetzt arbeiteten die Länder nicht mehr nur in der Wirtschaft, sondern auch in der Politik eng zusammen.
             </p>
           </div>
         </div>
 
-        <div className="mt-12 bg-white/5 p-8 rounded-3xl border border-white/5">
-          <h4 className="text-eu-gold font-bold mb-4 uppercase text-xs tracking-widest">Vertiefung: Frieden durch Handel</h4>
-          <p className="text-lg text-slate-300 leading-relaxed font-light">
-            Die Kernidee war pragmatisch: Wenn Länder wirtschaftlich so stark voneinander abhängig sind, dass sie sich gegenseitig beliefern müssen, wird ein Krieg zwischen ihnen materiell unmöglich. Diese "Integration durch Wirtschaft" ist das Fundament der heutigen Stabilität.
-          </p>
+        <div className="flex justify-center mt-12 pb-8 border-b border-white/5">
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => setActiveDetailedTopic(0)}
+            className="flex items-center gap-3 px-8 py-4 bg-white/5 border border-eu-gold/50 rounded-2xl text-eu-gold font-bold uppercase tracking-widest hover:bg-eu-gold/10 transition-all shadow-[0_0_15px_rgba(255,204,0,0.1)]"
+          >
+            <BookOpen size={20} /> Detail-Archiv öffnen (Gruppe 1)
+          </motion.button>
         </div>
 
         <QuizPrompt groupId={1} topicTitle="Entstehung und Entwicklung" />
@@ -237,31 +547,31 @@ export default function App() {
         id="diversity" 
         color="dark"
         title="2. Mitgliedsstaaten & EU Vielfalt" 
-        subtitle="In Vielfalt geeint – von nordeuropäischen Wohlfahrtsstaaten bis zu den postsozialistischen Systemen des Ostens."
+        subtitle="In Vielfalt geeint – von nordeuropäischen Wohlfahrtsstaaten bis zu den Transformationsstaaten des Ostens."
       >
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           <div className="lg:col-span-2 glass-card p-8 flex flex-col justify-center">
-            <h3 className="text-3xl font-bold mb-6">Politische Systeme</h3>
+            <h3 className="text-3xl font-bold mb-6">Sozioökonomische Modelle</h3>
             <div className="space-y-4">
               <div className="flex items-center gap-4 p-4 bg-white/5 rounded-xl border border-white/5">
                 <div className="w-10 h-10 rounded-full bg-eu-blue/40 flex items-center justify-center text-eu-blue font-bold">N</div>
                 <div>
                   <p className="font-bold text-white">Norden</p>
-                  <p className="text-xs text-slate-400">Ausgeprägte Wohlfahrtsstaaten, hohe Steuern, starke soziale Netze.</p>
+                  <p className="text-xs text-slate-400">Ausgeprägte Wohlfahrtsstaaten, hohe soziale Sicherheit und starke Bildungssysteme.</p>
                 </div>
               </div>
               <div className="flex items-center gap-4 p-4 bg-white/5 rounded-xl border border-white/5">
                 <div className="w-10 h-10 rounded-full bg-eu-gold/40 flex items-center justify-center text-eu-gold font-bold">S</div>
                 <div>
                   <p className="font-bold text-white">Süden</p>
-                  <p className="text-xs text-slate-400">Tourismus-stark, oft höhere Staatsverschuldung, familiäre Strukturen.</p>
+                  <p className="text-xs text-slate-400">Tourismus-stark, oft kleinmittelständische Strukturen und Herausforderungen bei der Staatsverschuldung.</p>
                 </div>
               </div>
               <div className="flex items-center gap-4 p-4 bg-white/5 rounded-xl border border-white/5">
                 <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white font-bold">O</div>
                 <div>
                   <p className="font-bold text-white">Osten</p>
-                  <p className="text-xs text-slate-400">Transformationserfahrung, schnelles Wachstum, postsozialistisches Erbe.</p>
+                  <p className="text-xs text-slate-400">Transformationserfahrung, schnelles Wirtschaftswachstum und postsozialistisches Erbe.</p>
                 </div>
               </div>
             </div>
@@ -269,9 +579,9 @@ export default function App() {
 
           <div className="glass-card p-8 bg-gradient-to-br from-eu-blue/20 to-transparent">
             <Languages className="text-eu-blue mb-4" size={32} />
-            <h3 className="text-xl font-bold mb-4">Kultureller Reichtum</h3>
+            <h3 className="text-xl font-bold mb-4">Kulturelle Identität</h3>
             <p className="text-slate-400 text-sm leading-relaxed mb-6">
-              Über 24 Amtssprachen und Hunderte Regionaldialekte. Die EU fördert den Erhalt dieser Identitäten unter dem Motto "United in Diversity".
+              Über 24 Amtssprachen und Hunderte Regionaldialekte. Die EU schützt diese Vielfalt unter dem Motto "United in Diversity".
             </p>
             <div className="flex flex-wrap gap-2">
               {['Hallo', 'Hello', 'Bonjour', 'Hola', 'Ciao', 'Ahoj', 'Hej'].map((w) => (
@@ -307,6 +617,17 @@ export default function App() {
            </div>
         </div>
 
+        <div className="flex justify-center mt-12 pb-8 border-b border-white/5">
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => setActiveDetailedTopic(1)}
+            className="flex items-center gap-3 px-8 py-4 bg-white/5 border border-eu-gold/50 rounded-2xl text-eu-gold font-bold uppercase tracking-widest hover:bg-eu-gold/10 transition-all shadow-[0_0_15px_rgba(255,204,0,0.1)]"
+          >
+            <BookOpen size={20} /> Detail-Archiv öffnen (Gruppe 2)
+          </motion.button>
+        </div>
+
         <QuizPrompt groupId={2} topicTitle="Mitgliedsstaaten und Vielfalt" />
       </Section>
 
@@ -320,11 +641,11 @@ export default function App() {
               >
                 <Building2 className="text-blue-500 mb-6" size={40} />
                 <h3 className="text-2xl font-bold mb-4">EU-Kommission</h3>
-                <p className="text-slate-400 mb-6">"Die Exekutive"</p>
+                <p className="text-slate-400 mb-6 font-medium italic">"Die Exekutive"</p>
                 <ul className="text-sm text-slate-300 space-y-3">
-                  <li className="flex items-center gap-2"><ArrowRight size={12} className="text-eu-gold" /> Schlägt Gesetze vor</li>
-                  <li className="flex items-center gap-2"><ArrowRight size={12} className="text-eu-gold" /> Überwacht Verträge</li>
-                  <li className="flex items-center gap-2"><ArrowRight size={12} className="text-eu-gold" /> Interessenwahrer der EU</li>
+                  <li className="flex items-center gap-2"><ArrowRight size={12} className="text-eu-gold" /> Initiativmonopol für Gesetze</li>
+                  <li className="flex items-center gap-2"><ArrowRight size={12} className="text-eu-gold" /> Wächterin der Verträge</li>
+                  <li className="flex items-center gap-2"><ArrowRight size={12} className="text-eu-gold" /> Verwaltung des Haushalts</li>
                 </ul>
               </motion.div>
             </div>
@@ -336,11 +657,11 @@ export default function App() {
               >
                 <Users className="text-eu-gold mb-6" size={40} />
                 <h3 className="text-2xl font-bold mb-4">Parlament</h3>
-                <p className="text-slate-400 mb-6">"Die Volksvertreter"</p>
+                <p className="text-slate-400 mb-6 font-medium italic">"Die Volksvertreter"</p>
                 <ul className="text-sm text-slate-300 space-y-3">
-                  <li className="flex items-center gap-2"><ArrowRight size={12} className="text-eu-gold" /> Direkt gewählt</li>
-                  <li className="flex items-center gap-2"><ArrowRight size={12} className="text-eu-gold" /> Gesetzgebung (Pfeiler 1)</li>
-                  <li className="flex items-center gap-2"><ArrowRight size={12} className="text-eu-gold" /> Budget-Kontrolle</li>
+                  <li className="flex items-center gap-2"><ArrowRight size={12} className="text-eu-gold" /> Direkt gewählt durch EU-Bürger</li>
+                  <li className="flex items-center gap-2"><ArrowRight size={12} className="text-eu-gold" /> Gesetzgebung (Legislative)</li>
+                  <li className="flex items-center gap-2"><ArrowRight size={12} className="text-eu-gold" /> Kontrolle der Exekutive</li>
                 </ul>
               </motion.div>
             </div>
@@ -352,10 +673,10 @@ export default function App() {
               >
                 <Building2 className="text-slate-400 mb-6" size={40} />
                 <h3 className="text-2xl font-bold mb-4">Rat der EU</h3>
-                <p className="text-slate-400 mb-6">"Die Minister"</p>
+                <p className="text-slate-400 mb-6 font-medium italic">"Die Minister"</p>
                 <ul className="text-sm text-slate-300 space-y-3">
-                  <li className="flex items-center gap-2"><ArrowRight size={12} className="text-eu-gold" /> Interessen der Staaten</li>
-                  <li className="flex items-center gap-2"><ArrowRight size={12} className="text-eu-gold" /> Gesetzgebung (Pfeiler 2)</li>
+                  <li className="flex items-center gap-2"><ArrowRight size={12} className="text-eu-gold" /> Fachminister der 27 Staaten</li>
+                  <li className="flex items-center gap-2"><ArrowRight size={12} className="text-eu-gold" /> Vertretung nationaler Belange</li>
                   <li className="flex items-center gap-2"><ArrowRight size={12} className="text-eu-gold" /> Politische Koordination</li>
                 </ul>
               </motion.div>
@@ -365,18 +686,29 @@ export default function App() {
          <div className="mt-16 p-8 glass-card border-eu-blue/30 overflow-hidden relative">
             <h4 className="text-center text-xl font-bold mb-12">Der Weg eines Gesetzes</h4>
             <div className="flex flex-col md:flex-row items-center justify-between gap-4 max-w-4xl mx-auto">
-              <div className="px-6 py-4 bg-blue-900/40 rounded-xl border border-blue-500/30 text-center w-full md:w-auto">Kommission (Vorschlag)</div>
+              <div className="px-6 py-4 bg-blue-900/40 rounded-xl border border-blue-500/30 text-center w-full md:w-auto">Kommission (Initiativrecht)</div>
               <ArrowRight className="hidden md:block text-eu-gold" />
-              <div className="px-6 py-4 bg-slate-800 rounded-xl border border-white/10 text-center w-full md:w-auto">Parlament & Rat (Prüfung & Änderung)</div>
+              <div className="px-6 py-4 bg-slate-800 rounded-xl border border-white/10 text-center w-full md:w-auto">Parlament & Rat (Prüfung & Lesungen)</div>
               <ArrowRight className="hidden md:block text-eu-gold" />
-              <div className="px-6 py-4 bg-green-900/40 rounded-xl border border-green-500/30 text-center w-full md:w-auto">Einigung (Gesetz)</div>
+              <div className="px-6 py-4 bg-green-900/40 rounded-xl border border-green-500/30 text-center w-full md:w-auto">Einigung (EU-Recht)</div>
             </div>
             <div className="mt-8 text-center text-xs text-slate-500 italic">
-               *Warum das oft lange dauert? Weil 27 Länder und hunderte Abgeordnete einen Kompromiss finden müssen.*
+               *Warum das oft lange dauert? Weil 27 Länder und hunderte Abgeordnete einen tragfähigen Kompromiss finden müssen.*
             </div>
          </div>
 
-         <QuizPrompt groupId={3} topicTitle="EU Institutionen und Prozesse" />
+         <div className="flex justify-center mt-12 pb-8 border-b border-white/5">
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => setActiveDetailedTopic(2)}
+            className="flex items-center gap-3 px-8 py-4 bg-white/5 border border-eu-gold/50 rounded-2xl text-eu-gold font-bold uppercase tracking-widest hover:bg-eu-gold/10 transition-all shadow-[0_0_15px_rgba(255,204,0,0.1)]"
+          >
+            <BookOpen size={20} /> Detail-Archiv öffnen (Gruppe 3)
+          </motion.button>
+        </div>
+
+        <QuizPrompt groupId={3} topicTitle="EU Institutionen und Prozesse" />
       </Section>
 
       {/* TOPIC 4: Economy */}
@@ -436,13 +768,24 @@ export default function App() {
               </div>
               <div className="flex gap-4 text-[10px] uppercase font-bold text-slate-500 mt-4">
                  <div className="flex items-center gap-1"><div className="w-2 h-2 bg-eu-blue rounded-full" /> Industrie</div>
-                 <div className="flex items-center gap-1"><div className="w-2 h-2 bg-eu-gold rounded-full" /> Services</div>
-                 <div className="flex items-center gap-1"><div className="w-2 h-2 bg-slate-600 rounded-full" /> Agrar</div>
+                 <div className="flex items-center gap-1"><div className="w-2 h-2 bg-eu-gold rounded-full" /> Dienstleistung</div>
+                 <div className="flex items-center gap-1"><div className="w-2 h-2 bg-slate-600 rounded-full" /> Landwirtschaft</div>
               </div>
             </div>
          </div>
 
-         <QuizPrompt groupId={4} topicTitle="Wirtschaft und Euro" />
+         <div className="flex justify-center mt-12 pb-8 border-b border-white/5">
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => setActiveDetailedTopic(3)}
+            className="flex items-center gap-3 px-8 py-4 bg-white/5 border border-eu-gold/50 rounded-2xl text-eu-gold font-bold uppercase tracking-widest hover:bg-eu-gold/10 transition-all shadow-[0_0_15px_rgba(255,204,0,0.1)]"
+          >
+            <BookOpen size={20} /> Detail-Archiv öffnen (Gruppe 4)
+          </motion.button>
+        </div>
+
+        <QuizPrompt groupId={4} topicTitle="Wirtschaft und Euro" />
       </Section>
 
       {/* TOPIC 5: Future */}
@@ -488,6 +831,17 @@ export default function App() {
           <div className="p-1 px-4 bg-eu-gold/10 border border-eu-gold/20 rounded-full inline-block text-eu-gold text-[10px] uppercase font-bold tracking-[0.3em]">
             Stabilität ist kein Zufall
           </div>
+        </div>
+
+        <div className="flex justify-center mt-12 pb-8 border-b border-white/5">
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => setActiveDetailedTopic(4)}
+            className="flex items-center gap-3 px-8 py-4 bg-white/5 border border-eu-gold/50 rounded-2xl text-eu-gold font-bold uppercase tracking-widest hover:bg-eu-gold/10 transition-all shadow-[0_0_15px_rgba(255,204,0,0.1)]"
+          >
+            <BookOpen size={20} /> Detail-Archiv öffnen (Gruppe 5)
+          </motion.button>
         </div>
 
         <QuizPrompt groupId={5} topicTitle="Zukunft der EU" />
