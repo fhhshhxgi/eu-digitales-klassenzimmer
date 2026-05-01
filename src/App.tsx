@@ -451,10 +451,17 @@ export default function App() {
 
       {/* Navigation Layer */}
       <nav className="fixed top-0 left-0 w-full h-16 z-50 px-6 md:px-10 flex justify-between items-center bg-eu-panel backdrop-blur-md border-b border-white/10">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 relative flex items-center justify-center">
-            <div className="absolute inset-0 border border-eu-gold rounded-full animate-pulse" />
-            <span className="text-eu-gold text-xl font-bold">★</span>
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            <img 
+              src="https://flagcdn.com/w40/eu.png" 
+              alt="EU Flag" 
+              className="w-6 h-auto rounded-sm shadow-sm"
+            />
+            <div className="w-8 h-8 relative flex items-center justify-center">
+              <div className="absolute inset-0 border border-eu-gold rounded-full animate-pulse" />
+              <span className="text-eu-gold text-xl font-bold">★</span>
+            </div>
           </div>
           <span className="tracking-[0.2em] font-light text-xs uppercase text-white/80 hidden sm:block">EU Knowledge Archive</span>
         </div>
@@ -1010,9 +1017,16 @@ export default function App() {
       <footer className="py-12 md:py-20 border-t border-white/5 bg-eu-dark/30 px-6">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 md:gap-12">
           <div className="text-center md:text-left">
-            <h4 className="text-xl font-display font-black text-white mb-4">
-              EU KNOWLEDGE <span className="text-eu-gold">ARCHIVE</span>
-            </h4>
+            <div className="flex items-center justify-center md:justify-start gap-4 mb-4">
+              <img 
+                src="https://flagcdn.com/w40/eu.png" 
+                alt="EU Flag" 
+                className="w-8 h-auto rounded-sm opacity-60 hover:opacity-100 transition-opacity"
+              />
+              <h4 className="text-xl font-display font-black text-white">
+                EU KNOWLEDGE <span className="text-eu-gold">ARCHIVE</span>
+              </h4>
+            </div>
             <p className="text-sm text-slate-500 max-w-sm mx-auto md:mx-0">
               Ein interaktives Bildungsprojekt über die Europäische Union. Entwickelt für modernen Politik- und Wirtschaftsunterricht.
             </p>
@@ -1036,7 +1050,7 @@ export default function App() {
           </div>
         </div>
         <div className="mt-12 text-center text-[10px] text-slate-600 font-mono">
-          &copy; 2026 Cristian Liebrecht
+          &copy; 2026 Europäisches Klassenzimmer • In Vielfalt geeint
         </div>
       </footer>
     </div>

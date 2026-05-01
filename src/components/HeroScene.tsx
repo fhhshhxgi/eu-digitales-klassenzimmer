@@ -93,7 +93,7 @@ function Star({ i }: { i: number }) {
     const t = state.clock.getElapsedTime();
     if (meshRef.current) {
       // Steady emissive intensity instead of twinkling
-      (meshRef.current.material as THREE.MeshStandardMaterial).emissiveIntensity = 6;
+      (meshRef.current.material as THREE.MeshStandardMaterial).emissiveIntensity = 2.5;
       meshRef.current.rotation.z = Math.sin(t * 0.3 + i) * 0.2;
     }
     if (glowRef.current) {
@@ -111,7 +111,7 @@ function Star({ i }: { i: number }) {
           <meshStandardMaterial 
             color="#FFCC00" 
             emissive="#FFCC00" 
-            emissiveIntensity={3} 
+            emissiveIntensity={1.5} 
             toneMapped={false}
           />
         </mesh>
@@ -123,7 +123,7 @@ function Star({ i }: { i: number }) {
             <meshBasicMaterial 
               map={glowTexture}
               transparent 
-              opacity={0.35} 
+              opacity={0.2} 
               depthWrite={false}
               blending={THREE.AdditiveBlending}
               side={THREE.DoubleSide}
@@ -134,7 +134,7 @@ function Star({ i }: { i: number }) {
             <meshBasicMaterial 
               map={glowTexture}
               transparent 
-              opacity={0.12} 
+              opacity={0.05} 
               depthWrite={false}
               blending={THREE.AdditiveBlending}
               side={THREE.DoubleSide}
