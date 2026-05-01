@@ -10,6 +10,8 @@ import { PrivacyModal } from './components/PrivacyModal';
 import { DetailedSectionModal } from './components/DetailedSectionModal';
 import { EUTimeline } from './components/EUTimeline';
 import { EUMap } from './components/EUMap';
+import { EUDataCharts } from './components/EUDataCharts';
+import { EUDashboard } from './components/EUDashboard';
 import { 
   History, 
   Globe, 
@@ -760,27 +762,25 @@ export default function App() {
           </div>
         </div>
 
-        <div className="mt-8 h-[300px] w-full glass-card p-6">
-           <h4 className="text-xs font-bold text-slate-500 uppercase mb-4">Bevölkerung in Millionen (Top 5)</h4>
-           <div className="h-full">
-            <ResponsiveContainer width="100%" height="90%">
-              <BarChart data={populationData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#222" />
-                <XAxis dataKey="name" stroke="#666" fontSize={12} />
-                <YAxis stroke="#666" fontSize={12} />
-                <Tooltip 
-                  contentStyle={{ backgroundColor: '#001A4D', border: '1px solid #333' }}
-                  itemStyle={{ color: '#FFCC00' }}
-                />
-                <Bar dataKey="pop" fill="#003399" radius={[4, 4, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-           </div>
+        <div className="mt-16">
+          <h3 className="text-3xl font-display font-bold text-white mb-4 text-center">Interaktive Datenanalyse</h3>
+          <p className="text-slate-400 text-center mb-6 max-w-2xl mx-auto">
+            Von der Wirtschaftskraft bis zur Budgetplanung – verstehe die materiellen Grundlagen der Union.
+          </p>
+          <EUDataCharts />
+        </div>
+
+        <div className="mt-20 pt-16 border-t border-white/5">
+          <h3 className="text-3xl font-display font-bold text-white mb-4 text-center">Historisches Dashboard</h3>
+          <p className="text-slate-400 text-center mb-6 max-w-2xl mx-auto">
+            Analysiere und vergleiche die Entwicklung wichtiger Indikatoren über die letzten zwei Jahrzehnte.
+          </p>
+          <EUDashboard />
         </div>
 
         <div className="mt-16 border-t border-white/5 pt-16">
            <h3 className="text-3xl font-display font-bold text-white mb-4 text-center">Interaktive EU-Karte</h3>
-           <p className="text-slate-400 text-center mb-12 max-w-2xl mx-auto">Entdecken Sie die Vielfalt der Mitgliedstaaten. Klicken Sie auf ein Land, um Bevölkerung und Beitrittsjahr zu sehen.</p>
+           <p className="text-slate-400 text-center mb-12 max-w-2xl mx-auto">Entdecke die Vielfalt der Mitgliedstaaten. Klicke auf ein Land, um Bevölkerung und Beitrittsjahr zu sehen.</p>
            <EUMap />
         </div>
 
