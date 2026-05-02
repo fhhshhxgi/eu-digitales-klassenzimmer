@@ -33,7 +33,7 @@ export function Section({ id, title, subtitle, children, className, color = 'blu
       ref={containerRef}
       style={{ opacity, scale }}
       className={cn(
-        "min-h-screen py-24 px-6 md:px-12 flex flex-col items-center justify-center relative overflow-hidden",
+        "min-h-screen py-16 md:py-24 px-4 md:px-12 flex flex-col items-center justify-center relative overflow-hidden",
         bgStyles[color],
         className
       )}
@@ -44,17 +44,17 @@ export function Section({ id, title, subtitle, children, className, color = 'blu
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="mb-16 text-center"
+          className="mb-10 md:mb-16 text-center"
         >
           <motion.span 
-            className="text-eu-gold font-display font-bold tracking-[0.3em] uppercase text-xs mb-4 block"
+            className="text-eu-gold font-display font-bold tracking-[0.3em] uppercase text-[10px] md:text-xs mb-3 md:mb-4 block"
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
           >
             Archive Section
           </motion.span>
-          <h2 className="text-4xl md:text-6xl font-extrabold mb-6 text-white leading-tight uppercase tracking-tighter">
+          <h2 className="text-3xl md:text-6xl font-extrabold mb-4 md:mb-6 text-white leading-tight uppercase tracking-tighter">
             {title}
           </h2>
           {subtitle && (

@@ -44,9 +44,9 @@ export function EUTimeline() {
             {/* Year Bubble */}
             <div className="flex-1 flex justify-center md:block">
               <div className={`glass-card p-6 w-full max-w-sm border-l-4 ${
-                index % 2 === 0 ? 'border-l-eu-gold text-right' : 'border-l-eu-blue text-left'
+                index % 2 === 0 ? 'border-l-eu-gold text-left md:text-right' : 'border-l-eu-blue text-left'
               }`}>
-                <div className={`flex items-center gap-2 mb-2 ${index % 2 === 0 ? 'justify-end' : 'justify-start'}`}>
+                <div className={`flex items-center gap-2 mb-2 ${index % 2 === 0 ? 'justify-start md:justify-end' : 'justify-start'}`}>
                   <Calendar size={14} className="text-eu-gold" />
                   <span className="text-eu-gold font-mono font-bold tracking-widest">{event.year}</span>
                 </div>

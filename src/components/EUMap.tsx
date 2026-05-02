@@ -57,6 +57,38 @@ const euCountries: Record<string, CountryData> = {
   "Malta": { name: "Malta", id: "MLT", population: "0,5 Mio.", joined: "2004", capital: "Valletta", coordinates: [14.5146, 35.8989], flagCode: "mt" }
 };
 
+const WavingEUFlag = () => (
+  <motion.div
+    animate={{
+      skewY: [0, 2, 0, -2, 0],
+      rotateZ: [0, 1, 0, -1, 0],
+    }}
+    transition={{
+      duration: 4,
+      repeat: Infinity,
+      ease: "easeInOut"
+    }}
+    className="w-4 h-2.5 bg-[#003399] relative rounded-[1px] overflow-hidden flex items-center justify-center border border-white/10"
+  >
+    <div className="relative w-full h-full flex items-center justify-center scale-[0.6]">
+      <div className="absolute w-full h-full">
+        {[...Array(12)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-[2px] h-[2px] bg-[#FFCC00] rounded-full"
+            style={{
+              top: '50%',
+              left: '50%',
+              transform: `rotate(${i * 30}deg) translate(5px, -50%)`
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  </motion.div>
+);
+
+
 export function EUMap() {
   const [selectedCountry, setSelectedCountry] = useState<CountryData | null>(null);
   const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
@@ -109,30 +141,30 @@ export function EUMap() {
   return (
     <div className="space-y-6">
       {/* Time Control Bar */}
-      <div className="glass-card p-6 bg-slate-900/60 flex flex-col md:flex-row items-center gap-6 border-b-2 border-b-eu-blue">
-        <div className="flex items-center gap-4">
+      <div className="glass-card p-4 md:p-6 bg-slate-900/60 flex flex-col md:flex-row items-center gap-4 md:gap-6 border-b-2 border-b-eu-blue">
+        <div className="flex items-center justify-between w-full md:w-auto gap-4">
           <button 
             onClick={togglePlay}
-            className="w-12 h-12 rounded-full bg-eu-gold text-eu-dark flex items-center justify-center hover:scale-110 active:scale-95 transition-transform"
+            className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-eu-gold text-eu-dark flex items-center justify-center hover:scale-110 active:scale-95 transition-transform"
           >
-            {isPlaying ? <Pause size={24} fill="currentColor" /> : <Play size={24} fill="currentColor" className="ml-1" />}
+            {isPlaying ? <Pause size={20} fill="currentColor" /> : <Play size={20} fill="currentColor" className="ml-0.5 md:ml-1" />}
           </button>
           
-          <div className="flex items-center gap-2">
-            <button onClick={prevStep} className="p-2 text-white/60 hover:text-white"><ChevronLeft /></button>
-            <div className="text-center min-w-[80px]">
-              <span className="text-3xl font-display font-black text-white italic">{currentYear}</span>
+          <div className="flex items-center gap-1 md:gap-2">
+            <button onClick={prevStep} className="p-1.5 md:p-2 text-white/60 hover:text-white"><ChevronLeft size={20} /></button>
+            <div className="text-center min-w-[70px] md:min-w-[80px]">
+              <span className="text-2xl md:text-3xl font-display font-black text-white italic">{currentYear}</span>
             </div>
-            <button onClick={nextStep} className="p-2 text-white/60 hover:text-white"><ChevronRight /></button>
+            <button onClick={nextStep} className="p-1.5 md:p-2 text-white/60 hover:text-white"><ChevronRight size={20} /></button>
           </div>
         </div>
 
-        <div className="flex-1 w-full space-y-4">
-          <div className="flex justify-between text-[10px] uppercase tracking-tighter text-white/40 font-bold px-1">
+        <div className="flex-1 w-full space-y-3 md:space-y-4">
+          <div className="flex justify-between text-[9px] md:text-[10px] uppercase tracking-tighter text-white/40 font-bold px-1 overflow-x-auto no-scrollbar gap-2 md:gap-0">
             {euExpansionSteps.map((step, idx) => (
               <span 
                 key={step.year} 
-                className={`transition-colors cursor-pointer ${idx <= currentStepIndex ? 'text-eu-gold' : 'text-white/20'}`}
+                className={`transition-colors cursor-pointer whitespace-nowrap ${idx <= currentStepIndex ? 'text-eu-gold' : 'text-white/20'}`}
                 onClick={() => { setCurrentStepIndex(idx); setIsPlaying(false); }}
               >
                 {step.year}
@@ -157,30 +189,30 @@ export function EUMap() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-        <div className="md:col-span-2 glass-card p-4 overflow-hidden relative group min-h-[500px] flex items-center justify-center bg-slate-900/50">
+        <div className="md:col-span-2 glass-card p-2 md:p-4 overflow-hidden relative group min-h-[400px] md:min-h-[500px] flex items-center justify-center bg-slate-900/50">
           {isLoading && (
             <div className="absolute inset-0 flex items-center justify-center z-20 bg-eu-dark/50 backdrop-blur-sm">
               <div className="flex flex-col items-center gap-4">
-                <div className="w-12 h-12 border-4 border-eu-gold/30 border-t-eu-gold rounded-full animate-spin" />
-                <p className="text-white/60 text-sm font-medium">Karte wird geladen...</p>
+                <div className="w-10 h-10 md:w-12 md:h-12 border-4 border-eu-gold/30 border-t-eu-gold rounded-full animate-spin" />
+                <p className="text-white/60 text-xs md:text-sm font-medium">Karte wird geladen...</p>
               </div>
             </div>
           )}
 
           {/* Floating Year Detail */}
-          <div className="absolute top-4 left-4 z-10 space-y-2">
-            <div className="flex items-center gap-2 bg-eu-blue/80 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/10">
-              <History size={14} className="text-eu-gold" />
-              <span className="text-[10px] text-white/80 uppercase tracking-widest font-bold">Die Zeitreise</span>
+          <div className="absolute top-3 left-3 md:top-4 md:left-4 z-10 space-y-2 max-w-[200px] md:max-w-none">
+            <div className="inline-flex items-center gap-2 bg-eu-blue/80 backdrop-blur-sm px-2 py-1 md:px-3 md:py-1.5 rounded-full border border-white/10">
+              <WavingEUFlag />
+              <span className="text-[9px] md:text-[10px] text-white/80 uppercase tracking-widest font-bold">Die Zeitreise</span>
             </div>
             <motion.div 
               key={currentYear}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="glass-card p-4 max-w-[280px] bg-eu-dark/80 backdrop-blur-md border border-eu-gold/20"
+              className="glass-card p-3 md:p-4 max-w-[160px] md:max-w-[280px] bg-eu-dark/80 backdrop-blur-md border border-eu-gold/20"
             >
-              <h4 className="text-eu-gold font-black text-sm mb-1 uppercase italic">{euExpansionSteps[currentStepIndex].title}</h4>
-              <p className="text-[11px] text-white/70 leading-normal">{euExpansionSteps[currentStepIndex].description}</p>
+              <h4 className="text-eu-gold font-black text-[10px] md:text-sm mb-1 uppercase italic leading-tight">{euExpansionSteps[currentStepIndex].title}</h4>
+              <p className="text-[9px] md:text-[11px] text-white/70 leading-normal hidden sm:block">{euExpansionSteps[currentStepIndex].description}</p>
             </motion.div>
           </div>
 

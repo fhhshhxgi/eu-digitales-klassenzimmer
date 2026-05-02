@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { HeroScene } from './components/HeroScene';
 import { Section } from './components/Section';
 import { QuizPrompt } from './components/QuizPrompt';
@@ -29,7 +29,8 @@ import {
   Leaf,
   BookOpen,
   Menu,
-  X
+  X,
+  ArrowUp
 } from 'lucide-react';
 import { 
   BarChart, 
@@ -54,9 +55,24 @@ export default function App() {
   const [activeDetailedTopic, setActiveDetailedTopic] = useState<number | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showDeviceNotice, setShowDeviceNotice] = useState(true);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  // Monitor scroll position for "Back to Top" button
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 400) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Lock body scroll when mobile menu is open
-  React.useEffect(() => {
+  useEffect(() => {
     if (isMobileMenuOpen) {
       document.body.style.overflow = 'hidden';
     } else {
@@ -455,10 +471,19 @@ export default function App() {
       <nav className="fixed top-0 left-0 w-full h-16 z-50 px-6 md:px-10 flex justify-between items-center bg-eu-panel backdrop-blur-md border-b border-white/10">
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
-            <img 
+            <motion.img 
               src="https://flagcdn.com/w40/eu.png" 
               alt="EU Flag" 
               className="w-6 h-auto rounded-sm shadow-sm"
+              animate={{
+                skewY: [0, 2, 0, -2, 0],
+                rotateZ: [0, 1, 0, -1, 0],
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
             />
             <div className="w-8 h-8 relative flex items-center justify-center">
               <div className="absolute inset-0 border border-eu-gold rounded-full animate-pulse" />
@@ -595,7 +620,7 @@ export default function App() {
               initial={{ opacity: 0, y: 30, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-              className="relative text-6xl sm:text-7xl md:text-9xl font-display font-black text-white mb-6 leading-[0.85] tracking-tighter uppercase cursor-default group"
+              className="relative text-5xl sm:text-7xl md:text-9xl font-display font-black text-white mb-6 leading-[0.85] tracking-tighter uppercase cursor-default group"
               style={{ transformStyle: "preserve-3d", perspective: "1200px" }}
             >
               <span className="relative z-10 block drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
@@ -712,8 +737,8 @@ export default function App() {
         title="2. Mitgliedsstaaten & EU Vielfalt" 
         subtitle="In Vielfalt geeint – von nordeuropäischen Wohlfahrtsstaaten bis zu den Transformationsstaaten des Ostens."
       >
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          <div className="lg:col-span-2 glass-card p-8 flex flex-col justify-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="md:col-span-2 glass-card p-6 md:p-8 flex flex-col justify-center">
             <h3 className="text-3xl font-bold mb-6">Sozioökonomische Modelle</h3>
             <div className="space-y-4">
               <div className="flex items-center gap-4 p-4 bg-white/5 rounded-xl border border-white/5">
@@ -1046,6 +1071,12 @@ export default function App() {
               >
                 Datenschutz
               </button>
+              <button 
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                className="block w-full text-left text-xs text-eu-gold/60 hover:text-eu-gold cursor-pointer transition-colors mt-2"
+              >
+                Zurück zum Anfang
+              </button>
             </div>
           </div>
         </div>
@@ -1053,6 +1084,22 @@ export default function App() {
           &copy; 2026 Cristian Liebrecht
         </div>
       </footer>
+
+      {/* Floating Back to Top Button */}
+      <AnimatePresence>
+        {showScrollTop && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: 20 }}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-50 p-3 md:p-4 bg-eu-gold text-eu-dark rounded-full shadow-[0_10px_30px_rgba(255,204,0,0.3)] hover:scale-110 active:scale-95 transition-transform"
+            aria-label="Zurück zum Anfang scrollen"
+          >
+            <ArrowUp size={24} />
+          </motion.button>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

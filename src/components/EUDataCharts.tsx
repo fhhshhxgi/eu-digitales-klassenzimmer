@@ -91,7 +91,7 @@ export function EUDataCharts() {
   };
 
   return (
-    <div className="space-y-12 py-12">
+    <div className="space-y-8 md:space-y-12 py-6 md:py-12">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Wirtschaftskraft Bar Chart */}
         <motion.div 
@@ -110,7 +110,7 @@ export function EUDataCharts() {
             </div>
           </div>
 
-          <div className="h-[350px] w-full">
+          <div className="h-[280px] md:h-[350px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={gdpData} layout="vertical" margin={{ top: 5, right: 30, left: 40, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" horizontal={false} />
@@ -158,7 +158,7 @@ export function EUDataCharts() {
             </div>
           </div>
 
-          <div className="h-[400px] w-full">
+          <div className="h-[300px] md:h-[400px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie

@@ -99,7 +99,7 @@ export function EUDashboard() {
   return (
     <div className="space-y-8 py-8">
       {/* Controls */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 p-6 glass-card bg-eu-dark/60 border border-white/5 shadow-2xl">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4 md:p-6 glass-card bg-eu-dark/60 border border-white/5 shadow-2xl">
         {/* Metric Selector */}
         <div className="space-y-2">
           <label className="text-[10px] text-eu-gold uppercase tracking-widest font-black flex items-center gap-2">
@@ -234,7 +234,7 @@ export function EUDashboard() {
         </div>
 
         {/* Main Chart */}
-        <div className="xl:col-span-2 glass-card p-6 bg-slate-900/40 relative overflow-hidden h-[450px]">
+        <div className="xl:col-span-2 glass-card p-4 md:p-6 bg-slate-900/40 relative overflow-hidden h-[300px] md:h-[450px]">
           <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
             <ArrowLeftRight size={200} />
           </div>
