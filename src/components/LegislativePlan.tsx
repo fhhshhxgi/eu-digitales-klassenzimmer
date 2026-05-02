@@ -51,20 +51,18 @@ export function LegislativePlan() {
          />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12 relative z-10">
         {steps.map((step, i) => (
           <motion.button
             key={i}
             onClick={() => setActiveStep(i)}
             whileHover={{ y: -5 }}
-            className={`relative flex flex-col items-center gap-4 transition-all duration-300 ${
-              activeStep === i ? 'opacity-100' : 'opacity-40 grayscale group-hover:opacity-60'
-            }`}
+            className="relative flex flex-col items-center gap-4 transition-all duration-300"
           >
-            <div className={`w-24 h-24 rounded-3xl flex items-center justify-center relative ${
+            <div className={`w-24 h-24 rounded-3xl flex items-center justify-center relative z-20 ${
               activeStep === i 
                 ? 'bg-eu-dark border-4 border-eu-gold shadow-[0_0_40px_rgba(255,204,0,0.2)]' 
-                : 'bg-white/5 border border-white/10'
+                : 'bg-eu-dark border-2 border-white/10'
             }`}>
                {activeStep === i && (
                  <motion.div 
@@ -72,14 +70,16 @@ export function LegislativePlan() {
                     className="absolute inset-0 rounded-3xl bg-eu-gold/20 animate-ping"
                  />
                )}
-               {React.cloneElement(step.icon as React.ReactElement, { size: 32, className: activeStep === i ? "text-eu-gold" : "text-white/40" })}
+               {React.cloneElement(step.icon as React.ReactElement, { size: 32, className: activeStep === i ? "text-eu-gold" : "text-white/60" })}
                
                {/* Label on the node */}
-               <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-eu-gold text-eu-dark font-black text-xs flex items-center justify-center border-2 border-eu-dark">
+               <div className={`absolute -top-3 -right-3 w-8 h-8 rounded-full font-black text-xs flex items-center justify-center border-2 border-eu-dark ${
+                 activeStep === i ? 'bg-eu-gold text-eu-dark' : 'bg-white/20 text-white/60'
+               }`}>
                   {i + 1}
                </div>
             </div>
-            <div className="text-center">
+            <div className={`text-center transition-all duration-300 ${activeStep === i ? 'opacity-100' : 'opacity-40 grayscale group-hover:opacity-70'}`}>
               <p className="text-xs font-black uppercase tracking-widest text-eu-gold mb-1">{step.title}</p>
               <p className="text-[10px] font-bold text-white/40">{step.actor}</p>
             </div>
