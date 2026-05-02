@@ -70,17 +70,11 @@ export default function App() {
 
   // Handle Initial Loading
   useEffect(() => {
-    const handleLoad = () => {
-      // Small timeout to ensure everything is really smooth
-      setTimeout(() => setIsLoading(false), 2000);
-    };
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 4000); // 4 seconds of cinematic loading
 
-    if (document.readyState === 'complete') {
-      handleLoad();
-    } else {
-      window.addEventListener('load', handleLoad);
-      return () => window.removeEventListener('load', handleLoad);
-    }
+    return () => clearTimeout(timer);
   }, []);
 
   // Monitor scroll position for "Back to Top" button
