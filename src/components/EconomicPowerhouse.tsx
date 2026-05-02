@@ -3,10 +3,10 @@ import { motion } from 'framer-motion';
 import { TrendingUp, Globe2, Landmark } from 'lucide-react';
 
 const gdpComparison = [
-  { name: "USA", gdp: "€25T", color: "bg-blue-600", share: 85 },
-  { name: "Europäische Union", gdp: "€16T", color: "bg-eu-gold", share: 60, isEU: true },
-  { name: "China", gdp: "€17T", color: "bg-red-600", share: 65 },
-  { name: "Indien", gdp: "€3.4T", color: "bg-orange-600", share: 15 }
+  { name: "USA", gdp: "25 Bio. €", color: "bg-blue-600", share: 85 },
+  { name: "Europäische Union", gdp: "17 Bio. €", color: "bg-eu-gold", share: 65, isEU: true },
+  { name: "China", gdp: "16 Bio. €", color: "bg-red-600", share: 60 },
+  { name: "Indien", gdp: "3,4 Bio. €", color: "bg-orange-600", share: 15 }
 ];
 
 export function EconomicPowerhouse() {

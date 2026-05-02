@@ -3,11 +3,11 @@ import { motion } from 'framer-motion';
 import { Globe2, Ship, Truck, Plane, ArrowRightLeft, BarChart3 } from 'lucide-react';
 
 const tradeData = [
-  { partner: "Intra-EU", export: "€4,400B+", import: "€4,200B+", color: "bg-eu-gold", isBig: true },
-  { partner: "USA", export: "€502B", import: "€358B", color: "bg-blue-500" },
-  { partner: "China", export: "€223B", import: "€514B", color: "bg-red-500" },
-  { partner: "UK", export: "€335B", import: "€214B", color: "bg-indigo-500" },
-  { partner: "Schweiz", export: "€188B", import: "€137B", color: "bg-red-600" }
+  { partner: "Intra-EU", export: "4,3 Bio. USD", import: "4,3 Bio. USD", color: "bg-eu-gold", isBig: true, expWidth: '98%', impWidth: '98%' },
+  { partner: "USA", export: "2,1 Bio. USD", import: "3,2 Bio. USD", color: "bg-blue-500", expWidth: '48%', impWidth: '74%' },
+  { partner: "China", export: "3,4 Bio. USD", import: "2,6 Bio. USD", color: "bg-red-500", expWidth: '79%', impWidth: '60%' },
+  { partner: "UK", export: "0,52 Bio. USD", import: "0,78 Bio. USD", color: "bg-indigo-500", expWidth: '12%', impWidth: '18%' },
+  { partner: "Schweiz", export: "0,45 Bio. USD", import: "0,38 Bio. USD", color: "bg-red-600", expWidth: '10%', impWidth: '9%' }
 ];
 
 export function GlobalTrade() {
@@ -47,7 +47,7 @@ export function GlobalTrade() {
                         <div className="h-1 bg-white/5 rounded-full overflow-hidden">
                            <motion.div 
                               initial={{ width: 0 }}
-                              whileInView={{ width: t.isBig ? '95%' : '70%' }}
+                              whileInView={{ width: t.expWidth }}
                               className={`h-full ${t.isBig ? 'bg-eu-gold' : 'bg-green-500'}`}
                            />
                         </div>
@@ -60,7 +60,7 @@ export function GlobalTrade() {
                         <div className="h-1 bg-white/5 rounded-full overflow-hidden">
                            <motion.div 
                               initial={{ width: 0 }}
-                              whileInView={{ width: t.isBig ? '92%' : '60%' }}
+                              whileInView={{ width: t.impWidth }}
                               className={`h-full ${t.isBig ? 'bg-eu-gold opacity-80' : 'bg-blue-500'}`}
                            />
                         </div>

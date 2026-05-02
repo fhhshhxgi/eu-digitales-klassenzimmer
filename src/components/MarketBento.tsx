@@ -123,31 +123,66 @@ export function MarketBento() {
       {/* Selectors */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {marketFeatures.map((feature) => (
-          <button
+          <motion.button
             key={feature.id}
+            whileHover={{ y: -4, backgroundColor: "rgba(255, 255, 255, 0.08)" }}
+            whileTap={{ scale: 0.92, rotate: -1 }}
             onClick={() => setActiveTab(feature)}
-            className={`relative p-4 rounded-2xl border transition-all duration-500 flex flex-col items-center gap-2 group overflow-hidden ${
+            className={`relative p-4 rounded-2xl border transition-all duration-300 flex flex-col items-center gap-2 group overflow-hidden cursor-pointer ${
               activeTab.id === feature.id 
-                ? 'bg-eu-blue/40 border-eu-gold shadow-[0_0_20px_rgba(255,204,0,0.15)]' 
-                : 'bg-white/5 border-white/10 hover:bg-white/10'
+                ? 'bg-eu-blue/40 border-eu-gold shadow-[0_0_30px_rgba(255,204,0,0.2)]' 
+                : 'bg-white/5 border-white/10'
             }`}
           >
+            <AnimatePresence>
+              {activeTab.id === feature.id && (
+                <motion.div 
+                  layoutId="active-bg"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-15`}
+                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                />
+              )}
+            </AnimatePresence>
+
+            {/* Sweep effect on hover */}
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              <motion.div 
+                initial={{ x: "-100%" }}
+                whileHover={{ x: "100%" }}
+                transition={{ duration: 0.8, ease: "easeInOut" }}
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-12"
+              />
+            </div>
+
+            <motion.div 
+              animate={{ 
+                scale: activeTab.id === feature.id ? 1.1 : 1,
+                color: activeTab.id === feature.id ? '#FFCC00' : 'rgba(255,255,255,0.4)'
+              }}
+              className="p-2 rounded-xl relative z-10"
+            >
+              {React.cloneElement(feature.icon as React.ReactElement, { size: 24 })}
+            </motion.div>
+            <div className="text-center relative z-10 font-sans">
+              <p className={`text-xs font-black uppercase tracking-[0.1em] transition-colors ${activeTab.id === feature.id ? 'text-white' : 'text-white/90'}`}>
+                {feature.title}
+              </p>
+              <p className={`text-[10px] font-medium transition-colors ${activeTab.id === feature.id ? 'text-eu-gold' : 'text-white/60'}`}>
+                {feature.short}
+              </p>
+            </div>
+            
+            {/* Active Glow Dot */}
             {activeTab.id === feature.id && (
               <motion.div 
-                layoutId="active-bg"
-                className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-10`}
+                layoutId="active-dot"
+                className="absolute bottom-1 w-1 h-1 bg-eu-gold rounded-full shadow-[0_0_10px_#FFCC00]"
               />
             )}
-            <div className={`p-2 rounded-xl transition-colors ${
-              activeTab.id === feature.id ? 'text-eu-gold' : 'text-white/40 group-hover:text-white'
-            }`}>
-              {React.cloneElement(feature.icon as React.ReactElement, { size: 24 })}
-            </div>
-            <div className="text-center">
-              <p className="text-xs font-black uppercase tracking-widest">{feature.title}</p>
-              <p className="text-[10px] text-white/40 italic">{feature.short}</p>
-            </div>
-          </button>
+          </motion.button>
         ))}
       </div>
     </div>

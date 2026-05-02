@@ -945,7 +945,7 @@ export default function App() {
                   </p>
                   <div className="flex flex-wrap gap-4">
                      <div className="p-4 bg-eu-gold/10 rounded-2xl border border-eu-gold/20">
-                        <p className="text-2xl font-black text-eu-gold">€16T+</p>
+                        <p className="text-2xl font-black text-eu-gold">17 Bio. €</p>
                         <p className="text-[10px] uppercase font-bold text-white/40">BIP der EU</p>
                      </div>
                      <div className="p-4 bg-eu-blue/10 rounded-2xl border border-eu-blue/20">
