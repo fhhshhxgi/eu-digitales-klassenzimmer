@@ -150,7 +150,7 @@ export function HeroScene() {
         {/* Deep space base */}
         <div className="absolute inset-0 bg-black" />
         
-        {/* Celestial Starfield Layer (Slow rotation) - Only on Desktop for performance */}
+        {/* Celestial Starfield Layer - Hidden on all reduced devices for performance */}
         {!isReduced && (
           <motion.div 
             className="absolute inset-[-50%] animate-celestial opacity-30"
@@ -172,29 +172,31 @@ export function HeroScene() {
           className="absolute inset-[-10%] animate-twinkle transition-transform duration-700 ease-out"
           style={{
             transform: isReduced ? 'none' : `translate(${mousePos.x * -5}px, ${mousePos.y * -5}px)`,
-            opacity: starOpacity,
+            opacity: isReduced ? 0.4 : starOpacity,
             backgroundImage: `radial-gradient(1.2px 1.2px at 20px 30px, #fff, rgba(0,0,0,0)), 
                               radial-gradient(1.1px 1.1px at 40px 70px, #fff, rgba(0,0,0,0)), 
                               radial-gradient(2px 2px at 90px 40px, #e6f0ff, rgba(0,0,0,0)), 
                               radial-gradient(1.2px 1.2px at 160px 120px, #fff, rgba(0,0,0,0)),
                               radial-gradient(1.3px 1.3px at 10px 10px, #fff, rgba(0,0,0,0))`,
             backgroundSize: '280px 280px',
-            filter: isReduced ? 'none' : `blur(${Math.max(0, (zoomLevel - 1.5) * 0.4)}px)`
+            filter: 'none' // Remove expensive blur filters for everyone for stability
           }}
         />
         
-        {/* Dense Starfield Layer 2 (Medium parallax) - Simplified on Reduced devices */}
-        <div 
-          className="absolute inset-[-15%] opacity-50 animate-star-glow delay-500 transition-transform duration-1000 ease-out"
-          style={{
-            transform: isReduced ? 'none' : `translate(${mousePos.x * -15}px, ${mousePos.y * -15}px)`,
-            backgroundImage: `radial-gradient(1px 1px at 15px 25px, #fff, rgba(0,0,0,0)), 
-                              radial-gradient(1.1px 1.1px at 75px 85px, #fff, rgba(0,0,0,0)), 
-                              radial-gradient(1.3px 1.3px at 200px 250px, #fff, rgba(0,0,0,0))`,
-            backgroundSize: '160px 160px',
-            filter: isReduced ? 'none' : `brightness(${1 + glowIntensity})`
-          }}
-        />
+        {/* Dense Starfield Layer 2 (Medium parallax) - Hidden on Reduced devices */}
+        {!isReduced && (
+          <div 
+            className="absolute inset-[-15%] opacity-50 animate-star-glow delay-500 transition-transform duration-1000 ease-out"
+            style={{
+              transform: isReduced ? 'none' : `translate(${mousePos.x * -15}px, ${mousePos.y * -15}px)`,
+              backgroundImage: `radial-gradient(1px 1px at 15px 25px, #fff, rgba(0,0,0,0)), 
+                                radial-gradient(1.1px 1.1px at 75px 85px, #fff, rgba(0,0,0,0)), 
+                                radial-gradient(1.3px 1.3px at 200px 250px, #fff, rgba(0,0,0,0))`,
+              backgroundSize: '160px 160px',
+              filter: `brightness(${1 + glowIntensity})`
+            }}
+          />
+        )}
 
         {/* Dense Starfield Layer 3 (Tiny specks) - Hidden on Reduced devices */}
         {!isReduced && (
@@ -212,11 +214,11 @@ export function HeroScene() {
 
         {/* Subtle Nebulae Layers - Optimized for Mobile/Tablet */}
         <div 
-          className="absolute top-[-30%] left-[-20%] w-[140%] h-[140%] opacity-20 animate-nebula bg-indigo-950 rounded-full transition-transform duration-[2000ms] ease-out"
+          className="absolute top-[-30%] left-[-20%] w-[140%] h-[140%] opacity-15 animate-nebula bg-indigo-950 rounded-full transition-transform duration-[2000ms] ease-out"
           style={{ 
-            filter: isReduced ? 'blur(80px)' : 'blur(160px)', 
+            filter: isReduced ? 'blur(40px)' : 'blur(160px)', 
             mixBlendMode: 'screen',
-            transform: isReduced ? 'none' : `translate(${mousePos.x * -40}px, ${mousePos.y * -40}px)`
+            transform: 'none'
           }}
         />
         {!isReduced && (
