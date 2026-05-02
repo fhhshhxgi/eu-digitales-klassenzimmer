@@ -21,6 +21,7 @@ import { GlobalTrade } from './components/GlobalTrade';
 import { FutureScenarios } from './components/FutureScenarios';
 import { EconomicPowerhouse } from './components/EconomicPowerhouse';
 import { LoadingScreen } from './components/LoadingScreen';
+
 import { 
   History, 
   Globe, 
@@ -72,7 +73,7 @@ export default function App() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 4000); // 4 seconds of cinematic loading
+    }, 1500); // 1.5 seconds loading
 
     return () => clearTimeout(timer);
   }, []);
