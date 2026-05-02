@@ -252,7 +252,6 @@ export function HeroScene() {
           polygonsData={countries}
           polygonCapColor={(d: any) => {
             const isEU = euCountries.includes(d.properties?.name);
-            if (d === hoveredCountry) return '#ffffff';
             return isEU ? '#FFCC00' : 'rgba(33, 150, 243, 0.15)';
           }}
           polygonSideColor={(d: any) => {
@@ -271,23 +270,6 @@ export function HeroScene() {
       <div className="absolute inset-0 pointer-events-none opacity-40">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-900/20 via-transparent to-transparent" />
       </div>
-
-      <AnimatePresence>
-        {hoveredCountry && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 pointer-events-none"
-          >
-            <div className="px-6 py-3 rounded-full bg-eu-dark/95 border border-eu-gold border-b-4 text-white font-black italic uppercase text-sm tracking-[0.2em] shadow-[0_0_30px_rgba(255,204,0,0.2)] backdrop-blur-xl flex items-center gap-3">
-              <div className="w-2 h-2 rounded-full bg-eu-gold animate-pulse" />
-              {hoveredCountry.properties?.name || "Region"}
-              <div className="w-2 h-2 rounded-full bg-eu-gold animate-pulse" />
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none w-full max-w-4xl px-6 text-center">
         <motion.div

@@ -65,6 +65,10 @@
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     @apply bg-eu-dark text-white font-sans selection:bg-eu-gold/30 selection:text-white antialiased;
     background-image: radial-gradient(circle at 50% 50%, #003399 0%, #000F26 70%);

@@ -12,6 +12,14 @@ import { EUTimeline } from './components/EUTimeline';
 import { EUMap } from './components/EUMap';
 import { EUDataCharts } from './components/EUDataCharts';
 import { EUDashboard } from './components/EUDashboard';
+import { LegislativePlan } from './components/LegislativePlan';
+import { MarketBento } from './components/MarketBento';
+import { ChallengeRadar } from './components/ChallengeRadar';
+import { EuroZone } from './components/EuroZone';
+import { FutureExpansion } from './components/FutureExpansion';
+import { GlobalTrade } from './components/GlobalTrade';
+import { FutureScenarios } from './components/FutureScenarios';
+import { EconomicPowerhouse } from './components/EconomicPowerhouse';
 import { 
   History, 
   Globe, 
@@ -872,17 +880,11 @@ export default function App() {
             </TiltCard>
          </div>
 
-         <div className="mt-16 p-8 glass-card border-eu-blue/30 overflow-hidden relative">
-            <h4 className="text-center text-xl font-bold mb-12">Der Weg eines Gesetzes</h4>
-            <div className="flex flex-col md:flex-row items-center justify-between gap-4 max-w-4xl mx-auto">
-              <div className="px-6 py-4 bg-blue-900/40 rounded-xl border border-blue-500/30 text-center w-full md:w-auto">Kommission (Initiativrecht)</div>
-              <ArrowRight className="hidden md:block text-eu-gold" />
-              <div className="px-6 py-4 bg-slate-800 rounded-xl border border-white/10 text-center w-full md:w-auto">Parlament & Rat (Prüfung & Lesungen)</div>
-              <ArrowRight className="hidden md:block text-eu-gold" />
-              <div className="px-6 py-4 bg-green-900/40 rounded-xl border border-green-500/30 text-center w-full md:w-auto">Einigung (EU-Recht)</div>
-            </div>
+         <div className="mt-16 p-8 glass-card border-eu-gold/20 overflow-hidden relative">
+            <h4 className="text-center text-xl font-black mb-12 uppercase tracking-[0.2em] text-eu-gold italic">Interaktive Gesetzgebung</h4>
+            <LegislativePlan />
             <div className="mt-8 text-center text-xs text-slate-500 italic">
-               *Warum das oft lange dauert? Weil 27 Länder und hunderte Abgeordnete einen tragfähigen Kompromiss finden müssen.*
+               *Klicke auf die Symbole, um die Phasen der Gesetzgebung zu erforschen.*
             </div>
          </div>
 
@@ -901,127 +903,94 @@ export default function App() {
       </Section>
 
       {/* TOPIC 4: Economy */}
-      <Section id="economy" color="blue" title="4. Wirtschaft & Binnenmarkt">
-         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <div className="space-y-6 md:space-y-8">
-              <div className="flex gap-4 md:gap-6 items-start">
-                <div className="p-3 bg-eu-gold/20 rounded-2xl text-eu-gold shrink-0"><Briefcase className="w-5 h-5 md:w-6 md:h-6" /></div>
-                <div>
-                  <h3 className="text-xl md:text-2xl font-bold mb-2">Die 4 Grundfreiheiten</h3>
-                  <p className="text-sm md:text-base text-slate-400 leading-relaxed">
-                    Der Binnenmarkt ist das Herzstück. Waren, Dienstleistungen, Kapital und Personen können sich frei über Grenzen hinweg bewegen.
+      <Section id="economy" title="4. Wirtschaft & Binnenmarkt">
+         <div className="space-y-12 w-full">
+            <MarketBento />
+         
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+               <div className="space-y-6">
+                  <h3 className="text-3xl font-black text-white italic uppercase tracking-tighter">Wohlstand durch Einheit</h3>
+                  <p className="text-slate-400 leading-relaxed">
+                     Über 448 Millionen Verbraucher machen den EU-Binnenmarkt zum mächtigsten Handelsblock der Welt. 
+                     Die gemeinsame Währung Euro beseitigt Wechselkursrisiken und macht Preise über Grenzen hinweg vergleichbar.
                   </p>
-                </div>
-              </div>
-              <div className="flex gap-4 md:gap-6 items-start">
-                <div className="p-3 bg-eu-blue/20 rounded-2xl text-eu-blue shrink-0"><Coins className="w-5 h-5 md:w-6 md:h-6" /></div>
-                <div>
-                  <h3 className="text-xl md:text-2xl font-bold mb-2">Der Euro (€)</h3>
-                  <p className="text-sm md:text-base text-slate-400 leading-relaxed">
-                    Eingeführt zur Vertiefung der Integration. Er spart Wechselkursgebühren und macht Preise vergleichbar, birgt aber auch Risiken.
-                  </p>
-                </div>
-              </div>
-              <div className="flex gap-4 md:gap-6 items-start">
-                <div className="p-3 bg-white/10 rounded-2xl text-white shrink-0"><TrendingUp className="w-5 h-5 md:w-6 md:h-6" /></div>
-                <div>
-                  <h3 className="text-xl md:text-2xl font-bold mb-2">Globaler Player</h3>
-                  <p className="text-sm md:text-base text-slate-400 leading-relaxed">
-                    Zusammen bildet die EU einen der größten Wirtschaftsräume der Welt mit enormer Verhandlungsmacht im globalen Handel.
-                  </p>
-                </div>
-              </div>
-            </div>
+                  <div className="flex flex-wrap gap-4">
+                     <div className="p-4 bg-eu-gold/10 rounded-2xl border border-eu-gold/20">
+                        <p className="text-2xl font-black text-eu-gold">€16T+</p>
+                        <p className="text-[10px] uppercase font-bold text-white/40">BIP der EU</p>
+                     </div>
+                     <div className="p-4 bg-eu-blue/10 rounded-2xl border border-eu-blue/20">
+                        <p className="text-2xl font-black text-eu-blue">20</p>
+                        <p className="text-[10px] uppercase font-bold text-white/40">Euroländer</p>
+                     </div>
+                  </div>
+               </div>
  
-            <div className="glass-card p-6 md:p-8 flex flex-col items-center justify-center min-h-[350px] md:min-h-[400px]">
-              <h4 className="text-[10px] md:text-xs font-bold text-slate-500 uppercase mb-8">EU Wirtschaftsstruktur (Schätzung)</h4>
-              <div className="w-full h-[250px] md:h-[300px]">
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={gdpData}
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={60}
-                      outerRadius={80}
-                      paddingAngle={5}
-                      dataKey="value"
-                    >
-                      {gdpData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={index === 0 ? '#003399' : index === 1 ? '#FFCC00' : '#475569'} />
-                      ))}
-                    </Pie>
-                    <Tooltip contentStyle={{ backgroundColor: '#001A4D', border: '1px solid #333', borderRadius: '8px' }} />
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
-              <div className="flex flex-wrap justify-center gap-4 text-[10px] uppercase font-bold text-slate-500 mt-4">
-                 <div className="flex items-center gap-1"><div className="w-2 h-2 bg-eu-blue rounded-full" /> Industrie</div>
-                 <div className="flex items-center gap-1"><div className="w-2 h-2 bg-eu-gold rounded-full" /> Dienstleistung</div>
-                 <div className="flex items-center gap-1"><div className="w-2 h-2 bg-slate-600 rounded-full" /> Landwirtschaft</div>
-              </div>
+               <div className="glass-card p-6 md:p-8 flex flex-col items-center justify-center min-h-[350px] md:min-h-[400px]">
+                  <h4 className="text-[10px] md:text-xs font-bold text-slate-500 uppercase mb-8">EU Wirtschaftsstruktur (Schätzung)</h4>
+                  <div className="w-full h-[250px] md:h-[300px]">
+                  <ResponsiveContainer width="100%" height="100%">
+                     <PieChart>
+                        <Pie
+                        data={gdpData}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={60}
+                        outerRadius={80}
+                        paddingAngle={5}
+                        dataKey="value"
+                        >
+                        {gdpData.map((entry, index) => (
+                           <Cell key={`cell-${index}`} fill={index === 0 ? '#003399' : index === 1 ? '#FFCC00' : '#475569'} />
+                        ))}
+                        </Pie>
+                        <Tooltip contentStyle={{ backgroundColor: '#001A4D', border: '1px solid #333', borderRadius: '8px' }} />
+                     </PieChart>
+                  </ResponsiveContainer>
+                  </div>
+                  <div className="flex flex-wrap justify-center gap-4 text-[10px] uppercase font-bold text-slate-500 mt-4">
+                     <div className="flex items-center gap-1"><div className="w-2 h-2 bg-eu-blue rounded-full" /> Industrie</div>
+                     <div className="flex items-center gap-1"><div className="w-2 h-2 bg-eu-gold rounded-full" /> Dienstleistung</div>
+                     <div className="flex items-center gap-1"><div className="w-2 h-2 bg-slate-600 rounded-full" /> Landwirtschaft</div>
+                  </div>
+               </div>
             </div>
+
+            <EconomicPowerhouse />
+
+            <GlobalTrade />
+
+            <EuroZone />
+
+            <div className="flex justify-center mt-12 pb-8 border-b border-white/5">
+               <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => setActiveDetailedTopic(3)}
+                  className="flex items-center gap-3 px-8 py-4 bg-white/5 border border-eu-gold/50 rounded-2xl text-eu-gold font-bold uppercase tracking-widest hover:bg-eu-gold/10 transition-all shadow-[0_0_15px_rgba(255,204,0,0.1)]"
+               >
+                  <BookOpen size={20} /> Detail-Archiv öffnen (Gruppe 4)
+               </motion.button>
+            </div>
+
+            <QuizPrompt groupId={4} topicTitle="Wirtschaft und Euro" />
          </div>
-
-         <div className="flex justify-center mt-12 pb-8 border-b border-white/5">
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => setActiveDetailedTopic(3)}
-            className="flex items-center gap-3 px-8 py-4 bg-white/5 border border-eu-gold/50 rounded-2xl text-eu-gold font-bold uppercase tracking-widest hover:bg-eu-gold/10 transition-all shadow-[0_0_15px_rgba(255,204,0,0.1)]"
-          >
-            <BookOpen size={20} /> Detail-Archiv öffnen (Gruppe 4)
-          </motion.button>
-        </div>
-
-        <QuizPrompt groupId={4} topicTitle="Wirtschaft und Euro" />
       </Section>
 
       {/* TOPIC 5: Future */}
       <Section id="future" title="5. Herausforderungen & Zukunft">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-           <TiltCard>
-             <div className="p-8 glass-card border-l-4 border-l-green-500 h-full">
-               <Leaf className="text-green-500 mb-4" size={32} />
-               <h3 className="text-xl font-bold mb-4">Green Deal</h3>
-               <p className="text-slate-400 text-sm leading-relaxed">
-                 Die EU will bis 2050 klimaneutral werden. Das erfordert massive Investitionen in Erneuerbare Energien und den Umbau der gesamten Industrie.
-               </p>
-             </div>
-           </TiltCard>
-           
-           <TiltCard>
-             <div className="p-8 glass-card border-l-4 border-l-orange-500 h-full">
-               <Map className="text-orange-500 mb-4" size={32} />
-               <h3 className="text-xl font-bold mb-4">Migration</h3>
-               <p className="text-slate-400 text-sm leading-relaxed">
-                 Eine der schwierigsten Fragen: Wie verteilt man Geflüchtete fair und sichert gleichzeitig die Außengrenzen? Hier prallen nationale Interessen hart aufeinander.
-               </p>
-             </div>
-           </TiltCard>
- 
-           <TiltCard>
-             <div className="p-8 glass-card border-l-4 border-l-purple-500 h-full">
-               <Cpu className="text-purple-500 mb-4" size={32} />
-               <h3 className="text-xl font-bold mb-4">Digitalisierung</h3>
-               <p className="text-slate-400 text-sm leading-relaxed">
-                 Europa möchte die Hoheit über seine Daten behalten und mit KI-Giganten aus den USA und China konkurrieren. Der "Digital Services Act" setzt hier globale Standards.
-               </p>
-             </div>
-           </TiltCard>
- 
-           <TiltCard>
-             <div className="p-8 glass-card border-l-4 border-l-eu-gold h-full">
-               <Globe className="text-eu-gold mb-4" size={32} />
-               <h3 className="text-xl font-bold mb-4">Globale Rolle</h3>
-               <p className="text-slate-400 text-sm leading-relaxed">
-                 In einer instabilen Welt sucht die EU nach einer gemeinsamen Stimme in der Außenpolitik. Diplomatie und Entwicklungszusammenarbeit sind ihre stärksten Waffen.
-               </p>
-             </div>
-           </TiltCard>
+        <div className="text-center max-w-3xl mx-auto mb-12">
+           <h3 className="text-4xl font-black text-white italic uppercase tracking-tighter mb-4">Europa 2050</h3>
+           <p className="text-slate-400">Das Projekt Europa steht niemals still. Entdecke die strategischen Prioritäten der kommenden Jahrzehnte.</p>
         </div>
 
-        <div className="mt-16 text-center max-w-3xl mx-auto">
+        <ChallengeRadar />
+        
+        <FutureExpansion />
+
+        <FutureScenarios />
+
+        <div className="mt-20 text-center max-w-3xl mx-auto">
           <p className="text-2xl font-light text-slate-300 italic mb-8">
             "Wird die EU weiter zusammenhalten oder entstehen neue regionale Blöcke? Die Antwort liegt in den Händen der nächsten Generation."
           </p>

@@ -18,8 +18,8 @@ export function Section({ id, title, subtitle, children, className, color = 'blu
     offset: ["start end", "end start"]
   });
 
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.2], [0.95, 1]);
+  const opacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0, 1, 1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.1], [0.98, 1]);
 
   const bgStyles = {
     blue: 'bg-eu-blue/5',
@@ -31,9 +31,9 @@ export function Section({ id, title, subtitle, children, className, color = 'blu
     <motion.section
       id={id}
       ref={containerRef}
-      style={{ opacity, scale }}
+      style={{ opacity }}
       className={cn(
-        "min-h-screen py-16 md:py-24 px-4 md:px-12 flex flex-col items-center justify-center relative overflow-hidden",
+        "min-h-screen py-16 md:py-24 px-4 md:px-12 flex flex-col items-center justify-center relative overflow-hidden scroll-mt-16",
         bgStyles[color],
         className
       )}
