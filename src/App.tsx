@@ -404,6 +404,14 @@ export default function App() {
     { name: 'Landwirtschaft', value: 10 },
   ];
 
+  const [isLowDevice, setIsLowDevice] = useState(false);
+  useEffect(() => {
+    const checkLowDevice = () => setIsLowDevice(window.innerWidth < 1024);
+    checkLowDevice();
+    window.addEventListener('resize', checkLowDevice);
+    return () => window.removeEventListener('resize', checkLowDevice);
+  }, []);
+
   return (
     <div className="bg-eu-dark min-h-screen relative selection:bg-eu-gold/30">
       <DisclaimerModal 
@@ -455,24 +463,28 @@ export default function App() {
 
       {/* Decorative background elements from theme */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <motion.div 
-          animate={{ 
-            scale: [1, 1.1, 1],
-            rotate: [0, 5, 0],
-            opacity: [0.3, 0.4, 0.3]
-          }}
-          transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-white/5 rounded-full" 
-        />
-        <motion.div 
-          animate={{ 
-            scale: [1, 1.2, 1],
-            rotate: [0, -5, 0],
-            opacity: [0.2, 0.3, 0.2]
-          }}
-          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-white/5 rounded-full" 
-        />
+        {!isLowDevice && (
+          <>
+            <motion.div 
+              animate={{ 
+                scale: [1, 1.1, 1],
+                rotate: [0, 5, 0],
+                opacity: [0.3, 0.4, 0.3]
+              }}
+              transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-white/5 rounded-full" 
+            />
+            <motion.div 
+              animate={{ 
+                scale: [1, 1.2, 1],
+                rotate: [0, -5, 0],
+                opacity: [0.2, 0.3, 0.2]
+              }}
+              transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-white/5 rounded-full" 
+            />
+          </>
+        )}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,#003399_0%,#000F26_70%)] opacity-40" />
       </div>
 

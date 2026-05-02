@@ -18,8 +18,12 @@ export function Section({ id, title, subtitle, children, className, color = 'blu
     offset: ["start end", "end start"]
   });
 
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 1024;
   const opacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0, 1, 1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.1], [0.98, 1]);
+
+  const displayOpacity = isMobile ? 1 : opacity;
+  const displayScale = isMobile ? 1 : scale;
 
   const bgStyles = {
     blue: 'bg-eu-blue/5',
@@ -31,7 +35,7 @@ export function Section({ id, title, subtitle, children, className, color = 'blu
     <motion.section
       id={id}
       ref={containerRef}
-      style={{ opacity }}
+      style={{ opacity: displayOpacity, scale: displayScale }}
       className={cn(
         "min-h-screen py-16 md:py-24 px-4 md:px-12 flex flex-col items-center justify-center relative overflow-hidden scroll-mt-16",
         bgStyles[color],
