@@ -17,6 +17,51 @@
   }
 
   --animate-soft-glow: soft-glow 3s ease-in-out infinite;
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+  }
+
+  --animate-twinkle: twinkle 4s ease-in-out infinite;
+
+  @keyframes float-nebula {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(2%, 3%) scale(1.1); }
+    66% { transform: translate(-1%, 2%) scale(0.9); }
+  }
+
+  --animate-nebula: float-nebula 20s ease-in-out infinite;
+
+  @keyframes shooting-star {
+    0% { transform: translate(-200px, -200px) rotate(45deg) scaleX(0); opacity: 0; }
+    5% { transform: translate(-200px, -200px) rotate(45deg) scaleX(1.5); opacity: 1; }
+    12% { transform: translate(1200px, 1200px) rotate(45deg) scaleX(2.5); opacity: 0; }
+    100% { transform: translate(1200px, 1200px) rotate(45deg) scaleX(2.5); opacity: 0; }
+  }
+
+  --animate-shooting: shooting-star 12s cubic-bezier(0.1, 0, 0.4, 1) infinite;
+
+  @keyframes star-glow {
+    0%, 100% { filter: blur(0px) brightness(1); }
+    50% { filter: blur(1px) brightness(1.5); }
+  }
+  
+  --animate-star-glow: star-glow 4s ease-in-out infinite;
+
+  @keyframes twinkle-fast {
+    0%, 100% { opacity: 0.2; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.2); }
+  }
+
+  --animate-twinkle-fast: twinkle-fast 2s ease-in-out infinite;
+
+  @keyframes slow-celestial-rotate {
+    from { rotate: 0deg; }
+    to { rotate: 360deg; }
+  }
+
+  --animate-celestial: slow-celestial-rotate 400s linear infinite;
 }
 
 @layer base {

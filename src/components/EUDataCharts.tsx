@@ -40,6 +40,20 @@ const CustomTooltip = ({ active, payload }: any) => {
 const renderActiveShape = (props: any) => {
   const RADIAN = Math.PI / 180;
   const { cx, cy, midAngle, innerRadius, outerRadius, startAngle, endAngle, fill, payload, percent, value } = props;
+  const isSmallScreen = window.innerWidth < 640;
+  
+  if (isSmallScreen) {
+    return (
+      <g>
+        <text x={cx} y={cy} dy={8} textAnchor="middle" fill="#fff" className="text-sm font-bold">
+          {payload.name}
+        </text>
+        <Sector cx={cx} cy={cy} innerRadius={innerRadius} outerRadius={outerRadius + 4} startAngle={startAngle} endAngle={endAngle} fill={fill} />
+        <text x={cx} y={cy} dy={24} textAnchor="middle" fill="#FFCC00" className="text-xs font-bold">{`${value}%`}</text>
+      </g>
+    );
+  }
+
   const sin = Math.sin(-RADIAN * midAngle);
   const cos = Math.cos(-RADIAN * midAngle);
   const sx = cx + (outerRadius + 10) * cos;
@@ -112,17 +126,26 @@ export function EUDataCharts() {
 
           <div className="h-[280px] md:h-[350px] w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={gdpData} layout="vertical" margin={{ top: 5, right: 30, left: 40, bottom: 5 }}>
+              <BarChart data={gdpData} layout="vertical" margin={{ top: 5, right: 30, left: 10, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" horizontal={false} />
                 <XAxis type="number" hide />
                 <YAxis 
                   dataKey="name" 
                   type="category" 
-                  tick={{ fill: '#94a3b8', fontSize: 12, fontWeight: 'bold' }} 
-                  width={100}
+                  tick={(props) => {
+                    const { x, y, payload } = props;
+                    return (
+                      <g transform={`translate(${x},${y})`}>
+                        <text x={0} y={0} dy={4} textAnchor="end" fill="#94a3b8" className="text-[10px] sm:text-xs font-bold">
+                          {payload.value.length > 8 && window.innerWidth < 640 ? `${payload.value.slice(0, 8)}...` : payload.value}
+                        </text>
+                      </g>
+                    );
+                  }}
+                  width={window.innerWidth < 640 ? 70 : 100}
                 />
                 <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255,255,255,0.05)' }} />
-                <Bar dataKey="gdp" radius={[0, 4, 4, 0]} barSize={32}>
+                <Bar dataKey="gdp" radius={[0, 4, 4, 0]} barSize={window.innerWidth < 640 ? 20 : 32}>
                   {gdpData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
@@ -167,8 +190,8 @@ export function EUDataCharts() {
                   data={budgetData}
                   cx="50%"
                   cy="50%"
-                  innerRadius={80}
-                  outerRadius={120}
+                  innerRadius={window.innerWidth < 640 ? 60 : 80}
+                  outerRadius={window.innerWidth < 640 ? 90 : 120}
                   fill="#8884d8"
                   dataKey="value"
                   onMouseEnter={onPieEnter}

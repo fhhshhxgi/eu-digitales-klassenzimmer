@@ -30,7 +30,8 @@ import {
   BookOpen,
   Menu,
   X,
-  ArrowUp
+  ArrowUp,
+  ChevronRight
 } from 'lucide-react';
 import { 
   BarChart, 
@@ -469,12 +470,12 @@ export default function App() {
 
       {/* Navigation Layer */}
       <nav className="fixed top-0 left-0 w-full h-16 z-50 px-6 md:px-10 flex justify-between items-center bg-eu-panel backdrop-blur-md border-b border-white/10">
-        <div className="flex items-center gap-4">
+        <a href="#" className="flex items-center gap-4 group">
           <div className="flex items-center gap-2">
             <motion.img 
               src="https://flagcdn.com/w40/eu.png" 
               alt="EU Flag" 
-              className="w-6 h-auto rounded-sm shadow-sm"
+              className="w-6 h-auto rounded-sm shadow-sm group-hover:scale-110 transition-transform"
               animate={{
                 skewY: [0, 2, 0, -2, 0],
                 rotateZ: [0, 1, 0, -1, 0],
@@ -486,19 +487,20 @@ export default function App() {
               }}
             />
             <div className="w-8 h-8 relative flex items-center justify-center">
-              <div className="absolute inset-0 border border-eu-gold rounded-full animate-pulse" />
-              <span className="text-eu-gold text-xl font-bold">★</span>
+              <div className="absolute inset-0 border border-eu-gold rounded-full animate-pulse group-hover:border-white transition-colors" />
+              <span className="text-eu-gold text-xl font-bold group-hover:text-white transition-colors">★</span>
             </div>
           </div>
-          <span className="tracking-[0.2em] font-light text-xs uppercase text-white/80 hidden sm:block">EU Knowledge Archive</span>
-        </div>
+          <span className="tracking-[0.2em] font-light text-xs uppercase text-white/80 hidden sm:block group-hover:text-eu-gold transition-colors">EU Knowledge Archive</span>
+        </a>
         
         {/* Desktop Links */}
         <div className="hidden md:flex gap-8 text-[10px] font-semibold tracking-widest uppercase text-white/60">
-          <a href="#" className="text-white border-b border-eu-gold pb-1 transition-all">Home</a>
-          <a href="#diversity" className="hover:text-white transition-colors">Mitgliedstaaten</a>
-          <a href="#institutions" className="hover:text-white transition-colors">Institutionen</a>
-          <a href="#future" className="hover:text-white transition-colors">Zukunft</a>
+          <a href="#history" className="hover:text-white transition-colors hover:border-b hover:border-eu-gold/50 pb-1">Geschichte</a>
+          <a href="#diversity" className="hover:text-white transition-colors hover:border-b hover:border-eu-gold/50 pb-1">Staaten</a>
+          <a href="#institutions" className="hover:text-white transition-colors hover:border-b hover:border-eu-gold/50 pb-1">Institutionen</a>
+          <a href="#economy" className="hover:text-white transition-colors hover:border-b hover:border-eu-gold/50 pb-1">Wirtschaft</a>
+          <a href="#future" className="hover:text-white transition-colors hover:border-b hover:border-eu-gold/50 pb-1">Zukunft</a>
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -511,55 +513,59 @@ export default function App() {
         </button>
 
         {/* Mobile Menu Overlay */}
-        <motion.div
-          initial={false}
-          animate={isMobileMenuOpen ? "open" : "closed"}
-          variants={{
-            open: { 
-              opacity: 1, 
-              x: 0,
-              visibility: "visible" as const,
-              transition: { type: "spring", stiffness: 300, damping: 30 }
-            },
-            closed: { 
-              opacity: 0, 
-              x: "100%",
-              transitionEnd: { visibility: "hidden" as const },
-              transition: { type: "spring", stiffness: 300, damping: 30 }
-            }
-          }}
-          className="fixed inset-0 bg-eu-dark/95 backdrop-blur-xl z-40 flex flex-col items-center justify-center gap-8 md:hidden"
-        >
-          {[
-            { label: 'Home', href: '#' },
-            { label: 'Mitgliedstaaten', href: '#diversity' },
-            { label: 'Institutionen', href: '#institutions' },
-            { label: 'Wirtschaft', href: '#economy' },
-            { label: 'Zukunft', href: '#future' }
-          ].map((item, i) => (
-            <motion.a
-              key={item.label}
-              initial={{ opacity: 0, y: 20 }}
-              animate={isMobileMenuOpen ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ delay: i * 0.1 }}
-              href={item.href}
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="text-2xl font-display font-bold text-white hover:text-eu-gold tracking-tight"
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, x: "100%" }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: "100%" }}
+              transition={{ type: "spring", stiffness: 300, damping: 35 }}
+              className="fixed inset-0 bg-eu-dark/98 backdrop-blur-3xl z-40 flex flex-col items-center justify-center p-6 md:hidden"
             >
-              <span className="text-eu-gold/40 mr-4 font-mono text-sm">0{i+1}</span>
-              {item.label}
-            </motion.a>
-          ))}
-          
-          <div className="mt-12 flex gap-6">
-            <div className="w-10 h-px bg-white/20" />
-            <span className="text-eu-gold text-lg">★ ★ ★</span>
-            <div className="w-10 h-px bg-white/20" />
-          </div>
-        </motion.div>
+              {/* Background Stars for menu */}
+              <div className="absolute inset-0 pointer-events-none opacity-20">
+                <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-eu-gold rounded-full blur-[100px]" />
+                <div className="absolute bottom-1/4 right-1/4 w-32 h-32 bg-eu-blue rounded-full blur-[100px]" />
+              </div>
+
+              <div className="flex flex-col items-center gap-6 relative z-10 w-full max-w-xs">
+                {[
+                  { label: 'Geschichte', href: '#history' },
+                  { label: 'Staaten', href: '#diversity' },
+                  { label: 'Institutionen', href: '#institutions' },
+                  { label: 'Wirtschaft', href: '#economy' },
+                  { label: 'Zukunft', href: '#future' }
+                ].map((item, i) => (
+                  <motion.a
+                    key={item.label}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.05 + 0.2 }}
+                    href={item.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="group flex items-center justify-between w-full py-4 border-b border-white/5"
+                  >
+                    <span className="text-sm font-mono text-eu-gold/50">0{i+1}</span>
+                    <span className="text-2xl font-display font-black text-white group-hover:text-eu-gold transition-colors tracking-tight uppercase italic">{item.label}</span>
+                    <ChevronRight className="text-eu-gold/20 group-hover:text-eu-gold transition-colors" size={20} />
+                  </motion.a>
+                ))}
+              </div>
+              
+              <div className="mt-16 flex flex-col items-center gap-4 relative z-10">
+                <div className="flex gap-4">
+                  <div className="w-8 h-px bg-eu-gold/20 self-center" />
+                  <span className="text-eu-gold text-xl drop-shadow-[0_0_10px_rgba(255,204,0,0.5)]">★</span>
+                  <div className="w-8 h-px bg-eu-gold/20 self-center" />
+                </div>
+                <p className="text-[10px] text-white/30 uppercase tracking-[0.4em] font-black">Knowledge Archive</p>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
 
-      <header className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden pt-16">
+      <header className="relative min-h-[100dvh] lg:min-h-screen flex items-center justify-center overflow-hidden pt-16">
         <HeroScene />
         
         {/* Left Focus Card - Hidden on mobile/tablet */}
@@ -620,7 +626,7 @@ export default function App() {
               initial={{ opacity: 0, y: 30, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-              className="relative text-5xl sm:text-7xl md:text-9xl font-display font-black text-white mb-6 leading-[0.85] tracking-tighter uppercase cursor-default group"
+              className="relative text-5xl sm:text-7xl lg:text-9xl font-display font-black text-white mb-6 leading-[0.9] lg:leading-[0.85] tracking-tighter uppercase cursor-default group"
               style={{ transformStyle: "preserve-3d", perspective: "1200px" }}
             >
               <span className="relative z-10 block drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
@@ -666,8 +672,8 @@ export default function App() {
       </header>
 
       {/* Intro Text */}
-      <div className="max-w-4xl mx-auto py-16 md:py-24 px-6 text-center">
-        <p className="text-xl md:text-3xl font-medium text-slate-300 leading-relaxed italic">
+      <div className="max-w-4xl mx-auto py-12 md:py-24 px-6 text-center">
+        <p className="text-lg sm:text-2xl md:text-3xl font-medium text-slate-300 leading-relaxed italic">
           "Die Europäische Union ist eines der größten Projekte unserer Zeit. Sie verbindet 27 Länder mit ganz unterschiedlichen Kulturen, Sprachen und Werten zu einer starken Gemeinschaft."
         </p>
       </div>
@@ -675,8 +681,8 @@ export default function App() {
       {/* TOPIC 1: History */}
       <Section 
         id="history" 
-        title="1. Wie alles anfing" 
-        subtitle="Vom zerstörten Kontinent zum Friedensprojekt. Ein Rückblick auf die wichtigsten Schritte."
+        title="1. Geschichte & Entstehung" 
+        subtitle="Vom zerstörten Kontinent zum Friedensprojekt. Ein Rückblick auf die Entwicklung der europäischen Integration."
       >
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           <TiltCard>
@@ -734,13 +740,13 @@ export default function App() {
       <Section 
         id="diversity" 
         color="dark"
-        title="2. Mitgliedsstaaten & EU Vielfalt" 
+        title="2. Staaten & Vielfalt" 
         subtitle="In Vielfalt geeint – von nordeuropäischen Wohlfahrtsstaaten bis zu den Transformationsstaaten des Ostens."
       >
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="md:col-span-2 glass-card p-6 md:p-8 flex flex-col justify-center">
-            <h3 className="text-3xl font-bold mb-6">Sozioökonomische Modelle</h3>
-            <div className="space-y-4">
+          <div className="md:col-span-2 glass-card p-6 md:p-10 flex flex-col justify-center">
+            <h3 className="text-2xl md:text-3xl font-bold mb-6">Sozioökonomische Modelle</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-1 lg:grid-cols-1 gap-4">
               <div className="flex items-center gap-4 p-4 bg-white/5 rounded-xl border border-white/5">
                 <div className="w-10 h-10 rounded-full bg-eu-blue/40 flex items-center justify-center text-eu-blue font-bold">N</div>
                 <div>
@@ -765,7 +771,7 @@ export default function App() {
             </div>
           </div>
 
-          <div className="glass-card p-8 bg-gradient-to-br from-eu-blue/20 to-transparent">
+          <div className="glass-card p-6 md:p-8 bg-gradient-to-br from-eu-blue/20 to-transparent">
             <Languages className="text-eu-blue mb-4" size={32} />
             <h3 className="text-xl font-bold mb-4">Kulturelle Identität</h3>
             <p className="text-slate-400 text-sm leading-relaxed mb-6">
@@ -895,7 +901,7 @@ export default function App() {
       </Section>
 
       {/* TOPIC 4: Economy */}
-      <Section id="economy" color="blue" title="4. Wirtschaft, Binnenmarkt & Euro">
+      <Section id="economy" color="blue" title="4. Wirtschaft & Binnenmarkt">
          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div className="space-y-6 md:space-y-8">
               <div className="flex gap-4 md:gap-6 items-start">

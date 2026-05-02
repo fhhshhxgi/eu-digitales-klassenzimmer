@@ -13,10 +13,20 @@ export const TiltCard: React.FC<TiltCardProps> = ({ children, className = "" }) 
   const mouseXSpring = useSpring(x);
   const mouseYSpring = useSpring(y);
 
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["15deg", "-15deg"]);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-15deg", "15deg"]);
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["10deg", "-10deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"]);
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  React.useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (isMobile) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const width = rect.width;
     const height = rect.height;
@@ -43,15 +53,15 @@ export const TiltCard: React.FC<TiltCardProps> = ({ children, className = "" }) 
         scale: 1.02,
       }}
       style={{
-        rotateY,
-        rotateX,
+        rotateY: isMobile ? 0 : rotateY,
+        rotateX: isMobile ? 0 : rotateX,
         transformStyle: "preserve-3d",
       }}
       className={`relative transition-shadow duration-500 hover:shadow-[0_30px_60px_rgba(0,0,0,0.5),0_0_30px_rgba(255,204,0,0.1)] ${className}`}
     >
       <div
         style={{
-          transform: "translateZ(75px)",
+          transform: isMobile ? "none" : "translateZ(75px)",
           transformStyle: "preserve-3d",
         }}
         className="h-full w-full"

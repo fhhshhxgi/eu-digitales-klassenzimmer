@@ -13,7 +13,7 @@ export function QuizPrompt({ groupId, topicTitle }: QuizPromptProps) {
       initial={{ opacity: 0, scale: 0.95 }}
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
-      className="mt-20 p-8 glass-card border-eu-gold/30 bg-eu-gold/5 relative overflow-hidden"
+      className="mt-12 md:mt-20 p-6 md:p-8 glass-card border-eu-gold/30 bg-eu-gold/5 relative overflow-hidden"
     >
       <div className="absolute top-0 right-0 p-4 opacity-10">
         <Group size={120} className="text-eu-gold" />
