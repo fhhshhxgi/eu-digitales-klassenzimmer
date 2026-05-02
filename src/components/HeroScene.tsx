@@ -1,6 +1,6 @@
 import React, { useRef, useMemo, useState, useEffect } from 'react';
 import Globe from 'react-globe.gl';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import * as THREE from 'three';
 import { feature } from 'topojson-client';
 
@@ -137,22 +137,12 @@ export function HeroScene() {
   const isTablet = windowSize.width >= 768 && windowSize.width < 1024;
   const isReduced = isMobile || isTablet;
 
-  // Scroll-based scaling logic
-  const { scrollY } = useScroll();
-  const heroScale = useTransform(scrollY, [0, 500], [1, 1.5]);
-  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0.4]);
-
   // Intensity of glow increases as we zoom in (altitude decreases)
   const glowIntensity = Math.max(0.1, (2.6 - zoomLevel) / 1.5);
   const starOpacity = Math.min(0.9, 0.4 + glowIntensity * 0.5);
 
   return (
     <motion.div 
-      style={{ 
-        scale: heroScale, 
-        opacity: heroOpacity,
-        willChange: "transform, opacity"
-      }}
       className="absolute inset-0 z-0 bg-[#000103] overflow-hidden flex items-center justify-center"
     >
       {/* Dynamic Galaxy Background with Mouse Parallax and Celestial Rotation */}

@@ -20,6 +20,7 @@ import { FutureExpansion } from './components/FutureExpansion';
 import { GlobalTrade } from './components/GlobalTrade';
 import { FutureScenarios } from './components/FutureScenarios';
 import { EconomicPowerhouse } from './components/EconomicPowerhouse';
+import { LoadingScreen } from './components/LoadingScreen';
 import { 
   History, 
   Globe, 
@@ -65,6 +66,22 @@ export default function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showDeviceNotice, setShowDeviceNotice] = useState(true);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Handle Initial Loading
+  useEffect(() => {
+    const handleLoad = () => {
+      // Small timeout to ensure everything is really smooth
+      setTimeout(() => setIsLoading(false), 2000);
+    };
+
+    if (document.readyState === 'complete') {
+      handleLoad();
+    } else {
+      window.addEventListener('load', handleLoad);
+      return () => window.removeEventListener('load', handleLoad);
+    }
+  }, []);
 
   // Monitor scroll position for "Back to Top" button
   useEffect(() => {
@@ -414,6 +431,10 @@ export default function App() {
 
   return (
     <div className="bg-eu-dark min-h-screen relative selection:bg-eu-gold/30">
+      <AnimatePresence>
+        {isLoading && <LoadingScreen key="loader" />}
+      </AnimatePresence>
+
       <DisclaimerModal 
         isOpen={isDisclaimerOpen} 
         onClose={() => setIsDisclaimerOpen(false)} 
