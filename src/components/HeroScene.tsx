@@ -1,6 +1,6 @@
 import React, { useRef, useMemo, useState, useEffect } from 'react';
 import Globe from 'react-globe.gl';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import * as THREE from 'three';
 import { feature } from 'topojson-client';
 
@@ -137,12 +137,24 @@ export function HeroScene() {
   const isTablet = windowSize.width >= 768 && windowSize.width < 1024;
   const isReduced = isMobile || isTablet;
 
+  // Scroll-based scaling logic
+  const { scrollY } = useScroll();
+  const heroScale = useTransform(scrollY, [0, 500], [1, 1.5]);
+  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0.4]);
+
   // Intensity of glow increases as we zoom in (altitude decreases)
   const glowIntensity = Math.max(0.1, (2.6 - zoomLevel) / 1.5);
   const starOpacity = Math.min(0.9, 0.4 + glowIntensity * 0.5);
 
   return (
-    <div className="absolute inset-0 z-0 bg-[#000103] overflow-hidden flex items-center justify-center">
+    <motion.div 
+      style={{ 
+        scale: heroScale, 
+        opacity: heroOpacity,
+        willChange: "transform, opacity"
+      }}
+      className="absolute inset-0 z-0 bg-[#000103] overflow-hidden flex items-center justify-center"
+    >
       {/* Dynamic Galaxy Background with Mouse Parallax and Celestial Rotation */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {/* Deep space base */}
@@ -150,7 +162,9 @@ export function HeroScene() {
         
         {/* Celestial Starfield Layer (Slow rotation) - Only on Desktop for performance */}
         {!isReduced && (
-          <div className="absolute inset-[-50%] animate-celestial opacity-30">
+          <motion.div 
+            className="absolute inset-[-50%] animate-celestial opacity-30"
+          >
             <div 
               className="absolute inset-0"
               style={{
@@ -160,11 +174,11 @@ export function HeroScene() {
                 backgroundSize: '400px 400px'
               }}
             />
-          </div>
+          </motion.div>
         )}
         
         {/* Dense Starfield Layer 1 (Slowest parallax) */}
-        <div 
+        <motion.div 
           className="absolute inset-[-10%] animate-twinkle transition-transform duration-700 ease-out"
           style={{
             transform: isReduced ? 'none' : `translate(${mousePos.x * -5}px, ${mousePos.y * -5}px)`,
@@ -294,7 +308,7 @@ export function HeroScene() {
           EUROPA
         </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

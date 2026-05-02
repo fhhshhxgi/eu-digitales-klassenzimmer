@@ -466,21 +466,23 @@ export default function App() {
         {!isLowDevice && (
           <>
             <motion.div 
+              style={{ willChange: "transform, opacity" }}
               animate={{ 
-                scale: [1, 1.1, 1],
-                rotate: [0, 5, 0],
-                opacity: [0.3, 0.4, 0.3]
+                scale: [1, 1.05, 1],
+                rotate: [0, 2, 0],
+                opacity: [0.3, 0.35, 0.3]
               }}
-              transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+              transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-white/5 rounded-full" 
             />
             <motion.div 
+              style={{ willChange: "transform, opacity" }}
               animate={{ 
-                scale: [1, 1.2, 1],
-                rotate: [0, -5, 0],
-                opacity: [0.2, 0.3, 0.2]
+                scale: [1, 1.1, 1],
+                rotate: [0, -2, 0],
+                opacity: [0.2, 0.25, 0.2]
               }}
-              transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+              transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-white/5 rounded-full" 
             />
           </>

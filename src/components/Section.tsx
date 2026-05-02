@@ -19,8 +19,8 @@ export function Section({ id, title, subtitle, children, className, color = 'blu
   });
 
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 1024;
-  const opacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0, 1, 1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.1], [0.98, 1]);
+  const opacity = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0, 1, 1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.15], [0.98, 1]);
 
   const displayOpacity = isMobile ? 1 : opacity;
   const displayScale = isMobile ? 1 : scale;

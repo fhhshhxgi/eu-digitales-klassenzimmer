@@ -41,7 +41,7 @@ export function EconomicPowerhouse() {
                <motion.div 
                  initial={{ width: 0 }}
                  whileInView={{ width: `${item.share}%` }}
-                 transition={{ duration: 1.5, ease: "easeOut", delay: i * 0.1 }}
+                 transition={{ duration: 0.8, ease: "circOut", delay: i * 0.05 }}
                  className={`h-full ${item.color} relative group-hover:brightness-125 transition-all`}
                >
                   {item.isEU && (
