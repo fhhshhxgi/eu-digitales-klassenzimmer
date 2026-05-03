@@ -65,7 +65,6 @@ import {
   Cell
 } from 'recharts';
 
-import { AIAssistant } from './components/AIAssistant';
 import { DemocracyCompass } from './components/DemocracyCompass';
 import { SecurityNodeNetwork } from './components/SecurityNodeNetwork';
 
@@ -1281,8 +1280,6 @@ export default function App() {
           </motion.button>
         )}
       </AnimatePresence>
-      
-      <AIAssistant />
     </div>
   );
 }
