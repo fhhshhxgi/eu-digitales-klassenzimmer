@@ -7,11 +7,11 @@ import { motion } from 'framer-motion';
 import { TrendingUp, PieChart as PieChartIcon, DollarSign, Target } from 'lucide-react';
 
 const gdpData = [
-  { name: "Deutschland", gdp: 4.46, full: "4,46 Billionen €", flag: "🇩🇪", color: "#FFCC00" },
-  { name: "Frankreich", gdp: 2.80, full: "2,80 Billionen €", flag: "🇫🇷", color: "#2D4B7C" },
-  { name: "Italien", gdp: 2.08, full: "2,08 Billionen €", flag: "🇮🇹", color: "#4ade80" },
-  { name: "Spanien", gdp: 1.46, full: "1,46 Billionen €", flag: "🇪🇸", color: "#f87171" },
-  { name: "Polen", gdp: 0.81, full: "0,81 Billionen €", flag: "🇵🇱", color: "#f472b6" },
+  { name: "Deutschland", bip: 4.46, full: "4,46 Billionen €", flag: "🇩🇪", color: "#FFCC00" },
+  { name: "Frankreich", bip: 2.80, full: "2,80 Billionen €", flag: "🇫🇷", color: "#2D4B7C" },
+  { name: "Italien", bip: 2.08, full: "2,08 Billionen €", flag: "🇮🇹", color: "#4ade80" },
+  { name: "Spanien", bip: 1.46, full: "1,46 Billionen €", flag: "🇪🇸", color: "#f87171" },
+  { name: "Polen", bip: 0.81, full: "0,81 Billionen €", flag: "🇵🇱", color: "#f472b6" },
 ];
 
 const budgetData = [
@@ -25,13 +25,41 @@ const budgetData = [
 
 const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
+    const data = payload[0].payload;
+    const isBip = payload[0].dataKey === 'bip';
+    
     return (
-      <div className="bg-eu-dark/90 backdrop-blur-md border border-white/10 p-3 rounded-lg shadow-2xl">
-        <p className="text-white font-bold text-sm mb-1">{payload[0].name}</p>
-        <p className="text-eu-gold font-black text-lg">
-          {payload[0].value} {payload[0].unit || (payload[0].dataKey === 'gdp' ? 'Billionen €' : '%')}
-        </p>
-      </div>
+      <motion.div 
+        initial={{ opacity: 0, y: 5, scale: 0.95 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        className="bg-eu-dark/95 backdrop-blur-xl border border-white/20 p-4 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] min-w-[160px]"
+      >
+        <div className="flex items-center gap-2 mb-3 pb-2 border-b border-white/10">
+          {data.flag && <span className="text-lg">{data.flag}</span>}
+          <p className="text-white font-black text-xs uppercase tracking-widest">{payload[0].name}</p>
+        </div>
+        
+        <div className="space-y-1">
+          <p className="text-white/40 text-[10px] uppercase font-bold tracking-tighter">
+            {isBip ? 'Bruttoinlandsprodukt' : 'Anteil am Budget'}
+          </p>
+          <div className="flex items-baseline gap-1">
+            <span className="text-eu-gold font-black text-2xl italic tracking-tighter">
+              {payload[0].value}
+            </span>
+            <span className="text-eu-gold/60 text-[10px] font-bold uppercase">
+              {payload[0].unit || (isBip ? 'Bio. €' : '%')}
+            </span>
+          </div>
+        </div>
+        
+        {isBip && (
+          <div className="mt-3 pt-3 border-t border-white/5 flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-eu-gold animate-pulse" />
+            <span className="text-[9px] text-white/40 font-bold uppercase tracking-wider">Top 5 Wirtschaftsmacht</span>
+          </div>
+        )}
+      </motion.div>
     );
   }
   return null;
@@ -145,7 +173,7 @@ export function EUDataCharts() {
                   width={window.innerWidth < 640 ? 70 : 100}
                 />
                 <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255,255,255,0.05)' }} />
-                <Bar dataKey="gdp" radius={[0, 4, 4, 0]} barSize={window.innerWidth < 640 ? 20 : 32}>
+                <Bar dataKey="bip" radius={[0, 4, 4, 0]} barSize={window.innerWidth < 640 ? 20 : 32}>
                   {gdpData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}

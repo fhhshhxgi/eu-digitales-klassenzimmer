@@ -410,7 +410,7 @@ export default function App() {
     { name: 'Polen', pop: 38 },
   ];
 
-  const gdpData = [
+  const bipStructureData = [
     { name: 'Industrie', value: 40 },
     { name: 'Dienstleistung', value: 50 },
     { name: 'Landwirtschaft', value: 10 },
@@ -962,7 +962,7 @@ export default function App() {
                   <ResponsiveContainer width="100%" height="100%">
                      <PieChart>
                         <Pie
-                        data={gdpData}
+                        data={bipStructureData}
                         cx="50%"
                         cy="50%"
                         innerRadius={60}
@@ -970,11 +970,23 @@ export default function App() {
                         paddingAngle={5}
                         dataKey="value"
                         >
-                        {gdpData.map((entry, index) => (
+                        {bipStructureData.map((entry, index) => (
                            <Cell key={`cell-${index}`} fill={index === 0 ? '#003399' : index === 1 ? '#FFCC00' : '#475569'} />
                         ))}
                         </Pie>
-                        <Tooltip contentStyle={{ backgroundColor: '#001A4D', border: '1px solid #333', borderRadius: '8px' }} />
+                        <Tooltip 
+                           content={({ active, payload }: any) => {
+                             if (active && payload && payload.length) {
+                               return (
+                                 <div className="bg-eu-dark/95 backdrop-blur-md border border-white/20 p-3 rounded-xl shadow-2xl">
+                                   <p className="text-[10px] text-white/40 uppercase font-black mb-1">{payload[0].name}</p>
+                                   <p className="text-xl font-display font-black text-eu-gold italic">{payload[0].value}%</p>
+                                 </div>
+                               );
+                             }
+                             return null;
+                           }} 
+                        />
                      </PieChart>
                   </ResponsiveContainer>
                   </div>

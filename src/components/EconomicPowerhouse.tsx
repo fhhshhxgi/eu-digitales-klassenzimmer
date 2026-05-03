@@ -2,11 +2,11 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { TrendingUp, Globe2, Landmark } from 'lucide-react';
 
-const gdpComparison = [
-  { name: "USA", gdp: "25 Bio. €", color: "bg-blue-600", share: 85 },
-  { name: "Europäische Union", gdp: "17 Bio. €", color: "bg-eu-gold", share: 65, isEU: true },
-  { name: "China", gdp: "16 Bio. €", color: "bg-red-600", share: 60 },
-  { name: "Indien", gdp: "3,4 Bio. €", color: "bg-orange-600", share: 15 }
+const bipComparison = [
+  { name: "USA", bip: "25 Bio. €", color: "bg-blue-600", share: 85 },
+  { name: "Europäische Union", bip: "17 Bio. €", color: "bg-eu-gold", share: 65, isEU: true },
+  { name: "China", bip: "16 Bio. €", color: "bg-red-600", share: 60 },
+  { name: "Indien", bip: "3,4 Bio. €", color: "bg-orange-600", share: 15 }
 ];
 
 export function EconomicPowerhouse() {
@@ -25,7 +25,7 @@ export function EconomicPowerhouse() {
       </div>
 
       <div className="space-y-8">
-        {gdpComparison.map((item, i) => (
+        {bipComparison.map((item, i) => (
           <div key={item.name} className="space-y-2">
             <div className="flex justify-between items-end">
                <div className="flex items-center gap-3">
@@ -34,7 +34,7 @@ export function EconomicPowerhouse() {
                   </span>
                   {item.isEU && <span className="text-[10px] bg-eu-gold text-eu-dark px-1.5 py-0.5 rounded font-black">BLOCK</span>}
                </div>
-               <span className={`font-mono text-xs ${item.isEU ? 'text-eu-gold' : 'text-white/40'}`}>{item.gdp}</span>
+               <span className={`font-mono text-xs ${item.isEU ? 'text-eu-gold' : 'text-white/40'}`}>{item.bip}</span>
             </div>
             
             <div className="h-4 bg-white/5 rounded-full overflow-hidden border border-white/5 group">

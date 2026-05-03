@@ -20,7 +20,7 @@ const countryData: Record<string, any> = {
 
 const metrics = {
   population: { label: "Bevölkerung", unit: "Mio.", icon: Users, desc: "Gesamtbevölkerung am 1. Januar." },
-  gdp: { label: "BIP (Wachstum)", unit: "%", icon: TrendingUp, desc: "Reale Veränderung gegenüber dem Vorjahr." },
+  bip: { label: "BIP (Wachstum)", unit: "%", icon: TrendingUp, desc: "Reale Veränderung gegenüber dem Vorjahr." },
   co2: { label: "CO2-Emissionen", unit: "t/Kopf", icon: Leaf, desc: "Tonnen CO2 pro Kopf der Bevölkerung." },
   unemployment: { label: "Arbeitslosigkeit", unit: "%", icon: Briefcase, desc: "Saisonbereinigte Arbeitslosenquote." }
 };
@@ -37,41 +37,70 @@ const generateTrend = (base: number, volatility: number, trend: number, years: n
 const historicalStats: Record<string, Record<string, any[]>> = {
   "DE": {
     population: Array.from({ length: 25 }, (_, i) => ({ year: 2000 + i, value: parseFloat((82 + (i * 0.05) + (i > 15 ? 0.8 : 0)).toFixed(2)) })),
-    gdp: generateTrend(1.5, 3, -0.01, 25),
+    bip: generateTrend(1.5, 3, -0.01, 25),
     co2: Array.from({ length: 25 }, (_, i) => ({ year: 2000 + i, value: parseFloat((10 - (i * 0.15)).toFixed(2)) })),
     unemployment: Array.from({ length: 25 }, (_, i) => ({ year: 2000 + i, value: parseFloat((8 - (i * 0.2) + (i > 8 && i < 12 ? 1 : 0)).toFixed(2)) }))
   },
   "FR": {
     population: Array.from({ length: 25 }, (_, i) => ({ year: 2000 + i, value: parseFloat((60 + (i * 0.3)).toFixed(2)) })),
-    gdp: generateTrend(1.8, 2.5, -0.02, 25),
+    bip: generateTrend(1.8, 2.5, -0.02, 25),
     co2: Array.from({ length: 25 }, (_, i) => ({ year: 2000 + i, value: parseFloat((6.5 - (i * 0.1)).toFixed(2)) })),
     unemployment: Array.from({ length: 25 }, (_, i) => ({ year: 2000 + i, value: parseFloat((9 + Math.sin(i * 0.5) * 1.5).toFixed(2)) }))
   },
   "IT": {
     population: Array.from({ length: 25 }, (_, i) => ({ year: 2000 + i, value: parseFloat((57 + (i * 0.1) - (i > 15 ? 0.2 : 0)).toFixed(2)) })),
-    gdp: generateTrend(1.0, 3.5, -0.03, 25),
+    bip: generateTrend(1.0, 3.5, -0.03, 25),
     co2: Array.from({ length: 25 }, (_, i) => ({ year: 2000 + i, value: parseFloat((8.0 - (i * 0.12)).toFixed(2)) })),
     unemployment: Array.from({ length: 25 }, (_, i) => ({ year: 2000 + i, value: parseFloat((10 + Math.sin(i * 0.3) * 2).toFixed(2)) }))
   },
   "ES": {
     population: Array.from({ length: 25 }, (_, i) => ({ year: 2000 + i, value: parseFloat((40 + (i * 0.35)).toFixed(2)) })),
-    gdp: generateTrend(2.5, 4.0, -0.02, 25),
+    bip: generateTrend(2.5, 4.0, -0.02, 25),
     co2: Array.from({ length: 25 }, (_, i) => ({ year: 2000 + i, value: parseFloat((7.5 - (i * 0.14)).toFixed(2)) })),
     unemployment: Array.from({ length: 25 }, (_, i) => ({ year: 2000 + i, value: parseFloat((15 + Math.sin(i * 0.6) * 7).toFixed(2)) }))
   },
   "EU": {
     population: Array.from({ length: 25 }, (_, i) => ({ year: 2000 + i, value: parseFloat((440 + (i * 0.5)).toFixed(2)) })),
-    gdp: generateTrend(2.0, 2, -0.015, 25),
+    bip: generateTrend(2.0, 2, -0.015, 25),
     co2: Array.from({ length: 25 }, (_, i) => ({ year: 2000 + i, value: parseFloat((8.5 - (i * 0.18)).toFixed(2)) })),
     unemployment: Array.from({ length: 25 }, (_, i) => ({ year: 2000 + i, value: parseFloat((8.5 + Math.cos(i * 0.4) * 1).toFixed(2)) }))
   },
   // Weitere Länder grob simuliert
   "PL": {
     population: Array.from({ length: 25 }, (_, i) => ({ year: 2000 + i, value: parseFloat((38 - (i * 0.02)).toFixed(2)) })),
-    gdp: generateTrend(4.0, 1.5, -0.05, 25),
+    bip: generateTrend(4.0, 1.5, -0.05, 25),
     co2: Array.from({ length: 25 }, (_, i) => ({ year: 2000 + i, value: parseFloat((8.2 - (i * 0.04)).toFixed(2)) })),
     unemployment: Array.from({ length: 25 }, (_, i) => ({ year: 2000 + i, value: parseFloat((16 - (i * 0.5)).toFixed(2)) }))
   }
+};
+
+const CustomDashboardTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="bg-eu-dark/95 backdrop-blur-xl border border-white/20 p-4 rounded-2xl shadow-3xl min-w-[180px]"
+      >
+        <p className="text-eu-gold font-black text-sm italic uppercase tracking-widest mb-3 border-b border-white/10 pb-2">Jahr {label}</p>
+        <div className="space-y-3">
+          {payload.map((entry: any, index: number) => (
+            <div key={index} className="flex flex-col gap-1">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: entry.color }} />
+                <span className="text-white/60 text-[10px] font-bold uppercase tracking-wider">{entry.name}</span>
+              </div>
+              <div className="flex items-baseline gap-1 ml-4">
+                <span className="text-white font-black text-lg italic">{entry.value}</span>
+                <span className="text-white/30 text-[9px] font-bold">{entry.unit || payload[0].payload.unit || ''}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+    );
+  }
+  return null;
 };
 
 export function EUDashboard() {
@@ -256,11 +285,7 @@ export function EUDashboard() {
                 tick={{ fill: '#64748b' }}
                 domain={['auto', 'auto']}
               />
-              <Tooltip 
-                contentStyle={{ backgroundColor: '#0f172a', border: '1px solid #ffffff10', borderRadius: '12px' }}
-                itemStyle={{ fontSize: '12px', fontWeight: 'bold' }}
-                labelStyle={{ color: '#FFCC00', marginBottom: '8px', fontWeight: '900', fontStyle: 'italic' }}
-              />
+              <Tooltip content={<CustomDashboardTooltip />} />
               <Legend verticalAlign="top" height={36} iconType="circle" />
               
               <Line 
