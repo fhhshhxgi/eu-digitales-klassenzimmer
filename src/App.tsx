@@ -23,6 +23,7 @@ import { EconomicPowerhouse } from './components/EconomicPowerhouse';
 import { LoadingScreen } from './components/LoadingScreen';
 import { TabletNav } from './components/TabletNav';
 import { CouncilSimulator } from './components/CouncilSimulator';
+import { useSounds } from './components/SoundProvider';
 
 import { 
   History, 
@@ -64,6 +65,10 @@ import {
   Cell
 } from 'recharts';
 
+import { AIAssistant } from './components/AIAssistant';
+import { DemocracyCompass } from './components/DemocracyCompass';
+import { SecurityNodeNetwork } from './components/SecurityNodeNetwork';
+
 const EU_BLUE = '#003399';
 const EU_GOLD = '#FFCC00';
 
@@ -76,6 +81,7 @@ export default function App() {
   const [showDeviceNotice, setShowDeviceNotice] = useState(true);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const { playClick } = useSounds();
 
   // Handle Initial Loading
   useEffect(() => {
@@ -405,6 +411,60 @@ export default function App() {
               detail: "Ein Projekt für ein europäisches Cloud-System, damit Firmen ihre Daten sicher speichern können, ohne Zugriff fremder Geheimdienste." 
             }
           ]
+        },
+        {
+          subtitle: "Demokratie & Rechtsstaatlichkeit",
+          text: "Die EU ist eine Wertegemeinschaft. Aktuell kämpft sie jedoch damit, dass einige Mitgliedstaaten demokratische Standards und die Unabhängigkeit der Justiz infrage stellen. Das Verfahren nach Artikel 7 des EU-Vertrags soll die Rechtsstaatlichkeit in allen Ländern sichern.",
+          points: [
+            { 
+              title: "Artikel-7-Verfahren", 
+              detail: "Ein Mechanismus, der einem Land das Stimmrecht entziehen kann, wenn es massiv gegen EU-Grundwerte verstößt. Er wird oft als 'Atombombe der Verträge' bezeichnet." 
+            },
+            { 
+              title: "Rechtsstaats-Konditionalität", 
+              detail: "Die EU kann Fördergelder kürzen oder einfrieren, wenn ein Staat gegen rechtsstaatliche Prinzipien verstößt und damit den korrekten Einsatz von EU-Mitteln gefährdet." 
+            },
+            { 
+              title: "Schutz vor Desinformation", 
+              detail: "Strategien zur Sicherung von Wahlen gegen Fake News und Manipulation durch Chatbots oder ausländische Einflussnahme." 
+            }
+          ]
+        },
+        {
+          subtitle: "Erweiterung & EU-Reformen",
+          text: "Die EU könnte in Zukunft auf über 30 Mitglieder anwachsen (z. B. Ukraine, Serbien, Albanien). Damit dieses 'Europa der 30+' funktioniert, muss die EU intern reformiert werden – etwa durch die Abschaffung des Veto-Rechts in wichtigen Bereichen.",
+          points: [
+            { 
+              title: "Vom Veto zur Mehrheitsentscheidung", 
+              detail: "Die Diskussion, im Ministerrat vermehrt Mehrheitsentscheidungen (statt Einstimmigkeit) zu treffen, damit einzelne Länder wichtige Beschlüsse nicht blockieren können." 
+            },
+            { 
+              title: "Beitrittskandidat Ukraine", 
+              detail: "Die historische Herausforderung, ein Land im Kriegszustand in den Binnenmarkt zu integrieren und gleichzeitig die EU-Strukturen stabil zu halten." 
+            },
+            { 
+              title: "Abstufungen der Mitgliedschaft", 
+              detail: "Modelle eines 'Europas der verschiedenen Geschwindigkeiten', bei dem einige Länder enger zusammenarbeiten als andere (z.B. Euro-Zone oder Schengen)." 
+            }
+          ]
+        },
+        {
+          subtitle: "Sicherheit & Strategische Autonomie",
+          text: "Angesichts globaler Krisen wächst der Druck, eine echte Sicherheits- und Verteidigungsunion zu schaffen. Ziel ist die 'strategische Autonomie' – also die Fähigkeit der EU, eigenständig für ihre Sicherheit zu sorgen.",
+          points: [
+            { 
+              title: "Der Strategische Kompass", 
+              detail: "Ein Plan für die Verteidigungspolitik der EU bis 2030, der unter anderem eine schnelle Eingreiftruppe von 5.000 Soldaten vorsieht." 
+            },
+            { 
+              title: "PESCO – Militärische Kooperation", 
+              detail: "Ein Projekt, bei dem EU-Staaten gemeinsam Rüstungsprojekte (wie Panzer oder Drohnen) entwickeln und ihre Armeen enger verzahnen." 
+            },
+            { 
+              title: "Schutz kritischer Infrastruktur", 
+              detail: "Gemeinsame Abwehr von Cyberangriffen auf Stromnetze, Internetseekabel und Krankenhäuser auf europäischer Ebene." 
+            }
+          ]
         }
       ]
     }
@@ -543,7 +603,7 @@ export default function App() {
         </a>
         
         {/* Desktop Links */}
-        <div className="hidden md:flex gap-8 text-[10px] font-semibold tracking-widest uppercase text-white/60">
+        <div className="hidden md:flex items-center gap-8 text-[10px] font-semibold tracking-widest uppercase text-white/60">
           <a href="#history" className="hover:text-white transition-colors hover:border-b hover:border-eu-gold/50 pb-1">Geschichte</a>
           <a href="#diversity" className="hover:text-white transition-colors hover:border-b hover:border-eu-gold/50 pb-1">Staaten</a>
           <a href="#institutions" className="hover:text-white transition-colors hover:border-b hover:border-eu-gold/50 pb-1">Institutionen</a>
@@ -701,6 +761,7 @@ export default function App() {
                 href="#history"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                onClick={() => playClick()}
                 className="px-8 py-4 md:px-10 md:py-5 bg-eu-gold text-black font-bold rounded-2xl flex items-center gap-3 transition-shadow shadow-[0_0_30px_rgba(255,204,0,0.2)] hover:shadow-[0_0_40px_rgba(255,204,0,0.4)] text-sm md:text-base"
               >
                 Archiv öffnen <ArrowRight size={20} />
@@ -1123,9 +1184,17 @@ export default function App() {
 
         <ChallengeRadar />
         
+        <div className="mt-16">
+          <DemocracyCompass />
+        </div>
+        
         <FutureExpansion />
 
         <FutureScenarios />
+
+        <div className="mt-16">
+          <SecurityNodeNetwork />
+        </div>
 
         <div className="mt-20 text-center max-w-3xl mx-auto">
           <p className="text-2xl font-light text-slate-300 italic mb-8">
@@ -1205,13 +1274,15 @@ export default function App() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-50 p-3 md:p-4 bg-eu-gold text-eu-dark rounded-full shadow-[0_10px_30px_rgba(255,204,0,0.3)] hover:scale-110 active:scale-95 transition-transform"
+            className="fixed bottom-6 right-24 md:bottom-10 md:right-28 z-50 p-3 md:p-4 bg-eu-dark/80 text-eu-gold border border-eu-gold/20 backdrop-blur-md rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-transform"
             aria-label="Zurück zum Anfang scrollen"
           >
             <ArrowUp size={24} />
           </motion.button>
         )}
       </AnimatePresence>
+      
+      <AIAssistant />
     </div>
   );
 }

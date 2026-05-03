@@ -1,6 +1,7 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Users, Landmark, CheckCircle2, XCircle, Info, ShieldAlert } from 'lucide-react';
+import { Users, Landmark, CheckCircle2, XCircle, Info, ShieldAlert, Zap } from 'lucide-react';
+import { useSounds } from './SoundProvider';
 
 interface Country {
   id: string;
@@ -42,8 +43,31 @@ const TOTAL_POP = countries.reduce((sum, c) => sum + c.pop, 0);
 const STATE_THRESHOLD = 55; // 55% of 27 states = 15 states
 const POP_THRESHOLD = 65; // 65% of population
 
+const SCENARIOS = [
+  { 
+    id: 'blocking', 
+    title: 'Sperrminorität der Großen', 
+    desc: 'DE, FR, IT und ES stimmen dagegen. Obwohl nur 4 Staaten, blockieren sie durch ihre Bevölkerungsstärke.',
+    logic: () => new Set(countries.filter(c => !['DE', 'FR', 'IT', 'ES'].includes(c.id)).map(c => c.id))
+  },
+  { 
+    id: 'visegrad', 
+    title: 'Visegrád-Gruppe', 
+    desc: 'PL, CZ, SK und HU stimmen gemeinsam für einen Vorschlag.',
+    logic: () => new Set(['PL', 'CZ', 'SK', 'HU'])
+  },
+  { 
+    id: 'frugal', 
+    title: 'Sparsamen Vier', 
+    desc: 'NL, AT, SE und DK koordinieren ihr Stimmverhalten.',
+    logic: () => new Set(['NL', 'AT', 'SE', 'DK'])
+  }
+];
+
 export function CouncilSimulator() {
   const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [activeScenario, setActiveScenario] = useState<string | null>(null);
+  const { playSuccess } = useSounds();
 
   const stats = useMemo(() => {
     const selectedCountries = countries.filter(c => selected.has(c.id));
@@ -71,15 +95,35 @@ export function CouncilSimulator() {
     };
   }, [selected]);
 
+  const prevPassed = React.useRef(stats.passed);
+  useEffect(() => {
+    if (selected.size === 0) {
+      prevPassed.current = false;
+      return;
+    }
+    
+    if (stats.passed && !prevPassed.current) {
+      playSuccess();
+    }
+    prevPassed.current = stats.passed;
+  }, [stats.passed, playSuccess, selected.size]);
+
   const toggleCountry = (id: string) => {
+    setActiveScenario(null);
     const newSelected = new Set(selected);
     if (newSelected.has(id)) newSelected.delete(id);
     else newSelected.add(id);
     setSelected(newSelected);
   };
 
-  const selectAll = () => setSelected(new Set(countries.map(c => c.id)));
-  const clearAll = () => setSelected(new Set());
+  const selectAll = () => {
+    setActiveScenario(null);
+    setSelected(new Set(countries.map(c => c.id)));
+  };
+  const clearAll = () => {
+    setActiveScenario(null);
+    setSelected(new Set());
+  };
 
   return (
     <div className="w-full bg-eu-dark/40 border border-white/10 rounded-[2.5rem] overflow-hidden backdrop-blur-xl">
@@ -102,7 +146,41 @@ export function CouncilSimulator() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           {/* Controls */}
-          <div className="lg:col-span-7">
+          <div className="lg:col-span-7 space-y-8">
+            {/* "What if?" Scenarios */}
+            <div className="space-y-4">
+              <div className="flex items-center gap-2 text-[10px] font-black uppercase text-eu-gold tracking-widest">
+                <Zap size={14} />
+                <span>„Was wäre wenn?“-Szenarien</span>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                {SCENARIOS.map(s => (
+                  <button
+                    key={s.id}
+                    onClick={() => {
+                      setSelected(s.logic());
+                      setActiveScenario(s.id);
+                    }}
+                    className={`px-4 py-3 rounded-2xl border transition-all text-xs font-bold text-left max-w-[200px] ${activeScenario === s.id ? 'bg-eu-gold text-eu-dark border-eu-gold' : 'bg-white/5 border-white/5 text-slate-300 hover:border-white/20'}`}
+                  >
+                    {s.title}
+                  </button>
+                ))}
+              </div>
+              <AnimatePresence mode="wait">
+                {activeScenario && (
+                  <motion.p 
+                    key={activeScenario}
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-[10px] text-slate-500 italic"
+                  >
+                    {SCENARIOS.find(s => s.id === activeScenario)?.desc}
+                  </motion.p>
+                )}
+              </AnimatePresence>
+            </div>
+
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
               {countries.map(country => (
                 <button
