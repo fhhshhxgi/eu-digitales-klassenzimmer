@@ -21,6 +21,8 @@ import { GlobalTrade } from './components/GlobalTrade';
 import { FutureScenarios } from './components/FutureScenarios';
 import { EconomicPowerhouse } from './components/EconomicPowerhouse';
 import { LoadingScreen } from './components/LoadingScreen';
+import { TabletNav } from './components/TabletNav';
+import { CouncilSimulator } from './components/CouncilSimulator';
 
 import { 
   History, 
@@ -41,7 +43,13 @@ import {
   Menu,
   X,
   ArrowUp,
-  ChevronRight
+  ChevronRight,
+  HelpCircle,
+  Scale,
+  MessagesSquare,
+  Lock,
+  Zap,
+  EyeOff
 } from 'lucide-react';
 import { 
   BarChart, 
@@ -429,6 +437,8 @@ export default function App() {
       <AnimatePresence>
         {isLoading && <LoadingScreen key="loader" />}
       </AnimatePresence>
+
+      <TabletNav />
 
       <DisclaimerModal 
         isOpen={isDisclaimerOpen} 
@@ -917,6 +927,91 @@ export default function App() {
                *Klicke auf die Symbole, um die Phasen der Gesetzgebung zu erforschen.*
             </div>
          </div>
+
+         <div className="mt-16">
+            <CouncilSimulator />
+         </div>
+
+         {/* Reality Check - The "Backstage" Editorial Section */}
+         <div className="mt-24 relative px-4 md:px-0">
+            <div className="max-w-4xl mx-auto">
+               <div className="flex flex-col md:flex-row items-start gap-12 md:gap-24">
+                  
+                  {/* Left: Big Label & Title */}
+                  <div className="md:w-1/3 sticky top-24">
+                     <div className="flex items-center gap-4 mb-6">
+                        <div className="h-px w-12 bg-eu-gold" />
+                        <span className="text-[10px] font-black uppercase tracking-[0.4em] text-eu-gold">Realitätsebene</span>
+                     </div>
+                     <h4 className="text-5xl md:text-7xl font-serif font-black italic leading-[0.8] tracking-tighter text-white mb-8">
+                        The <span className="text-eu-gold">Backstage</span> of Power
+                     </h4>
+                     <p className="text-slate-400 text-base font-medium leading-relaxed border-l-2 border-white/5 pl-6">
+                        Abseits der Kameras ist EU-Politik kein linearer Prozess, sondern ein hochkomplexes Geflecht aus Macht, Verhandlung und taktischen Zielen.
+                     </p>
+                  </div>
+
+                  {/* Right: The Insight Bricks */}
+                  <div className="md:w-2/3 space-y-4">
+                     {[
+                        { 
+                           num: "01",
+                           label: "Der Zwang zum Kompromiss", 
+                           desc: "Ohne Einigung steht alles still. Am Ende steht oft eine Lösung, die niemanden vollkommen glücklich macht, aber einen Bruch verhindert.",
+                           icon: <Scale size={18} />
+                        },
+                        { 
+                           num: "02",
+                           label: "Nationale Interessen", 
+                           desc: "Innenpolitik dominiert oft die Europapolitik. Minister schauen bei jeder Entscheidung zuerst darauf, wie sie zu Hause ankommt.",
+                           icon: <Globe size={18} />
+                        },
+                        { 
+                           num: "03",
+                           label: "Die Macht der Flure", 
+                           desc: "Entscheidungen fallen oft beim Kaffee oder in informellen 'Trilogen' vor der offiziellen Abstimmung.",
+                           icon: <MessagesSquare size={18} />
+                        },
+                        { 
+                           num: "04",
+                           label: "Lobby-Landschaft", 
+                           desc: "Mit über 12.000 registrierten Organisationen ist Brüssel einer der am stärksten beeinflussten Orte der Welt.",
+                           icon: <TrendingUp size={18} />
+                        }
+                     ].map((item, i) => (
+                        <motion.div 
+                           key={i}
+                           initial={{ opacity: 0, y: 20 }}
+                           whileInView={{ opacity: 1, y: 0 }}
+                           viewport={{ once: true }}
+                           transition={{ delay: i * 0.1 }}
+                           className="group relative p-8 rounded-[2rem] bg-white/5 border border-white/5 hover:border-eu-gold/30 hover:bg-white/[0.07] transition-all flex items-start gap-8 overflow-hidden"
+                        >
+                           <span className="text-3xl font-display font-black italic text-white/5 group-hover:text-eu-gold/20 transition-colors">
+                              {item.num}
+                           </span>
+                           <div className="relative z-10">
+                              <div className="flex items-center gap-3 mb-2">
+                                 <div className="text-eu-gold/60">{item.icon}</div>
+                                 <h5 className="text-white font-bold uppercase tracking-widest text-xs">{item.label}</h5>
+                              </div>
+                              <p className="text-slate-500 text-xs leading-relaxed max-w-md">
+                                 {item.desc}
+                              </p>
+                           </div>
+                           
+                           {/* Decorative Accent */}
+                           <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                              <div className="w-1 h-1 rounded-full bg-eu-gold" />
+                           </div>
+                        </motion.div>
+                     ))}
+                  </div>
+
+               </div>
+            </div>
+         </div>
+
 
          <div className="flex justify-center mt-12 pb-8 border-b border-white/5">
           <motion.button
