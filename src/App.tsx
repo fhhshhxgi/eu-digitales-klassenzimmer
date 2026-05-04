@@ -523,7 +523,7 @@ export default function App() {
         <motion.div 
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="fixed bottom-6 left-6 right-6 z-[60] lg:landscape:hidden"
+          className="fixed bottom-28 left-6 right-6 z-[60] lg:landscape:hidden"
         >
           <div className="glass-card p-4 flex items-center justify-between gap-4 border-l-4 border-l-eu-gold bg-eu-dark/95 shadow-2xl">
             <div className="flex items-center gap-3">
