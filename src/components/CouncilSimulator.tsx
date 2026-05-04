@@ -274,7 +274,7 @@ export function CouncilSimulator() {
               <div className="p-6 rounded-[2rem] bg-white/5 border border-white/5">
                 <div className="flex items-center gap-3 mb-4">
                   <Info size={16} className="text-eu-gold" />
-                  <span className="text-[10px] font-black uppercase tracking-widest text-white/60">Die Spielregeln</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-white/60">Die Regeln</span>
                 </div>
                 <ul className="space-y-3">
                   <li className="flex items-start gap-3">

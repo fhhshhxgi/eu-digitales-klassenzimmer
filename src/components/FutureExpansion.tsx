@@ -43,26 +43,17 @@ export function FutureExpansion() {
          </div>
       </div>
 
-      <div className="glass-card p-8 border-eu-gold/20 flex flex-col justify-between">
-         <div>
+      <div className="glass-card p-8 border-eu-gold/20 flex flex-col">
+         <div className="mb-6">
             <Info size={32} className="text-eu-gold mb-4" />
             <h4 className="font-bold text-white mb-2">Migration gemeinsam lösen</h4>
-            <p className="text-xs text-slate-400 leading-relaxed mb-6">
-               Der neue Migrationspakt soll Solidarität zwischen den Staaten und sichere Außengrenzen verbinden.
+            <p className="text-xs text-slate-400 leading-relaxed">
+               Der neue Migrationspakt soll Solidarität zwischen den Staaten und sichere Außengrenzen verbinden. Dieses hochkomplexe Thema wird die EU-Politik auf absehbare Zeit prägen.
             </p>
          </div>
-         <div className="space-y-2">
-            <div className="flex justify-between text-[10px] text-white/40 font-bold uppercase">
-               <span>Fortschritt</span>
-               <span>In Umsetzung</span>
-            </div>
-            <div className="h-2 bg-white/5 rounded-full overflow-hidden">
-               <motion.div 
-                 initial={{ width: 0 }}
-                 whileInView={{ width: '65%' }}
-                 className="h-full bg-eu-gold"
-               />
-            </div>
+         <div className="mt-auto pt-4 border-t border-white/5">
+            <p className="text-[10px] text-white/40 font-bold uppercase tracking-widest">Zentrale Säule</p>
+            <p className="text-xs text-white font-medium">Gemeinsames Asylsystem</p>
          </div>
       </div>
     </div>

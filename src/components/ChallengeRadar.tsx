@@ -8,44 +8,40 @@ const challengeData = [
     title: "Klimaneutralität",
     icon: <Leaf />,
     color: "from-green-500 to-emerald-400",
-    progress: 45,
     tag: "Green Deal",
     description: "Der Umbau der Industrie zur Erreichung der Klimaziele 2050 ist die größte wirtschaftliche Transformation.",
-    stat: "-55%",
-    statLabel: "CO2 bis 2030"
+    statLabel: "Zielsetzung",
+    stat: "Net-Zero"
   },
   {
     id: "digital",
     title: "KI & Souveränität",
     icon: <Cpu />,
     color: "from-purple-500 to-pink-500",
-    progress: 30,
     tag: "AI Act",
     description: "Europa setzt globale Standards für künstliche Intelligenz und schützt gleichzeitig die digitale Privatsphäre.",
-    stat: "1.",
-    statLabel: "KI-Regulierung"
+    statLabel: "Fokus",
+    stat: "Ethik & Innovation"
   },
   {
     id: "security",
     title: "Sicherheit",
     icon: <Shield />,
     color: "from-orange-500 to-red-500",
-    progress: 60,
     tag: "Defense",
     description: "In einer multipolaren Welt muss die EU ihre eigene Verteidigungsfähigkeit und strategische Autonomie stärken.",
-    stat: "PESCO",
-    statLabel: "Verteidigung"
+    statLabel: "Priorität",
+    stat: "Resilienz"
   },
   {
     id: "economy",
     title: "Wachstum",
     icon: <TrendingUp />,
     color: "from-blue-500 to-indigo-500",
-    progress: 75,
     tag: "Innovation",
     description: "Wettbewerbsfähigkeit gegenüber Asien und USA durch Förderung von Deep-Tech und Fachkräften.",
-    stat: "€2.4B",
-    statLabel: "Forschung"
+    statLabel: "Motor",
+    stat: "Investition"
   }
 ];
 
@@ -80,17 +76,6 @@ export function ChallengeRadar() {
                   <p className="text-[10px] uppercase font-bold tracking-widest text-white/40 mb-1">{c.tag}</p>
                   <p className="text-sm font-bold text-white">{c.title}</p>
                </div>
-               <div className="text-right">
-                  <p className="text-xs font-mono text-eu-gold">{c.progress}%</p>
-               </div>
-            </div>
-            {/* Minimal Progress Bar */}
-            <div className="h-1 bg-white/5 w-full mt-auto">
-               <motion.div 
-                 initial={{ width: 0 }}
-                 animate={{ width: selected.id === c.id ? `${c.progress}%` : "10%" }}
-                 className={`h-full bg-gradient-to-r ${c.color}`}
-               />
             </div>
           </button>
         ))}
@@ -126,22 +111,12 @@ export function ChallengeRadar() {
                </div>
 
                <div className="mt-12 flex items-center gap-8">
-                  <div className="flex-1 space-y-2">
-                     <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-white/40">
-                        <span>Realisierungsstand</span>
-                        <span>{selected.progress}%</span>
-                     </div>
-                     <div className="h-3 bg-white/5 rounded-full overflow-hidden border border-white/10">
-                        <motion.div 
-                           initial={{ width: 0 }}
-                           animate={{ width: `${selected.progress}%` }}
-                           transition={{ duration: 1, ease: "easeOut" }}
-                           className={`h-full bg-gradient-to-r ${selected.color}`}
-                        />
-                     </div>
+                  <div className="flex-1">
+                     <p className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-2 font-mono">Strategisches Handlungsfeld</p>
+                     <div className="h-px bg-white/10 w-full" />
                   </div>
                   <div className="flex gap-4">
-                     <div className="p-3 bg-white/5 rounded-xl border border-white/10 text-eu-gold animate-bounce">
+                     <div className="p-3 bg-white/5 rounded-xl border border-white/10 text-eu-gold">
                         <Target size={20} />
                      </div>
                      <div className="p-3 bg-white/5 rounded-xl border border-white/10 text-white/40">

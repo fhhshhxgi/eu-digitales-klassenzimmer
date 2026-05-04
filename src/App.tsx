@@ -1007,7 +1007,7 @@ export default function App() {
                         The <span className="text-eu-gold">Backstage</span> of Power
                      </h4>
                      <p className="text-slate-400 text-base font-medium leading-relaxed border-l-2 border-white/5 pl-6">
-                        Abseits der Kameras ist EU-Politik kein linearer Prozess, sondern ein hochkomplexes Geflecht aus Macht, Verhandlung und taktischen Zielen.
+                        Abseits der Kameras ist EU-Politik kein linearer Prozess, sondern ein hochkomplexes Zusammenspiel aus Macht, Verhandlung und taktischen Zielen.
                      </p>
                   </div>
 
@@ -1195,14 +1195,6 @@ export default function App() {
           <SecurityNodeNetwork />
         </div>
 
-        <div className="mt-20 text-center max-w-3xl mx-auto">
-          <p className="text-2xl font-light text-slate-300 italic mb-8">
-            "Wird die EU weiter zusammenhalten oder entstehen neue regionale Blöcke? Die Antwort liegt in den Händen der nächsten Generation."
-          </p>
-          <div className="p-1 px-4 bg-eu-gold/10 border border-eu-gold/20 rounded-full inline-block text-eu-gold text-[10px] uppercase font-bold tracking-[0.3em]">
-            Stabilität ist kein Zufall
-          </div>
-        </div>
 
         <div className="flex justify-center mt-12 pb-8 border-b border-white/5">
           <motion.button
@@ -1273,7 +1265,7 @@ export default function App() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="fixed bottom-6 right-24 md:bottom-10 md:right-28 z-50 p-3 md:p-4 bg-eu-dark/80 text-eu-gold border border-eu-gold/20 backdrop-blur-md rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-transform"
+            className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-50 p-3 md:p-4 bg-eu-dark/80 text-eu-gold border border-eu-gold/20 backdrop-blur-md rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-transform"
             aria-label="Zurück zum Anfang scrollen"
           >
             <ArrowUp size={24} />
