@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 import { useSounds } from './SoundProvider';
 
-// Resource Particle Component
+// Resource Particle Component - Optimized for performance
 const ResourceParticle = ({ side, isActive }: { side: 'left' | 'right', isActive: boolean }) => {
   const startX = side === 'left' ? -180 : 180;
   
@@ -20,7 +20,6 @@ const ResourceParticle = ({ side, isActive }: { side: 'left' | 'right', isActive
         x: 0, 
         opacity: [0, 1, 1, 0],
         scale: [0.4, 1, 1, 0.4],
-        rotate: side === 'left' ? 360 : -360
       }}
       transition={{ 
         duration: isActive ? 1.5 : 2.5, 
@@ -28,9 +27,10 @@ const ResourceParticle = ({ side, isActive }: { side: 'left' | 'right', isActive
         ease: "linear",
         delay: Math.random() * 2
       }}
-      className={`absolute z-10 p-1.5 rounded-lg border shadow-lg backdrop-blur-sm ${
+      style={{ willChange: 'transform, opacity' }}
+      className={`absolute z-10 p-1 rounded-lg border shadow-sm ${
         isActive
-        ? 'bg-eu-gold/20 border-eu-gold/50 text-eu-gold' 
+        ? 'bg-eu-gold/30 border-eu-gold/50 text-eu-gold' 
         : 'bg-white/10 border-white/20 text-white/40'
       }`}
     >
@@ -102,15 +102,15 @@ export const SteelCoalVisual = () => {
   };
 
   return (
-    <div className="relative w-full bg-eu-dark border border-white/10 rounded-[3rem] overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,0.6)] backdrop-blur-3xl min-h-[600px] lg:min-h-[520px] flex flex-col group">
+    <div className="relative w-full bg-eu-dark border border-white/10 rounded-[3rem] overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,0.6)] backdrop-blur-xl min-h-[600px] lg:min-h-[520px] flex flex-col group">
       
-      {/* Dynamic Background */}
+      {/* Dynamic Background - Optimized blurs */}
       <div className="absolute inset-0 pointer-events-none transition-colors duration-1000">
-        <div className={`absolute top-0 right-0 w-[600px] h-[600px] blur-[180px] rounded-full -translate-y-1/2 translate-x-1/2 transition-colors duration-1000 ${
-          tension > 50 && !isAuthorityActive ? 'bg-red-900/40' : 'bg-eu-blue/10'
+        <div className={`absolute top-0 right-0 w-[500px] h-[500px] blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2 transition-colors duration-1000 ${
+          tension > 50 && !isAuthorityActive ? 'bg-red-900/30' : 'bg-eu-blue/10'
         }`} />
-        <div className={`absolute bottom-0 left-0 w-[600px] h-[600px] blur-[180px] rounded-full translate-y-1/2 -translate-x-1/2 transition-colors duration-1000 ${
-          isAuthorityActive ? 'bg-eu-gold/20' : 'bg-white/5'
+        <div className={`absolute bottom-0 left-0 w-[500px] h-[500px] blur-[120px] rounded-full translate-y-1/2 -translate-x-1/2 transition-colors duration-1000 ${
+          isAuthorityActive ? 'bg-eu-gold/15' : 'bg-white/5'
         }`} />
         <div className="absolute inset-0 bg-[radial-gradient(#ffffff05_1px,transparent_1px)] [background-size:32px_32px]" />
       </div>
@@ -259,7 +259,7 @@ export const SteelCoalVisual = () => {
               </div>
 
               {/* Analysis Box */}
-              <div className={`relative p-4 rounded-xl border transition-all duration-700 backdrop-blur-3xl overflow-hidden ${
+              <div className={`relative p-4 rounded-xl border transition-all duration-700 backdrop-blur-xl overflow-hidden ${
                 tension > 50 && !isAuthorityActive ? 'bg-red-500/10 border-red-500/40' : 'bg-white/[0.02] border-white/10'
               }`}>
                 <div className="relative z-10 space-y-1">
@@ -278,84 +278,80 @@ export const SteelCoalVisual = () => {
           <div className="lg:col-span-6 flex flex-col items-center py-6 lg:py-0">
             <div className="relative w-full max-w-[400px] aspect-square flex items-center justify-center">
               
-              {/* Outer Glow Orb */}
+              {/* Outer Glow Orb - Optimized */}
               <motion.div 
                 animate={{ 
                   scale: isAuthorityActive ? [1, 1.05, 1] : 1,
-                  opacity: isAuthorityActive ? [0.2, 0.4, 0.2] : 0.1
+                  opacity: isAuthorityActive ? [0.15, 0.3, 0.15] : 0.05
                 }}
-                transition={{ duration: 4, repeat: Infinity }}
-                className={`absolute w-full h-full rounded-full blur-[80px] transition-colors duration-1000 ${
+                transition={{ duration: 5, repeat: Infinity }}
+                className={`absolute w-full h-full rounded-full blur-[60px] transition-colors duration-1000 ${
                   isAuthorityActive ? 'bg-eu-gold' : tension > 50 ? 'bg-red-500' : 'bg-eu-blue'
                 }`} 
               />
 
               {/* The Core Machine */}
               <div className="relative w-40 h-40 md:w-48 md:h-48 flex items-center justify-center">
-                
-                {/* Rotating Architectural Rings */}
+                         {/* Rotating Architectural Rings - Optimized */}
                 {[...Array(3)].map((_, i) => (
-                  <motion.div 
-                    key={i}
-                    animate={{ rotate: isAuthorityActive ? (i % 2 === 0 ? 360 : -360) : 0 }}
-                    transition={{ duration: 15 + i * 5, repeat: Infinity, ease: "linear" }}
-                    className={`absolute inset-0 border rounded-2xl transition-all duration-1000 ${
-                      isAuthorityActive ? 'border-eu-gold opacity-100' : 'border-white/5 opacity-40'
-                    }`}
-                    style={{ margin: `${i * 10}px`, borderStyle: i === 1 ? 'dashed' : 'solid' }}
-                  >
-                    {isAuthorityActive && (
-                      <React.Fragment>
-                        {i === 0 && (
-                          <motion.div 
-                            animate={{ rotate: -360 }}
-                            transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                            className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-eu-dark p-2 border-2 border-eu-gold rounded-full z-50 shadow-[0_0_20px_rgba(255,204,0,0.5)]"
-                          >
-                            <Eye size={18} className="text-eu-gold" />
-                          </motion.div>
-                        )}
-                        {i === 1 && (
-                          <motion.div 
-                            animate={{ rotate: 360 }}
-                            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                            className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 bg-eu-dark p-2 border-2 border-eu-gold rounded-full z-50 shadow-[0_0_20px_rgba(255,204,0,0.5)]"
-                          >
-                            <Search size={18} className="text-eu-gold" />
-                          </motion.div>
-                        )}
-                        {i === 2 && (
-                          <React.Fragment>
-                            <motion.div 
-                              animate={{ rotate: -360 }}
-                              transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-                              className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-eu-dark p-2 border-2 border-eu-gold rounded-full z-50 shadow-[0_0_20px_rgba(255,204,0,0.5)]"
-                            >
-                              <Radar size={16} className="text-eu-gold" />
-                            </motion.div>
-                            <motion.div 
-                              animate={{ rotate: -360 }}
-                              transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-                              className="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 bg-eu-dark p-2 border-2 border-eu-gold rounded-full z-50 shadow-[0_0_20px_rgba(255,204,0,0.5)]"
-                            >
-                              <Cog size={16} className="text-eu-gold" />
-                            </motion.div>
-                          </React.Fragment>
-                        )}
-                      </React.Fragment>
-                    )}
-                  </motion.div>
-                ))}
+                   <motion.div 
+                     key={i}
+                     animate={{ rotate: isAuthorityActive ? (i % 2 === 0 ? 360 : -360) : 0 }}
+                     transition={{ duration: 15 + i * 5, repeat: Infinity, ease: "linear" }}
+                     style={{ 
+                       margin: `${i * 10}px`, 
+                       borderStyle: i === 1 ? 'dashed' : 'solid',
+                       willChange: isAuthorityActive ? 'transform' : 'auto'
+                     }}
+                     className={`absolute inset-0 border rounded-2xl transition-all duration-1000 ${
+                       isAuthorityActive ? 'border-eu-gold opacity-100' : 'border-white/5 opacity-40'
+                     }`}
+                   >
+                     {isAuthorityActive && (
+                       <React.Fragment>
+                         {i === 0 && (
+                           <div 
+                             className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-eu-dark p-2 border-2 border-eu-gold rounded-full z-50 shadow-sm"
+                           >
+                             <Eye size={18} className="text-eu-gold" />
+                           </div>
+                         )}
+                         {i === 1 && (
+                           <div 
+                             className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 bg-eu-dark p-2 border-2 border-eu-gold rounded-full z-50 shadow-sm"
+                           >
+                             <Search size={18} className="text-eu-gold" />
+                           </div>
+                         )}
+                         {i === 2 && (
+                           <React.Fragment>
+                             <div 
+                               className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-eu-dark p-2 border-2 border-eu-gold rounded-full z-50 shadow-sm"
+                             >
+                               <Radar size={16} className="text-eu-gold" />
+                             </div>
+                             <div 
+                               className="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 bg-eu-dark p-2 border-2 border-eu-gold rounded-full z-50 shadow-sm"
+                             >
+                               <Cog size={16} className="text-eu-gold" />
+                             </div>
+                           </React.Fragment>
+                         )}
+                       </React.Fragment>
+                     )}
+                   </motion.div>
+                 ))}
 
-                {/* The Hub Unit */}
+                {/* The Hub Unit - Optimized */}
                 <motion.div 
                   className={`relative w-24 h-24 md:w-28 md:h-28 rounded-2xl flex flex-col items-center justify-center border-4 transition-all duration-1000 z-40 overflow-hidden ${
                     isAuthorityActive 
-                    ? 'bg-eu-dark border-eu-gold shadow-[0_0_80px_rgba(255,204,0,0.4)]' 
+                    ? 'bg-eu-dark border-eu-gold shadow-[0_0_40px_rgba(255,204,0,0.3)]' 
                     : tension > 70 
-                      ? 'bg-black/80 border-red-500/50'
-                      : 'bg-black/60 border-white/20'
+                      ? 'bg-black/90 border-red-500/50'
+                      : 'bg-black/80 border-white/20'
                   }`}
+                  style={{ willChange: 'transform' }}
                 >
                   <AnimatePresence mode="wait">
                     {isAuthorityActive ? (
@@ -401,13 +397,14 @@ export const SteelCoalVisual = () => {
                 </div>
               </div>
 
-              {/* Side Modules: Frankreich & Deutschland */}
+              {/* Side Modules: Frankreich & Deutschland - Optimized */}
               <div className="absolute top-1/2 -left-2 md:-left-4 lg:-left-8 -translate-y-1/2 z-20">
                 <motion.div 
                   animate={tension > 80 && !isAuthorityActive ? { x: [-2, 2, -2], y: [1, -1, 1] } : {}}
                   transition={{ duration: 0.1, repeat: Infinity }}
-                  className={`p-3 md:p-5 rounded-2xl border-2 bg-eu-dark/95 backdrop-blur-2xl transition-all duration-700 flex flex-col items-center gap-2 ${
-                    productionType === 'military' && !isAuthorityActive ? 'border-red-500 shadow-[0_0_20px_rgba(239,68,68,0.3)]' : 'border-white/10 group-hover:border-white/20'
+                  style={{ willChange: tension > 80 && !isAuthorityActive ? 'transform' : 'auto' }}
+                  className={`p-3 md:p-5 rounded-2xl border-2 bg-eu-dark transition-all duration-700 flex flex-col items-center gap-2 ${
+                    productionType === 'military' && !isAuthorityActive ? 'border-red-500 shadow-md' : 'border-white/10 group-hover:border-white/20'
                   }`}
                 >
                    <div className="relative">
@@ -424,8 +421,9 @@ export const SteelCoalVisual = () => {
                 <motion.div 
                   animate={tension > 80 && !isAuthorityActive ? { x: [2, -2, 2], y: [-1, 1, -1] } : {}}
                   transition={{ duration: 0.1, repeat: Infinity }}
-                  className={`p-3 md:p-5 rounded-2xl border-2 bg-eu-dark/95 backdrop-blur-2xl transition-all duration-700 flex flex-col items-center gap-2 ${
-                    productionType === 'military' && !isAuthorityActive ? 'border-red-500 shadow-[0_0_20px_rgba(239,68,68,0.3)]' : 'border-white/10 group-hover:border-white/20'
+                  style={{ willChange: tension > 80 && !isAuthorityActive ? 'transform' : 'auto' }}
+                  className={`p-3 md:p-5 rounded-2xl border-2 bg-eu-dark transition-all duration-700 flex flex-col items-center gap-2 ${
+                    productionType === 'military' && !isAuthorityActive ? 'border-red-500 shadow-md' : 'border-white/10 group-hover:border-white/20'
                   }`}
                 >
                    <div className="relative">
