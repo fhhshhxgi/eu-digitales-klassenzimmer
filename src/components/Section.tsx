@@ -42,7 +42,7 @@ export function Section({ id, title, subtitle, children, className, color = 'blu
         className
       )}
     >
-      <div className="max-w-6xl w-full relative z-10">
+      <div className="max-w-7xl w-full relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}

@@ -5,9 +5,10 @@ import { CheckSquare, Group, LifeBuoy } from 'lucide-react';
 interface QuizPromptProps {
   groupId: number;
   topicTitle: string;
+  tasks: string[];
 }
 
-export function QuizPrompt({ groupId, topicTitle }: QuizPromptProps) {
+export function QuizPrompt({ groupId, topicTitle, tasks }: QuizPromptProps) {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
@@ -29,28 +30,18 @@ export function QuizPrompt({ groupId, topicTitle }: QuizPromptProps) {
           </div>
           
           <p className="text-white/60 mb-6 leading-relaxed font-light text-sm">
-            Nutzt die digitalisierten Bestände zu <strong>"{topicTitle}"</strong>, um die folgenden Missions-Ziele zu erfüllen: 
+            Nutzt die digitalisierten Bestände zu <strong>"{topicTitle}"</strong>, um die folgenden spezifischen Ziele zu erreichen: 
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="flex items-start gap-3">
-              <div className="mt-1 p-1 bg-eu-gold/20 rounded-md">
-                <CheckSquare size={16} className="text-eu-gold" />
+          <div className="grid grid-cols-1 gap-4">
+            {tasks.map((task, idx) => (
+              <div key={idx} className="flex items-start gap-3">
+                <div className="mt-1 p-1 bg-eu-gold/20 rounded-md shrink-0">
+                  <CheckSquare size={16} className="text-eu-gold" />
+                </div>
+                <span className="text-sm text-slate-300 font-medium leading-relaxed">{task}</span>
               </div>
-              <span className="text-sm text-slate-400">Die wichtigsten Infos herausarbeiten</span>
-            </div>
-            <div className="flex items-start gap-3">
-              <div className="mt-1 p-1 bg-eu-gold/20 rounded-md">
-                <CheckSquare size={16} className="text-eu-gold" />
-              </div>
-              <span className="text-sm text-slate-400">Eine Mini-Präsentation vorbereiten (max. 5 Minuten)</span>
-            </div>
-            <div className="flex items-start gap-3">
-              <div className="mt-1 p-1 bg-eu-gold/20 rounded-md">
-                <CheckSquare size={16} className="text-eu-gold" />
-              </div>
-              <span className="text-sm text-slate-400">Eine kritische Frage formulieren</span>
-            </div>
+            ))}
           </div>
         </div>
 

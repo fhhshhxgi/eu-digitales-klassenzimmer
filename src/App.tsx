@@ -10,6 +10,7 @@ import { PrivacyModal } from './components/PrivacyModal';
 import { DetailedSectionModal } from './components/DetailedSectionModal';
 import { EUTimeline } from './components/EUTimeline';
 import { EUMap } from './components/EUMap';
+import { FoundingFathers } from './components/FoundingFathers';
 import { EUDataCharts } from './components/EUDataCharts';
 import { EUDashboard } from './components/EUDashboard';
 import { LegislativePlan } from './components/LegislativePlan';
@@ -67,6 +68,7 @@ import {
 
 import { DemocracyCompass } from './components/DemocracyCompass';
 import { SecurityNodeNetwork } from './components/SecurityNodeNetwork';
+import { SteelCoalVisual } from './components/SteelCoalVisual';
 
 const EU_BLUE = '#003399';
 const EU_GOLD = '#FFCC00';
@@ -140,38 +142,38 @@ export default function App() {
           ]
         },
         {
-          subtitle: "Vom gemeinsamen Markt zum Binnenmarkt",
-          text: "1957 weiteten die 'Römischen Verträge' die Zusammenarbeit auf die gesamte Wirtschaft aus. Die Europäische Wirtschaftsgemeinschaft (EWG) zielte auf einen gemeinsamen Markt ab. Dies legte das Fundament für die heutigen vier Grundfreiheiten.",
+          subtitle: "Vom gemeinsamen Markt zu den vier Freiheiten",
+          text: "1957 weiteten die 'Römischen Verträge' die Zusammenarbeit auf die gesamte Wirtschaft aus. Die Europäische Wirtschaftsgemeinschaft (EWG) zielte auf einen gemeinsamen Markt ab. Dies legte das Fundament für die heutigen vier Grundfreiheiten, die das Herzstück der EU bilden.",
           points: [
-            { 
-              title: "Gründung der EWG und EURATOM", 
-              detail: "Neben der allgemeinen Wirtschaft wurde auch die zivile Nutzung der Atomenergie gemeinsam koordiniert, um technologischen Anschluss zu halten." 
+             { 
+              title: "Freier Waren- & Personenverkehr", 
+              detail: "Keine Zölle zwischen den Staaten und das Recht für jeden EU-Bürger, überall in der Union zu leben, zu arbeiten und zu studieren." 
             },
             { 
-              title: "Abbau von Binnenzöllen", 
-              detail: "Der freie Warenverkehr wurde schrittweise eingeführt, was zu einem enormen Wirtschaftswachstum in den Gründungsstaaten führte." 
+              title: "Freier Dienstleistungs- & Kapitalverkehr", 
+              detail: "Grenzenloser Transfer von Dienstleistungen und Investitionen. Dies fördert Wettbewerb und stabilisiert die Finanzmärkte." 
             },
             { 
-              title: "Harmonisierung der Wirtschaftsordnungen", 
-              detail: "Es wurden erste Regeln für fairen Wettbewerb geschaffen, damit kein Staat seine eigenen Firmen unzulässig bevorteilen konnte." 
+              title: "Gründung von EURATOM", 
+              detail: "Neben der Wirtschaft wurde auch die zivile Nutzung der Atomenergie gemeinsam koordiniert, um technologische Unabhängigkeit zu sichern." 
             }
           ]
         },
         {
-          subtitle: "Maastricht und die Politische Union (EU)",
-          text: "Der Vertrag von Maastricht (1993) transformierte die Gemeinschaft in die 'Europäische Union'. Er führte das Drei-Säulen-Modell ein: EG, Gemeinsame Außenpolitik und Zusammenarbeit in Justiz/Inneres. Hier wurde auch die Grundlage für den Euro gelegt.",
+          subtitle: "Maastricht und die Politische Union",
+          text: "Der Vertrag von Maastricht (1993) war der größte Sprung: Die EU wurde als politische Union geschaffen. Er führte die Unionsbürgerschaft ein und ebnete den Weg für den Euro als Symbol der Einheit.",
           points: [
             { 
-              title: "Einführung der Unionsbürgerschaft", 
-              detail: "Jeder Bürger eines Mitgliedstaates erhielt das Recht, in der gesamten EU zu leben, zu arbeiten und an Kommunalwahlen teilzunehmen." 
+              title: "Drei-Säulen-Modell", 
+              detail: "Zusammenarbeit nicht mehr nur in der Wirtschaft, sondern auch in der Außenpolitik sowie in der Justiz- und Innenpolitik." 
             },
             { 
-              title: "Aufbau der Europäische Zentralbank (EZB)", 
-              detail: "Mit Sitz in Frankfurt wurde die Europäische Zentralbank geschaffen, um eine stabile gemeinsame Währung für den Weltmarkt vorzubereiten." 
+              title: "Währungsunion (Euro)", 
+              detail: "Der Euro wurde als Schutzschild gegen Währungsschwankungen und als Motor für den Binnenmarkt konzipiert." 
             },
             { 
-              title: "Stärkung des EU-Parlaments", 
-              detail: "Das EU-Parlament erhielt erstmals echte Mitbestimmungsrechte bei der Gesetzgebung, um das sogenannte 'Demokratiedefizit' zu verringern." 
+              title: "Demokratische Legitimation", 
+              detail: "Stärkung des Europäischen Parlaments, um den Bürgern mehr Mitsprache bei der Gestaltung europäischer Gesetze zu geben." 
             }
           ]
         }
@@ -790,43 +792,90 @@ export default function App() {
       <Section 
         id="history" 
         title="1. Geschichte & Entstehung" 
-        subtitle="Vom zerstörten Kontinent zum Friedensprojekt. Ein Rückblick auf die Entwicklung der europäischen Integration."
+        subtitle="Vom zerstörten Kontinent zum Friedensprojekt."
       >
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          <TiltCard>
-            <div className="glass-card p-6 border-l-4 border-l-eu-gold h-full">
-              <History className="text-eu-gold mb-4" size={32} />
-              <h3 className="text-xl font-bold mb-3">Europa nach 1945</h3>
-              <p className="text-slate-400 text-sm leading-relaxed">
-                Nach dem Zweiten Weltkrieg lag Europa am Boden. Die Idee: Dauerhafter Frieden durch enge Zusammenarbeit. Besonders Deutschland und Frankreich sollten keine Feinde mehr sein.
-              </p>
+        <div className="mb-24 max-w-7xl mx-auto px-6 lg:px-12">
+          <div className="flex flex-col xl:flex-row gap-12 xl:gap-20 items-center">
+            {/* Linke Spalte */}
+            <div className="xl:w-2/5 space-y-10">
+              <div className="space-y-6">
+                <div className="h-1.5 w-16 bg-eu-gold rounded-full" />
+                <h3 className="text-5xl md:text-7xl font-black text-white italic uppercase tracking-tighter leading-none">
+                  DIE <br/> <span className="text-eu-gold">VISION</span>
+                </h3>
+              </div>
+              
+              <div className="space-y-8">
+                <p className="text-slate-200 text-2xl md:text-3xl lg:text-4xl font-light leading-[1.1] italic border-l-8 border-eu-gold pl-8 lg:pl-12">
+                  "Aus den Trümmern des Zweiten Weltkriegs wuchs der radikale Entschluss: Nie wieder Krieg."
+                </p>
+                
+                <p className="text-slate-400 text-lg md:text-xl font-light leading-relaxed max-w-2xl">
+                  Die Lösung war so simpel wie genial – die gemeinsame Kontrolle über Kohle und Stahl machte eine heimliche Wiederaufrüstung physisch unmöglich.
+                </p>
+              </div>
+
+              <div className="pt-4 flex gap-12 lg:gap-16">
+                <div className="space-y-1">
+                  <p className="text-3xl lg:text-4xl font-black text-white italic">75+</p>
+                  <p className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] mt-1">Jahre Frieden</p>
+                </div>
+                <div className="text-center md:text-left">
+                  <p className="text-3xl lg:text-4xl font-black text-white italic">1950</p>
+                  <p className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] mt-1">Grundstein</p>
+                </div>
+              </div>
             </div>
-          </TiltCard>
-          
-          <TiltCard>
-            <div className="glass-card p-6 border-l-4 border-l-eu-blue h-full">
-              <Map className="text-eu-blue mb-4" size={32} />
-              <h3 className="text-xl font-bold mb-3">Erste Schritte (1951-1957)</h3>
-              <p className="text-slate-400 text-sm leading-relaxed">
-                1951 startete die Gemeinschaft für Kohle und Stahl. Wer diese wichtigen Rohstoffe gemeinsam verwaltet, kann keinen heimlichen Krieg mehr vorbereiten.
-              </p>
+
+            {/* Rechte Spalte: Die krassere Visualisierung */}
+            <div className="xl:w-3/5 w-full">
+              <SteelCoalVisual />
             </div>
-          </TiltCard>
-          
-          <TiltCard className="sm:col-span-2 lg:col-span-1">
-            <div className="glass-card p-6 border-l-4 border-l-white/20 h-full">
-              <ShieldCheck className="text-white/60 mb-4" size={32} />
-              <h3 className="text-xl font-bold mb-3">Die EU entsteht</h3>
-              <p className="text-slate-400 text-sm leading-relaxed">
-                1993 wurde die Europäische Union (EU) offiziell gegründet. Jetzt arbeiteten die Länder nicht mehr nur in der Wirtschaft, sondern auch in der Politik eng zusammen.
-              </p>
-            </div>
-          </TiltCard>
+          </div>
         </div>
 
-        <div className="mt-20 border-t border-white/5 pt-16">
-          <h3 className="text-3xl font-display font-bold text-white mb-4 text-center">Meilensteine der EU</h3>
-          <p className="text-slate-400 text-center mb-12 max-w-2xl mx-auto">Ein Zeitstrahl der wichtigsten Ereignisse in der Geschichte der europäischen Einigung.</p>
+
+        {/* The Three Pillars of Foundation */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-40">
+          {[
+            { date: '1951', title: 'MONTANUNION', desc: 'Die strategische Verflechtung der Schwerindustrie – Krieg war fortan materiell unmöglich.', color: 'eu-gold', icon: <ShieldCheck size={28} /> },
+            { date: '1957', title: 'RÖMISCHE VERTRÄGE', desc: 'Die Geburtsstunde des gemeinsamen Marktes. Wohlstand durch wirtschaftliche Freiheit.', color: 'eu-blue', icon: <Map size={28} /> },
+            { date: '1993', title: 'EU MAASTRICHT', desc: 'Der Sprung zur politischen Union. Einführung des Euro und der Unionsbürgerschaft.', color: 'white', icon: <History size={28} /> }
+          ].map((card, i) => (
+            <div key={card.date} className="group p-10 bg-white/[0.02] hover:bg-white/[0.04] border border-white/5 rounded-[2.5rem] transition-all duration-500">
+              <div className="mb-10 flex justify-between items-center">
+                <div className={`p-4 bg-${card.color}/5 rounded-2xl text-${card.color} group-hover:scale-110 transition-transform`}>
+                  {card.icon}
+                </div>
+                <span className={`text-5xl font-black italic opacity-5 transition-opacity text-white`}>{card.date}</span>
+              </div>
+              <h4 className="text-2xl font-black text-white mb-4 tracking-tighter italic">{card.title}</h4>
+              <p className="text-slate-400 leading-relaxed font-light">
+                {card.desc}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-40">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-12 mb-24 px-4">
+            <div className="max-w-3xl border-l-4 border-eu-gold pl-10">
+              <h3 className="text-7xl font-black text-white italic uppercase tracking-tighter mb-4 leading-none">
+                DIE <br/> <span className="text-eu-gold">ARCHITEKTEN</span>
+              </h3>
+              <p className="text-slate-400 text-xl font-light leading-relaxed italic max-w-xl">
+                Visionäre, die den Mut hatten, Trümmer in Fundamente zu verwandeln. Ihre Vision definiert bis heute unser Zusammenleben.
+              </p>
+            </div>
+          </div>
+          <FoundingFathers />
+        </div>
+
+        <div className="mt-40 relative">
+          <div className="text-center mb-28">
+            <h3 className="text-6xl font-black text-white italic uppercase tracking-tighter">MEILENSTEINE</h3>
+            <div className="w-24 h-1 bg-eu-gold mx-auto mt-6" />
+          </div>
           <EUTimeline />
         </div>
 
@@ -841,7 +890,15 @@ export default function App() {
           </motion.button>
         </div>
 
-        <QuizPrompt groupId={1} topicTitle="Entstehung und Entwicklung" />
+        <QuizPrompt 
+          groupId={1} 
+          topicTitle="Entstehung und Entwicklung" 
+          tasks={[
+            "Analyse: Rekonstruiert die Motive hinter dem Schuman-Plan. Warum waren Kohle und Stahl der perfekte Schlüssel zum dauerhaften Frieden?",
+            "Anwendung: Erarbeitet eine fiktive Schlagzeile und einen kurzen Bericht für den 10. Mai 1950, der die Bedeutung dieses Tages erklärt.",
+            "Präsentation (5 Min.): 'Von Trümmern zum Fundament' – Stellt eure Ergebnisse kreativ vor (z.B. als kurzes Experten-Statement)."
+          ]}
+        />
       </Section>
 
       {/* TOPIC 2: Diversity */}
@@ -934,7 +991,15 @@ export default function App() {
           </motion.button>
         </div>
 
-        <QuizPrompt groupId={2} topicTitle="Mitgliedsstaaten und Vielfalt" />
+        <QuizPrompt 
+          groupId={2} 
+          topicTitle="Mitgliedsstaaten und Vielfalt" 
+          tasks={[
+            "Analyse: Vergleicht zwei unterschiedliche EU-Regionen (z.B. Skandinavien vs. Mittelmeerraum) hinsichtlich ihrer wirtschaftlichen Schwerpunkte.",
+            "Anwendung: Entwerft ein Symbol oder Logo für das Motto 'In Vielfalt geeint' und begründet eure gestalterischen Entscheidungen.",
+            "Präsentation (5 Min.): 'Mosaik Europa' – Erklärt der Klasse, wie die EU trotz (oder wegen) ihrer großen Unterschiede funktioniert."
+          ]}
+        />
       </Section>
 
       {/* TOPIC 3: Institutions */}
@@ -1084,7 +1149,15 @@ export default function App() {
           </motion.button>
         </div>
 
-        <QuizPrompt groupId={3} topicTitle="EU Institutionen und Prozesse" />
+        <QuizPrompt 
+          groupId={3} 
+          topicTitle="EU Institutionen und Prozesse" 
+          tasks={[
+            "Analyse: Klärt die Rollenverteilung zwischen Parlament, Kommission und Rat. Wer vertritt wen und wer hat das 'Sagen'?",
+            "Anwendung: Skizziert den Weg eines fiktiven Gesetzes (z.B. EU-weite Plastiksteuer) durch die drei Hauptinstitutionen.",
+            "Präsentation (5 Min.): 'Machtzentrum Brüssel' – Erklärt das Zusammenspiel der Institutionen anhand eures fiktiven Gesetzesfalls."
+          ]}
+        />
       </Section>
 
       {/* TOPIC 4: Economy */}
@@ -1170,7 +1243,15 @@ export default function App() {
                </motion.button>
             </div>
 
-            <QuizPrompt groupId={4} topicTitle="Wirtschaft und Euro" />
+            <QuizPrompt 
+          groupId={4} 
+          topicTitle="Wirtschaft und Euro" 
+          tasks={[
+            "Analyse: Erläutert die 'Vier Freiheiten' des Binnenmarkts und nennt für jede Freiheit ein konkretes Beispiel aus eurem Alltag.",
+            "Anwendung: Untersucht die Rolle des Euro: Wie erleichtert er den Handel und das Reisen, und wo liegen die Grenzen dieser Währung?",
+            "Präsentation (5 Min.): 'Marktplatz ohne Grenzen' – Demonstriert an einem Produkt, wie die EU-Wirtschaft euch als junge Konsumenten betrifft."
+          ]}
+        />
          </div>
       </Section>
 
@@ -1207,7 +1288,15 @@ export default function App() {
           </motion.button>
         </div>
 
-        <QuizPrompt groupId={5} topicTitle="Zukunft der EU" />
+        <QuizPrompt 
+          groupId={5} 
+          topicTitle="Zukunft der EU" 
+          tasks={[
+            "Analyse: Identifiziert die drei größten Herausforderungen für die EU bis 2050 (z.B. Klima, KI, Erweiterung).",
+            "Anwendung: Entwerft ein 'Europa-Projekt 2050' – welche Vision habt ihr für das Zusammenleben im nächsten Vierteljahrhundert?",
+            "Präsentation (5 Min.): 'Morgenland Europa' – Stellt eure Zukunftsvision vor und erklärt, was sich dafür heute ändern müsste."
+          ]}
+        />
       </Section>
 
       {/* Footer */}
