@@ -9,26 +9,28 @@ interface SoundContextType {
   playSecurityNode: () => void;
   playEscalation: () => void;
   playSuccess: () => void;
+  playAudioCheck: () => void;
 }
 
 const SoundContext = createContext<SoundContextType | undefined>(undefined);
 
-// Subtle click for specific actions
+// Dezenter Klick für spezifische Aktionen
 const CLICK_SOUND_URL = 'https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3';
-// Hero Section Swoop Sound
+// Soundeffekt für den Hero-Bereich
 const CLICK_SOUND_HERO= 'https://assets.mixkit.co/active_storage/sfx/2672/2672-preview.mp3'
-// Group Selection Sound
+// Sound für die Gruppenauswahl
 const GROUP_SELECT_SOUND_URL = 'https://assets.mixkit.co/active_storage/sfx/565/565-preview.mp3';
-// Tutorial Step Sound
+// Sound für Tutorial-Schritte
 const TUTORIAL_STEP_SOUND_URL = 'https://assets.mixkit.co/active_storage/sfx/900/900-preview.mp3';
-// Security Node Sound
+// Sound für Sicherheits-Knotenpunkte
 const SECURITY_NODE_SOUND_URL = 'https://assets.mixkit.co/active_storage/sfx/913/913-preview.mp3';
-// Escalation Alert Sound
+// Eskalations-Warnsound
 const ESCALATION_SOUND_URL = 'https://assets.mixkit.co/active_storage/sfx/552/552-preview.mp3';
-// Minimal tick for other buttons
+// Minimaler Klicksound für Standard-Buttons
 const GENERAL_CLICK_SOUND_URL = 'https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3';
-// The success jingle you liked
+// Erfolgs-Jingle
 const SUCCESS_SOUND_URL = 'https://assets.mixkit.co/active_storage/sfx/2018/2018-preview.mp3';
+const AUDIO_CHECK_SOUND_URL = 'https://assets.mixkit.co/active_storage/sfx/2303/2303-preview.mp3';
 
 export const SoundProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [playClick] = useSound(CLICK_SOUND_URL, { volume: 0.1, interrupt: true });
@@ -39,14 +41,15 @@ export const SoundProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [playEscalation] = useSound(ESCALATION_SOUND_URL, { volume: 0.25, interrupt: true });
   const [playGeneralClick] = useSound(GENERAL_CLICK_SOUND_URL, { volume: 0.05, interrupt: true });
   const [playSuccess] = useSound(SUCCESS_SOUND_URL, { volume: 0.15, interrupt: true });
+  const [playAudioCheck] = useSound(AUDIO_CHECK_SOUND_URL, { volume: 0.3, interrupt: true });
 
   const handleClick = useCallback((e: MouseEvent) => {
     const target = (e.target as HTMLElement).closest('button, a, [role="button"], .cursor-pointer');
     if (target) {
-      // Check if it's NOT the ones having their own manual trigger
+      // Ausschluss von Elementen mit eigenem Trigger
       const isSpecial = target.textContent?.includes('Archiv öffnen') || 
                         target.querySelector('svg.lucide-x') || 
-                        target.closest('.council-simulator'); // Avoid double triggers in simulator toggle
+                        target.closest('.council-simulator'); // Vermeidung von Doppel-Triggern im Simulator-Toggle
       
       if (!isSpecial) {
         playGeneralClick();
@@ -60,7 +63,7 @@ export const SoundProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, [handleClick]);
 
   return (
-    <SoundContext.Provider value={{ playClick, playHero, playGroupSelect, playTutorialStep, playSecurityNode, playEscalation, playSuccess }}>
+    <SoundContext.Provider value={{ playClick, playHero, playGroupSelect, playTutorialStep, playSecurityNode, playEscalation, playSuccess, playAudioCheck }}>
       {children}
     </SoundContext.Provider>
   );

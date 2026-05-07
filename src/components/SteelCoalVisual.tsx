@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 import { useSounds } from './SoundProvider';
 
-// Resource Particle Component - Optimized for performance
+// Ressourcen-Partikel (Performance-optimiert)
 const ResourceParticle = ({ side, isActive }: { side: 'left' | 'right', isActive: boolean }) => {
   const startX = side === 'left' ? -180 : 180;
   
@@ -51,40 +51,40 @@ export const SteelCoalVisual = () => {
   const [hasPlayedEscalation, setHasPlayedEscalation] = useState(false);
   const { playClick, playSuccess, playEscalation } = useSounds();
 
-  // Trigger escalation sound when tension reaches 50%
+  // Eskalations-Sound bei 50% Spannung
   useEffect(() => {
     if (tension >= 50 && !hasPlayedEscalation && !isAuthorityActive) {
       playEscalation();
       setHasPlayedEscalation(true);
     } else if (tension < 40 && hasPlayedEscalation) {
-      // Reset trigger when tension drops below a threshold (with hysteresis)
+      // Reset des Triggers bei Spannungsabfall (Hysterese)
       setHasPlayedEscalation(false);
     }
   }, [tension, hasPlayedEscalation, playEscalation, isAuthorityActive]);
 
-  // Simulation logic
+  // Simulations-Logik
   useEffect(() => {
     let interval: NodeJS.Timeout;
     if (!isAuthorityActive) {
       interval = setInterval(() => {
         if (productionType === 'military') {
-          // In "National mode", choosing military is seen as a threat
+          // Rüstung im nationalen Modus steigert Spannung
           setTension(prev => Math.min(prev + 5, 100)); 
           setProsperity(prev => Math.max(prev - 1.2, 0));
           setResistance(prev => Math.max(prev - 2, 0)); // Military build-up can satisfy nationalists
         } else {
-          // Even in civil mode, without the plan, suspicion remains high
-          setTension(prev => Math.max(prev - 1, 10)); // Base tension exists
+          // Misstrauen bleibt auch im zivilen Modus ohne Plan bestehen
+          setTension(prev => Math.max(prev - 1, 10)); // Grundspannung vorhanden
           setProsperity(prev => Math.min(prev + 0.5, 40));
           setResistance(prev => Math.max(prev - 1, 0));
         }
       }, 500);
     } else {
       interval = setInterval(() => {
-        // The Plan forces transparency and cooperation
+        // Kooperation und Transparenz durch den Plan
         setTension(prev => Math.max(prev - 8, 0)); 
         setProsperity(prev => Math.min(prev + 2.5, 100));
-        // Sovereignty loss increases political resistance
+        // Souveränitätsverlust steigert Widerstand
         setResistance(prev => Math.min(prev + 3, 100));
         
         if (productionType === 'military') setProductionType('civil');
@@ -116,7 +116,7 @@ export const SteelCoalVisual = () => {
   return (
     <div className="relative w-full bg-eu-dark border border-white/10 rounded-[3rem] overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,0.6)] backdrop-blur-xl min-h-[600px] lg:min-h-[520px] flex flex-col group">
       
-      {/* Dynamic Background - Optimized blurs */}
+      {/* Dynamischer Hintergrund (Stimmungs-Atmosphäre) */}
       <div className="absolute inset-0 pointer-events-none transition-colors duration-1000">
         <div className={`absolute top-0 right-0 w-[500px] h-[500px] blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2 transition-colors duration-1000 ${
           tension > 50 && !isAuthorityActive ? 'bg-red-900/30' : 'bg-eu-blue/10'
@@ -127,7 +127,7 @@ export const SteelCoalVisual = () => {
         <div className="absolute inset-0 bg-[radial-gradient(#ffffff05_1px,transparent_1px)] [background-size:32px_32px]" />
       </div>
 
-      {/* Tutorial Overlay */}
+      {/* Tutorial-Overlay */}
       <AnimatePresence>
         {showTutorial && (
           <motion.div 
@@ -172,10 +172,10 @@ export const SteelCoalVisual = () => {
         )}
       </AnimatePresence>
 
-      {/* Main Simulation Section */}
+      {/* Simulations-Hauptbereich */}
       <div className="relative z-10 grow flex flex-col p-5 lg:p-8">
         
-        {/* Header Stats */}
+        {/* Header-Statistiken und Kontrolle */}
         <div className="flex flex-col md:flex-row justify-between items-start mb-6 gap-4">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
@@ -212,10 +212,10 @@ export const SteelCoalVisual = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center grow">
           
-          {/* Dashboard Left - Telemetry */}
+          {/* Telemetrie-Dashboard (Links) */}
           <div className="lg:col-span-3 flex flex-col justify-between h-full py-4 space-y-8 lg:space-y-0 lg:pl-10">
             <div className="space-y-6">
-              {/* Tension Meter */}
+              {/* Spannungs-Anzeige */}
               <div className="space-y-1.5 lg:-translate-x-8">
                 <div className="flex justify-between items-center px-1">
                   <div className="flex items-center gap-2">
@@ -234,7 +234,7 @@ export const SteelCoalVisual = () => {
                 </div>
               </div>
 
-              {/* Prosperity Meter */}
+              {/* Wohlstands-Anzeige */}
               <div className="space-y-1.5 lg:-translate-x-8">
                 <div className="flex justify-between items-center px-1">
                   <div className="flex items-center gap-2">
@@ -253,7 +253,7 @@ export const SteelCoalVisual = () => {
             </div>
 
             <div className="space-y-4">
-              {/* Resistance Meter */}
+              {/* Widerstands-Anzeige */}
               <div className="space-y-1.5 lg:-translate-x-8">
                 <div className="flex justify-between items-center px-1">
                   <div className="flex items-center gap-2">
@@ -270,7 +270,7 @@ export const SteelCoalVisual = () => {
                 </div>
               </div>
 
-              {/* Analysis Box */}
+              {/* Analyse-Box */}
               <div className={`relative p-4 rounded-xl border transition-all duration-700 backdrop-blur-xl overflow-hidden ${
                 tension > 50 && !isAuthorityActive ? 'bg-red-500/10 border-red-500/40' : 'bg-white/[0.02] border-white/10'
               }`}>
@@ -286,11 +286,11 @@ export const SteelCoalVisual = () => {
             </div>
           </div>
 
-          {/* Visualization Center: The Engine of Peace */}
+          {/* Visualisierungs-Zentrum */}
           <div className="lg:col-span-6 flex flex-col items-center py-6 lg:py-0">
             <div className="relative w-full max-w-[400px] aspect-square flex items-center justify-center">
               
-              {/* Outer Glow Orb - Optimized */}
+              {/* Glow-Effekt (optimiert) */}
               <motion.div 
                 animate={{ 
                   scale: isAuthorityActive ? [1, 1.05, 1] : 1,
@@ -302,9 +302,9 @@ export const SteelCoalVisual = () => {
                 }`} 
               />
 
-              {/* The Core Machine */}
+              {/* Kern-System */}
               <div className="relative w-40 h-40 md:w-48 md:h-48 flex items-center justify-center">
-                         {/* Rotating Architectural Rings - Optimized */}
+                         {/* Rotierende Architektur-Ringe (Mechanischer Fokus) */}
                 {[...Array(3)].map((_, i) => (
                    <motion.div 
                      key={i}
@@ -354,7 +354,7 @@ export const SteelCoalVisual = () => {
                    </motion.div>
                  ))}
 
-                {/* The Hub Unit - Optimized */}
+                {/* Zentrale Steuerungseinheit */}
                 <motion.div 
                   className={`relative w-24 h-24 md:w-28 md:h-28 rounded-2xl flex flex-col items-center justify-center border-4 transition-all duration-1000 z-40 overflow-hidden ${
                     isAuthorityActive 
@@ -401,7 +401,7 @@ export const SteelCoalVisual = () => {
                   </AnimatePresence>
                 </motion.div>
 
-                {/* Flow Particles */}
+                {/* Fluss-Partikel */}
                 <div className="absolute inset-0 pointer-events-none">
                     {[...Array(isAuthorityActive ? 8 : 4)].map((_, i) => (
                       <ResourceParticle key={i} side={i % 2 === 0 ? 'left' : 'right'} isActive={isAuthorityActive} />
@@ -409,7 +409,7 @@ export const SteelCoalVisual = () => {
                 </div>
               </div>
 
-              {/* Side Modules: Frankreich & Deutschland - Optimized */}
+              {/* Seiten-Module: Frankreich & Deutschland (optimiert) */}
               <div className="absolute top-1/2 -left-2 md:-left-4 lg:-left-8 -translate-y-1/2 z-20">
                 <motion.div 
                   animate={tension > 80 && !isAuthorityActive ? { x: [-2, 2, -2], y: [1, -1, 1] } : {}}
@@ -448,7 +448,7 @@ export const SteelCoalVisual = () => {
                 </motion.div>
               </div>
 
-              {/* Status Ribbon Top */}
+              {/* Status-Anzeige (Oben) */}
               <div className="absolute top-0 w-full flex justify-center">
                  <motion.div 
                    animate={isAuthorityActive ? { y: [0, -2, 0] } : {}}
@@ -466,7 +466,7 @@ export const SteelCoalVisual = () => {
             </div>
           </div>
 
-          {/* User Controls Right - Interaction */}
+          {/* Interaktions-Bereich (Rechts) */}
           <div className="lg:col-span-3 flex flex-col justify-between h-full py-4 space-y-8 lg:space-y-0 text-right lg:pr-10">
             <div className="space-y-4">
               <label className="text-[9px] font-black uppercase tracking-[0.3em] text-white/20 block border-r-2 border-eu-gold/20 pr-4 italic">I. Nationale Entscheidung</label>
@@ -538,7 +538,7 @@ export const SteelCoalVisual = () => {
         </div>
       </div>
 
-      {/* Deep Dive Narrative Footer */}
+      {/* Narrativer Footer */}
       <div className="relative bg-black/60 border-t border-white/5 p-4 md:p-6">
         <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-6 md:gap-8">
           <div className="relative shrink-0">

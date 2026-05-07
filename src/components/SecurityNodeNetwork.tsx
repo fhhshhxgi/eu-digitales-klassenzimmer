@@ -79,12 +79,12 @@ export function SecurityNodeNetwork() {
 
   return (
     <div className="w-full bg-eu-dark/60 border border-white/5 rounded-[4rem] p-8 md:p-16 backdrop-blur-3xl overflow-hidden relative shadow-2xl">
-      {/* Mesh Background */}
+      {/* Mesh-Hintergrund */}
       <div className="absolute inset-0 opacity-[0.05] pointer-events-none" 
            style={{ backgroundImage: 'linear-gradient(to right, #fff 1px, transparent 1px), linear-gradient(to bottom, #fff 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
 
       <div className="relative z-10 flex flex-col lg:flex-row items-stretch gap-12">
-        {/* Left: Info Panel */}
+        {/* Info-Panel zur Souveränität (Linke Spalte) */}
         <div className="lg:w-1/3 flex flex-col justify-between py-4">
           <div>
             <div className="flex items-center gap-3 text-eu-gold mb-6">
@@ -149,9 +149,9 @@ export function SecurityNodeNetwork() {
           </div>
         </div>
 
-        {/* Right: Technical Network */}
+        {/* Technisches Netzwerk-Visualisierung (Rechte Spalte) */}
         <div className="lg:w-2/3 relative h-[500px] md:h-[650px] bg-black/40 rounded-[3rem] border border-white/5 shadow-inner overflow-hidden">
-          {/* Animated connections */}
+          {/* Animierte Verbindungen */}
           <svg className="absolute inset-0 w-full h-full pointer-events-none">
             {NODES.map((node, i) => {
               if (node.id === 'comms') return null;
@@ -175,7 +175,7 @@ export function SecurityNodeNetwork() {
                       transition={{ duration: 0.5 }}
                     />
                   )}
-                  {/* Subtle data flow particle */}
+                  {/* Datenfluss-Partikel */}
                   <motion.circle
                     r="2"
                     fill="currentColor"
@@ -197,7 +197,7 @@ export function SecurityNodeNetwork() {
             })}
           </svg>
 
-          {/* Nodes */}
+          {/* Knotenpunkte */}
           {NODES.map((node) => {
             const isActive = active === node.id;
             return (
@@ -207,14 +207,14 @@ export function SecurityNodeNetwork() {
                 style={{ left: node.x, top: node.y, transform: 'translate(-50%, -50%)' }}
               >
                 <div className="relative group">
-                  {/* Decorative rotating elements */}
+                  {/* Dekorative Rotations-Elemente */}
                   <motion.div 
                     animate={{ rotate: 360 }}
                     transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
                     className={`absolute -inset-10 border border-white/5 rounded-full`}
                   />
 
-                  {/* Node Button */}
+                  {/* Knotenpunkt-Button */}
                   <motion.button
                     onClick={() => {
                       setActive(isActive ? null : node.id);
@@ -225,7 +225,7 @@ export function SecurityNodeNetwork() {
                       ${isActive ? `${node.bg} ${node.border} border-2 ${node.glow}` : 'bg-eu-dark/80 border border-white/10 hover:border-white/30'}
                     `}
                   >
-                    {/* SVG Progress Ring */}
+                    {/* Fortschrittsring */}
                     <svg className="absolute inset-0 w-full h-full -rotate-90 pointer-events-none">
                       <circle 
                         cx="50%" cy="50%" r="48%" 
@@ -250,7 +250,7 @@ export function SecurityNodeNetwork() {
                       <node.icon size={isActive ? 36 : 28} />
                     </div>
 
-                    {/* Label */}
+                    {/* Beschriftung */}
                     <div className={`absolute top-full mt-4 left-1/2 -translate-x-1/2 text-center transition-all duration-300
                       ${isActive ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0'}`}>
                       <span className="text-[10px] font-mono text-white/80 uppercase tracking-widest">{node.title}</span>
@@ -261,7 +261,7 @@ export function SecurityNodeNetwork() {
             );
           })}
 
-          {/* Central Logo */}
+          {/* Zentrales Logo */}
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
              <div className="relative">
                 <Shield size={300} strokeWidth={0.3} className="text-white/5 animate-pulse" />

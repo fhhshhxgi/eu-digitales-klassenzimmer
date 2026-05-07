@@ -50,7 +50,7 @@ export function ChallengeRadar() {
 
   return (
     <div className="mt-12 lg:flex gap-8 items-stretch">
-      {/* Selector Side */}
+      {/* Auswahl-Bereich */}
       <div className="lg:w-1/3 grid grid-cols-1 gap-4 mb-8 lg:mb-0">
         {challengeData.map((c) => (
           <button
@@ -81,7 +81,7 @@ export function ChallengeRadar() {
         ))}
       </div>
 
-      {/* Visual Content Side */}
+      {/* Visueller Inhaltsbereich */}
       <div className="flex-1 glass-card p-8 border-white/5 bg-gradient-to-br from-white/5 to-transparent flex flex-col justify-between overflow-hidden relative">
          <AnimatePresence mode="wait">
             <motion.div
@@ -125,7 +125,7 @@ export function ChallengeRadar() {
                   </div>
                </div>
 
-               {/* Background Decorative Element */}
+               {/* Dekoratives Hintergrundelement */}
                <div className={`absolute -top-24 -right-24 w-96 h-96 rounded-full blur-[120px] opacity-10 bg-gradient-to-br ${selected.color}`} />
             </motion.div>
          </AnimatePresence>

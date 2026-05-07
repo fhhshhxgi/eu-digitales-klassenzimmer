@@ -59,6 +59,7 @@ export const TiltCard: React.FC<TiltCardProps> = ({ children, className = "" }) 
       }}
       className={`relative transition-shadow duration-500 hover:shadow-[0_30px_60px_rgba(0,0,0,0.5),0_0_30px_rgba(255,204,0,0.1)] ${className}`}
     >
+            {/* Inhalt der Karte (mit 3D-Z-Verschiebung) */}
       <div
         style={{
           transform: isMobile ? "none" : "translateZ(75px)",

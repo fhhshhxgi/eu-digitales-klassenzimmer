@@ -57,11 +57,13 @@ export function DemocracyCompass() {
       </div>
 
       <div className="mb-12">
+        {/* Titel und Beschreibung des Werts-Kompasses */}
         <h4 className="text-xl font-display font-medium text-white mb-2">Der Demokratie-Kompass</h4>
         <p className="text-sm text-slate-400">Klicke einen Wert an, um zu erfahren, warum er aktuell geschützt werden muss.</p>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        {/* Anzeige der EU-Werte als interaktive Kacheln */}
         {EU_VALUES.map((value) => (
           <button
             key={value.id}

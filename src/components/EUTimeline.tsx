@@ -54,7 +54,7 @@ export function EUTimeline() {
 
   return (
     <div className="relative py-12 px-4 overflow-hidden">
-      {/* Category Filter */}
+      {/* Kategoriefilter für Zeitachsen-Events */}
       <div className="flex flex-wrap justify-center gap-3 mb-16 relative z-20 category-filter">
         {categories.map(cat => (
           <button
@@ -71,7 +71,7 @@ export function EUTimeline() {
         ))}
       </div>
 
-      {/* Main vertical line */}
+      {/* Zentrale vertikale Linie */}
       <div className="absolute left-1/2 top-32 bottom-0 w-px bg-white/10 hidden md:block" />
       
       <div className="space-y-12 relative">
@@ -96,7 +96,7 @@ export function EUTimeline() {
                 index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
               }`}
             >
-              {/* Event Card */}
+              {/* Event-Karte */}
               <div className="flex-1 flex justify-center md:block">
                 <div className={`glass-card p-6 w-full max-w-sm border-l-4 transition-all duration-300 ${
                   isHighlighted 
@@ -114,7 +114,7 @@ export function EUTimeline() {
                 </div>
               </div>
 
-              {/* Center Node */}
+              {/* Zentraler Knotenpunkt */}
               <div className="relative z-10 flex items-center justify-center">
                 <motion.div 
                   animate={{
@@ -127,7 +127,7 @@ export function EUTimeline() {
                   <CheckCircle2 size={16} className={isHighlighted ? "text-eu-dark" : "text-eu-gold"} />
                 </motion.div>
                 
-                {/* Connecting lines that glow when highlighted */}
+                {/* Verbindungslinien mit Glow-Effekt bei Auswahl */}
                 <AnimatePresence>
                   {isHighlighted && (
                     <motion.div
@@ -139,8 +139,8 @@ export function EUTimeline() {
                   )}
                 </AnimatePresence>
               </div>
-
-              {/* Empty space for balance */}
+              
+              {/* Leerraum für optisches Gleichgewicht */}
               <div className="flex-1 hidden md:block" />
             </motion.div>
           );

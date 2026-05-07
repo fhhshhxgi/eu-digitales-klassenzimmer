@@ -9,11 +9,13 @@ export function LoadingScreen() {
       className="fixed inset-0 z-[200] bg-eu-dark flex flex-col items-center justify-center"
     >
       <div className="relative w-16 h-16">
+        {/* Statischer Kreis (Basis) */}
         <motion.div 
           animate={{ rotate: 360 }}
           transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
           className="absolute inset-0 border-2 border-eu-gold/20 rounded-full"
         />
+        {/* Rotierender Spinner-Effekt (Sekundär) */}
         <motion.div 
           animate={{ rotate: 360 }}
           transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}

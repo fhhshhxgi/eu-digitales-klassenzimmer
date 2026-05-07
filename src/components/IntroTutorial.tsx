@@ -66,7 +66,7 @@ export const IntroTutorial: React.FC<{ onComplete: (groupId: number) => void }> 
   const [phase, setPhase] = useState<Phase>('loading');
   const [loadingProgress, setLoadingProgress] = useState(0);
 
-  // Loading phase progression
+  // Fortschritt der Ladephase
   useEffect(() => {
     if (phase === 'loading') {
       const interval = setInterval(() => {
@@ -90,10 +90,10 @@ export const IntroTutorial: React.FC<{ onComplete: (groupId: number) => void }> 
       exit={{ opacity: 0, transition: { duration: 0.8 } }}
       className="fixed inset-0 z-[100] overflow-y-auto scrollbar-none font-sans text-white bg-slate-950 flex flex-col items-center"
     >
-      {/* Simplified Cyber Overlay */}
+      {/* Cyber-Overlay (vereinfacht) */}
       <div className="fixed inset-0 pointer-events-none z-[110] opacity-[0.02] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%)] bg-[length:100%_4px]" />
 
-      {/* Cinematic Background Elements */}
+      {/* Kinematische Hintergrund-Elemente */}
       <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/5 rounded-full blur-[60px]" />
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-600/5 rounded-full blur-[60px]" />
@@ -102,7 +102,7 @@ export const IntroTutorial: React.FC<{ onComplete: (groupId: number) => void }> 
       </div>
 
       <AnimatePresence mode="wait">
-        {/* PHASE 1: LOADING */}
+        {/* PHASE 1: LADEN */}
         {phase === 'loading' && (
           <motion.div
             key="loading"
@@ -145,7 +145,7 @@ export const IntroTutorial: React.FC<{ onComplete: (groupId: number) => void }> 
           </motion.div>
         )}
 
-        {/* PHASE 2: GROUP SELECTION */}
+        {/* PHASE 2: GRUPPENAUSWAHL */}
         {phase === 'selection' && (
           <motion.div
             key="selection"
@@ -157,7 +157,7 @@ export const IntroTutorial: React.FC<{ onComplete: (groupId: number) => void }> 
             <div className="text-center mb-12">
 
               <h2 className="text-3xl md:text-5xl font-black tracking-tighter uppercase italic text-white mb-4">Sektor auswählen</h2>
-              <p className="text-slate-400 font-medium tracking-tight">Wählen Sie einen Analysebereich für die Recherche-Einführung.</p>
+              <p className="text-slate-400 font-medium tracking-tight">Wähle einen Analysebereich für die Recherche-Einführung.</p>
             </div>
 
             <div className="grid grid-cols-1 xl:grid-cols-5 gap-6 xl:gap-4 items-stretch">
@@ -172,15 +172,15 @@ export const IntroTutorial: React.FC<{ onComplete: (groupId: number) => void }> 
                   onClick={() => onComplete(group.id)}
                   className="group relative flex flex-col bg-slate-900 rounded-2xl border border-white/10 p-6 text-left transition-all hover:bg-slate-800 overflow-hidden min-h-[160px] xl:min-h-[360px] xl:h-full"
                 >
-                  {/* Animated Border Glow - Simplified */}
+                  {/* Animierter Border-Glow (vereinfacht) */}
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none border border-cyan-500/30 rounded-2xl" />
 
-                  {/* Large Stylized Group Number Background */}
+                  {/* Große stilisierte Gruppennummer im Hintergrund */}
                   <div className="absolute -bottom-4 -right-4 text-9xl font-black italic opacity-[0.03] group-hover:opacity-[0.07] transition-opacity select-none pointer-events-none">
                     {group.id}
                   </div>
 
-                   {/* Header: Prominent Group ID */}
+                   {/* Header: Markante Gruppen-ID */}
                   <div className="relative z-10 flex flex-col mb-6 p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/20 group-hover:bg-cyan-500/20 transition-colors duration-300">
                     <div className="flex items-center justify-between mb-2">
                        <span className="text-cyan-400 font-mono text-[9px] tracking-[0.3em] uppercase font-bold truncate">Sektor Zuweisung</span>
@@ -192,7 +192,7 @@ export const IntroTutorial: React.FC<{ onComplete: (groupId: number) => void }> 
                     </div>
                   </div>
 
-                  {/* Icon & Title */}
+                  {/* Icon & Titel */}
                   <div className="relative z-10 flex items-center xl:flex-col xl:items-start gap-4 mb-6">
                     <div className={cn(
                       "flex-shrink-0 w-10 h-10 lg:w-12 lg:h-12 rounded-xl bg-slate-950/50 border border-white/5 flex items-center justify-center transition-all group-hover:scale-110",
@@ -205,12 +205,12 @@ export const IntroTutorial: React.FC<{ onComplete: (groupId: number) => void }> 
                     </h3>
                   </div>
 
-                  {/* Briefing Text */}
+                  {/* Briefing-Text */}
                   <p className="relative z-10 text-xs text-slate-400 leading-relaxed lg:line-clamp-none mb-8">
                     {group.briefing}
                   </p>
 
-                  {/* Footer Action */}
+                  {/* Footer-Aktion */}
                   <div className="relative z-10 mt-auto pt-4 border-t border-white/5 w-full flex items-center justify-between group-hover:border-cyan-500/20 transition-colors">
                     <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-500 group-hover:text-cyan-400">
                       Beitreten
@@ -228,7 +228,7 @@ export const IntroTutorial: React.FC<{ onComplete: (groupId: number) => void }> 
         )}
       </AnimatePresence>
 
-      {/* Lightweight Decorative Particles */}
+      {/* Dekorative Partikel */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-10">
         {[...Array(6)].map((_, i) => (
           <motion.div

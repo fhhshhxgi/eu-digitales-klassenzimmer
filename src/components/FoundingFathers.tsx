@@ -59,7 +59,7 @@ export function FoundingFathers() {
           className="group relative"
         >
           <div className="flex flex-col sm:flex-row gap-8 items-center sm:items-stretch">
-            {/* Portrait Frame */}
+            {/* Foto-Rahmen */}
             <div className="relative flex-shrink-0">
               <div className="w-48 h-64 overflow-hidden rounded-2xl shadow-2xl transition-transform duration-700 group-hover:scale-[1.02] bg-white/5 border border-white/10">
                 <img 
@@ -70,13 +70,13 @@ export function FoundingFathers() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-eu-dark/80 via-transparent to-transparent opacity-60" />
               </div>
-              {/* Country Badge */}
+              {/* Landes-Badge */}
               <div className="absolute -bottom-3 -right-3 px-4 py-2 bg-eu-gold text-eu-dark text-[10px] font-black uppercase tracking-widest rounded-lg shadow-xl">
                 {f.country}
               </div>
             </div>
 
-            {/* Info Content */}
+            {/* Informations-Inhalt */}
             <div className="flex-1 flex flex-col justify-center text-center sm:text-left py-2">
               <div className="mb-4">
                 <h4 className="text-3xl font-black text-white italic uppercase tracking-tighter leading-none mb-2">

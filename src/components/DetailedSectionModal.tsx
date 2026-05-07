@@ -16,6 +16,7 @@ interface DetailedSectionModalProps {
   };
 }
 
+// Komponente für aufklappbare Fakten-Punkte
 function ExpandablePoint({ title, detail }: { title: string; detail: string }) {
   const [isExpanded, setIsExpanded] = React.useState(false);
 
@@ -63,7 +64,7 @@ export function DetailedSectionModal({ isOpen, onClose, title, content }: Detail
   const [activeSection, setActiveSection] = React.useState(0);
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
 
-  // Handle scroll to update active section in sidebar
+  // Scroll-Handler zur Aktualisierung der aktiven Sektion in der Sidebar
   const handleScroll = () => {
     if (!scrollContainerRef.current) return;
     const container = scrollContainerRef.current;
@@ -97,7 +98,7 @@ export function DetailedSectionModal({ isOpen, onClose, title, content }: Detail
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-[200] flex items-center justify-center bg-eu-dark/95 backdrop-blur-3xl overflow-hidden"
         >
-          {/* Ambient Background Glows */}
+          {/* Atmosphärischer Hintergrund-Glow */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden h-full">
             <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-eu-blue/10 rounded-full blur-[120px] animate-nebula -translate-y-1/2" />
             <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-eu-gold/5 rounded-full blur-[150px] animate-nebula delay-1000 translate-y-1/2" />
@@ -110,7 +111,7 @@ export function DetailedSectionModal({ isOpen, onClose, title, content }: Detail
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
             className="w-full h-full md:h-[90vh] md:max-w-7xl bg-eu-dark/80 backdrop-blur-md md:border border-white/10 relative flex flex-col md:rounded-3xl shadow-[0_40px_100px_rgba(0,0,0,0.8)] overflow-hidden"
           >
-            {/* Minimal Header */}
+            {/* Minimalistischer Header */}
             <div className="px-6 py-4 md:px-10 md:py-6 border-b border-white/10 flex justify-between items-center bg-white/2 backdrop-blur-md shrink-0 z-30">
               <div className="flex items-center gap-4">
                 <div className="w-10 h-10 bg-eu-gold/10 rounded-xl flex items-center justify-center border border-eu-gold/20">
@@ -134,7 +135,7 @@ export function DetailedSectionModal({ isOpen, onClose, title, content }: Detail
             </div>
 
             <div className="flex flex-1 overflow-hidden">
-              {/* Sidebar Navigation - Desktop only */}
+               {/* Sidebar-Navigation (Inhaltsverzeichnis) */}
               <div className="hidden lg:flex w-72 flex-col border-r border-white/5 bg-white/1 p-8 space-y-6 shrink-0 overflow-y-auto">
                 <div className="space-y-4">
                   <span className="text-[10px] text-slate-500 uppercase tracking-[0.25em] font-bold block mb-4">Inhaltsverzeichnis</span>
@@ -163,7 +164,7 @@ export function DetailedSectionModal({ isOpen, onClose, title, content }: Detail
                 </div>
               </div>
 
-              {/* Main Content Area */}
+              {/* Inhaltsbereich für die Archiv-Dokumente */}
               <div 
                 ref={scrollContainerRef}
                 onScroll={handleScroll}
@@ -198,6 +199,7 @@ export function DetailedSectionModal({ isOpen, onClose, title, content }: Detail
                           </p>
                         </div>
 
+                        {/* Aufklappbare Zusatzinformationen (Punkte) */}
                         {section.points && (
                           <div className="grid grid-cols-1 gap-4 mt-8">
                             {section.points.map((point, pIdx) => (
@@ -220,7 +222,7 @@ export function DetailedSectionModal({ isOpen, onClose, title, content }: Detail
               </div>
             </div>
 
-            {/* Reading Progress Bar */}
+            {/* Lese-Fortschrittsbalken */}
             <div className="h-1 bg-white/5 w-full shrink-0 relative overflow-hidden">
               <motion.div 
                 className="absolute top-0 left-0 h-full bg-eu-gold w-full origin-left"

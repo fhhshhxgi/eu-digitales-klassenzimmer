@@ -27,6 +27,7 @@ export function EuroZone() {
     <div className="mt-12 glass-card p-8 border-eu-blue/20 bg-gradient-to-br from-blue-900/10 to-transparent">
        <div className="flex flex-col lg:flex-row gap-12">
           <div className="flex-1">
+             {/* Linke Seite: Kerninfos zur EZB */}
              <div className="flex items-center gap-4 mb-6">
                 <div className="p-3 bg-eu-gold/20 rounded-2xl text-eu-gold">
                    <Landmark size={32} />
@@ -61,6 +62,7 @@ export function EuroZone() {
           </div>
 
           <div className="lg:w-72 flex flex-col gap-4">
+             {/* Rechte Seite: Fakten-Säulen */}
              <div className="p-6 bg-black/40 rounded-3xl border border-white/10 text-center">
                 <p className="text-[10px] uppercase font-black text-white/40 mb-2">Leitzins</p>
                 <div className="text-4xl font-black text-white mb-1">variabel</div>

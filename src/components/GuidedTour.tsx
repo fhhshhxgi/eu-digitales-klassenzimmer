@@ -26,6 +26,7 @@ export const GuidedTour: React.FC<GuidedTourProps> = ({ steps, onComplete, group
   const containerRef = useRef<HTMLDivElement>(null);
 
   const scrollToCurrentStep = () => {
+    // Scroll-Logik zur Zentrierung des aktiven Tour-Elements
     const step = steps[currentStep];
     if (!step) return;
 
@@ -63,10 +64,10 @@ export const GuidedTour: React.FC<GuidedTourProps> = ({ steps, onComplete, group
   };
 
   useEffect(() => {
-    // Scroll only when step changes
+    // Scrollen bei Schrittwechsel
     scrollToCurrentStep();
     
-    // Update coordinates immediately and at intervals to follow the smooth scroll
+    // Koordinaten-Update zum Ausgleich des Smooth-Scrolls
     updateCoords();
     const t1 = setTimeout(updateCoords, 100);
     const t2 = setTimeout(updateCoords, 300);
@@ -95,7 +96,7 @@ export const GuidedTour: React.FC<GuidedTourProps> = ({ steps, onComplete, group
 
   return (
     <div className="fixed inset-0 z-[200] pointer-events-none font-sans overflow-hidden">
-      {/* Background Dim */}
+      {/* Hintergrund-Abdunkelung */}
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -116,7 +117,7 @@ export const GuidedTour: React.FC<GuidedTourProps> = ({ steps, onComplete, group
         }}
       />
 
-      {/* Target Ring */}
+      {/* Fokus-Ring um das anvisierte Element */}
       <motion.div
         animate={{
           top: coords.top - 12,
@@ -127,7 +128,7 @@ export const GuidedTour: React.FC<GuidedTourProps> = ({ steps, onComplete, group
         transition={{ type: "spring", stiffness: 200, damping: 25 }}
         className="absolute border-2 border-eu-gold/50 rounded-[2rem] z-10 box-content shadow-[0_0_40px_rgba(255,204,0,0.2)]"
       >
-        {/* Animated Corner Brackets */}
+        {/* Animierte Eck-Klammern */}
         <motion.div 
           animate={{ opacity: [0.5, 1, 0.5] }}
           transition={{ duration: 2, repeat: Infinity }}
@@ -149,7 +150,7 @@ export const GuidedTour: React.FC<GuidedTourProps> = ({ steps, onComplete, group
           className="absolute -bottom-2 -right-2 w-6 h-6 border-b-2 border-r-2 border-white rounded-br-lg" 
         />
 
-        {/* Pulse effect */}
+        {/* Puls-Effekt */}
         <motion.div
           animate={{ scale: [1, 1.05, 1], opacity: [0.2, 0.4, 0.2] }}
           transition={{ duration: 1.5, repeat: Infinity }}
@@ -157,7 +158,7 @@ export const GuidedTour: React.FC<GuidedTourProps> = ({ steps, onComplete, group
         />
       </motion.div>
 
-      {/* Info Card */}
+      {/* Info-Karte der Tour */}
       <motion.div
         key={currentStep}
         initial={{ opacity: 0, scale: 0.9, y: 10 }}
@@ -174,7 +175,7 @@ export const GuidedTour: React.FC<GuidedTourProps> = ({ steps, onComplete, group
         }}
         className="absolute w-80 bg-slate-950/90 backdrop-blur-2xl border border-white/10 rounded-[2rem] p-8 shadow-[0_30px_100px_rgba(0,0,0,0.8)] pointer-events-auto z-20"
       >
-        {/* Glow corner */}
+        {/* Glow-Ecke (Visueller Akzent) */}
         <div className="absolute top-0 right-0 w-32 h-32 bg-eu-gold/5 rounded-full blur-3xl -z-10" />
 
         <div className="flex items-center space-x-3 mb-6">
@@ -248,7 +249,7 @@ export const GuidedTour: React.FC<GuidedTourProps> = ({ steps, onComplete, group
           </div>
         </div>
 
-        {/* Pointer Triangle */}
+        {/* Zeiger-Dreieck */}
         {coords.height <= window.innerHeight * 0.7 && (
           <div className={cn(
             "absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-slate-950/90 rotate-45 border-l border-t border-white/10",

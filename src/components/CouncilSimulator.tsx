@@ -75,7 +75,7 @@ export function CouncilSimulator() {
     const popSum = selectedCountries.reduce((sum, c) => sum + c.pop, 0);
     const popPercent = (popSum / TOTAL_POP) * 100;
     
-    // Blocking minority: at least 4 countries representing > 35% pop
+    // Sperrminorität: mindestens 4 Staaten mit > 35% Bevölkerungsanteil
     const unselectedCountries = countries.filter(c => !selected.has(c.id));
     const blockingCount = unselectedCountries.length;
     const blockingPopPercent = ((TOTAL_POP - popSum) / TOTAL_POP) * 100;
@@ -145,9 +145,9 @@ export function CouncilSimulator() {
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-          {/* Controls */}
+          {/* Steuerelemente */}
           <div className="lg:col-span-7 space-y-8">
-            {/* "What if?" Scenarios */}
+            {/* „Was wäre wenn?“-Szenarien */}
             <div className="space-y-4">
               <div className="flex items-center gap-2 text-[10px] font-black uppercase text-eu-gold tracking-widest">
                 <Zap size={14} />
@@ -200,7 +200,7 @@ export function CouncilSimulator() {
                   <div className="font-bold text-[11px] truncate">{country.name}</div>
                   <div className="text-[9px] opacity-40">{country.pop}M</div>
                   
-                  {/* Progress bar background for population weight */}
+                  {/* Fortschrittsbalken für Bevölkerungsgewichtung */}
                   <div 
                     className="absolute bottom-0 left-0 h-1 bg-eu-gold transition-all duration-500" 
                     style={{ width: selected.has(country.id) ? '100%' : '0%', opacity: 0.3 }} 
@@ -210,7 +210,7 @@ export function CouncilSimulator() {
             </div>
           </div>
 
-          {/* Visualization & Result */}
+          {/* Visualisierung & Ergebnis */}
           <div className="lg:col-span-5 space-y-6">
             <div className={`p-8 rounded-[2rem] border transition-all duration-500 ${stats.passed ? 'bg-green-500/10 border-green-500/30' : 'bg-red-500/10 border-red-500/30'}`}>
               <div className="flex items-center justify-between mb-8">
@@ -227,7 +227,7 @@ export function CouncilSimulator() {
               </div>
 
               <div className="space-y-6">
-                {/* States Progress */}
+                {/* Fortschritt der Staaten */}
                 <div>
                   <div className="flex justify-between text-[10px] font-black uppercase mb-2">
                     <span className={stats.statePass ? 'text-green-400' : 'text-slate-400'}>Staaten ({stats.count}/27)</span>
@@ -242,7 +242,7 @@ export function CouncilSimulator() {
                   </div>
                 </div>
 
-                {/* Population Progress */}
+                {/* Fortschritt der Bevölkerung */}
                 <div>
                   <div className="flex justify-between text-[10px] font-black uppercase mb-2">
                     <span className={stats.popPass ? 'text-green-400' : 'text-slate-400'}>Bevölkerung ({stats.popPercent.toFixed(1)}%)</span>
@@ -259,7 +259,7 @@ export function CouncilSimulator() {
               </div>
             </div>
 
-            {/* Info Cards */}
+            {/* Info-Karten */}
             <div className="grid grid-cols-1 gap-4">
               {stats.isBlockedByMinority && !stats.passed && (
                 <div className="p-4 rounded-2xl bg-orange-500/10 border border-orange-500/20 flex gap-4 items-start">

@@ -11,7 +11,7 @@ const euCountries = [
   'Poland', 'Portugal', 'Romania', 'Slovakia', 'Slovenia', 'Spain', 'Sweden'
 ];
 
-// SVG Stars overlay component extracted to prevent re-renders on hover
+// SVG-Sternenkreis-Overlay (extrahiert zur Performance-Optimierung)
 const StarCircleOverlay = React.memo(({ windowSize }: { windowSize: { width: number, height: number } }) => {
   const isMobile = windowSize.width < 768;
   const radiusMultiplier = isMobile ? 0.35 : 0.41;
@@ -40,7 +40,7 @@ const StarCircleOverlay = React.memo(({ windowSize }: { windowSize: { width: num
               style={{ x, y }}
             >
               <div className="relative flex items-center justify-center">
-                {/* Primary soft atmospheric glow */}
+                {/* Weicher atmosphärischer Glow */}
                 <div 
                   className="absolute w-24 md:w-32 h-24 md:h-32 rounded-full opacity-40 animate-pulse pointer-events-none"
                   style={{
@@ -48,7 +48,7 @@ const StarCircleOverlay = React.memo(({ windowSize }: { windowSize: { width: num
                     filter: 'blur(12px)'
                   }}
                 />
-                {/* Inner glow core */}
+                {/* Innerer Glow-Kern */}
                 <div 
                   className="absolute w-12 md:w-16 h-12 md:h-16 rounded-full opacity-60 animate-soft-glow pointer-events-none"
                   style={{
@@ -114,12 +114,12 @@ export function HeroScene({ onStart }: { onStart?: () => void }) {
       const controls = globeRef.current.controls();
       if (controls) {
         controls.autoRotate = true;
-        controls.autoRotateSpeed = 0.3; // Slower rotation for better focus
+        controls.autoRotateSpeed = 0.3; // Langsame Rotation für besseren Fokus
         controls.enablePan = false;
-        controls.enableZoom = false; // Disable zooming per user request
-        controls.enableRotate = false; // Disable manual rotation per user request
+        controls.enableZoom = false; // Zoom deaktiviert
+        controls.enableRotate = false; // Manuelle Rotation deaktiviert
 
-        // Listen to zoom changes - although zoom is disabled now, keeping state logic safe
+        // Zoom-Änderungen überwachen (Sicherheitslogik)
         controls.addEventListener('change', () => {
           if (globeRef.current) {
             const altitude = globeRef.current.pointOfView().altitude;
@@ -127,7 +127,7 @@ export function HeroScene({ onStart }: { onStart?: () => void }) {
           }
         });
       }
-      // Point of view focused on Europe (lat: 50, lng: 10)
+      // Fokus auf Europa (lat: 48, lng: 15)
       const isMobile = window.innerWidth < 768;
       globeRef.current.pointOfView({ lat: 48, lng: 15, altitude: isMobile ? 3.2 : 2.2 }, 0);
     }
@@ -137,7 +137,7 @@ export function HeroScene({ onStart }: { onStart?: () => void }) {
   const isTablet = windowSize.width >= 768 && windowSize.width < 1024;
   const isReduced = isMobile || isTablet;
 
-  // Intensity of glow increases as we zoom in (altitude decreases)
+  // Glow-Intensität steigt beim Zoomen (Altitude sinkt)
   const glowIntensity = Math.max(0.1, (2.6 - zoomLevel) / 1.5);
   const starOpacity = Math.min(0.9, 0.4 + glowIntensity * 0.5);
 
@@ -145,12 +145,12 @@ export function HeroScene({ onStart }: { onStart?: () => void }) {
     <motion.div 
       className="absolute inset-0 z-0 bg-[#000103] overflow-hidden flex items-center justify-center"
     >
-      {/* Dynamic Galaxy Background with Mouse Parallax and Celestial Rotation */}
+      {/* Dynamischer Galaxie-Hintergrund mit Maus-Parallaxe und Rotation */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Deep space base */}
+        {/* Deep Space Basis */}
         <div className="absolute inset-0 bg-black" />
         
-        {/* Celestial Starfield Layer - Hidden on all reduced devices for performance */}
+        {/* Himmelskörper-Sternenfeld (auf Mobilgeräten deaktiviert) */}
         {!isReduced && (
           <motion.div 
             className="absolute inset-[-50%] animate-celestial opacity-30"
@@ -167,7 +167,7 @@ export function HeroScene({ onStart }: { onStart?: () => void }) {
           </motion.div>
         )}
         
-        {/* Dense Starfield Layer 1 (Slowest parallax) */}
+        {/* Sternenfeld Ebene 1 (langsame Parallaxe) */}
         <motion.div 
           className="absolute inset-[-10%] animate-twinkle transition-transform duration-700 ease-out"
           style={{
@@ -179,11 +179,11 @@ export function HeroScene({ onStart }: { onStart?: () => void }) {
                               radial-gradient(1.2px 1.2px at 160px 120px, #fff, rgba(0,0,0,0)),
                               radial-gradient(1.3px 1.3px at 10px 10px, #fff, rgba(0,0,0,0))`,
             backgroundSize: '280px 280px',
-            filter: 'none' // Remove expensive blur filters for everyone for stability
+            filter: 'none' // Teure Blur-Filter zugunsten der Stabilität entfernt
           }}
         />
         
-        {/* Dense Starfield Layer 2 (Medium parallax) - Hidden on Reduced devices */}
+        {/* Sternenfeld Ebene 2 (mittlere Parallaxe, nur Desktop) */}
         {!isReduced && (
           <div 
             className="absolute inset-[-15%] opacity-50 animate-star-glow delay-500 transition-transform duration-1000 ease-out"
@@ -198,7 +198,7 @@ export function HeroScene({ onStart }: { onStart?: () => void }) {
           />
         )}
 
-        {/* Dense Starfield Layer 3 (Tiny specks) - Hidden on Reduced devices */}
+        {/* Sternenfeld Ebene 3 (feine Details, nur Desktop) */}
         {!isReduced && (
           <div 
             className="absolute inset-[-5%] opacity-30 transition-transform duration-1500 ease-out"
@@ -212,7 +212,7 @@ export function HeroScene({ onStart }: { onStart?: () => void }) {
           />
         )}
 
-        {/* Subtle Nebulae Layers - Optimized for Mobile/Tablet */}
+        {/* Dezente Nebel-Ebenen (optimiert für Mobilgeräte) */}
         <div 
           className="absolute top-[-30%] left-[-20%] w-[140%] h-[140%] opacity-15 animate-nebula bg-indigo-950 rounded-full transition-transform duration-[2000ms] ease-out"
           style={{ 
@@ -242,7 +242,7 @@ export function HeroScene({ onStart }: { onStart?: () => void }) {
           </>
         )}
 
-        {/* Shooting Stars - Only on Desktop */}
+        {/* Sternschnuppen (nur Desktop) */}
         {!isReduced && (
           <>
             <div className="absolute top-[-20%] left-[20%] w-[1px] h-[300px] bg-gradient-to-t from-white via-eu-gold/40 to-transparent opacity-0 animate-shooting pointer-events-none" style={{ animationDelay: '8s', filter: 'blur(0.4px)' }} />
@@ -250,7 +250,7 @@ export function HeroScene({ onStart }: { onStart?: () => void }) {
           </>
         )}
 
-        {/* Strong Cosmic Glow */}
+        {/* Starker kosmischer Glow */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(33,150,243,0.35)_0%,_rgba(0,51,153,0.1)_40%,_transparent_75%)]" />
       </div>
 
@@ -282,7 +282,7 @@ export function HeroScene({ onStart }: { onStart?: () => void }) {
           onPolygonHover={setHoveredCountry}
         />
 
-        {/* The Frontal Star Circle */}
+        {/* Vorderseitiger Sternenkreis */}
         <StarCircleOverlay windowSize={windowSize} />
       </div>
 

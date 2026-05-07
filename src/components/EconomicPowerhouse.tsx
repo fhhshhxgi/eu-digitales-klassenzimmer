@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { TrendingUp, Globe2, Landmark } from 'lucide-react';
 
+// Daten für den BIP-Vergleich (Wirtschaftskraft)
 const bipComparison = [
   { name: "USA", bip: "25 Bio. €", color: "bg-blue-600", share: 85 },
   { name: "Europäische Union", bip: "17 Bio. €", color: "bg-eu-gold", share: 65, isEU: true },
@@ -12,6 +13,7 @@ const bipComparison = [
 export function EconomicPowerhouse() {
   return (
     <div className="mt-8 glass-card p-8 border-white/5 bg-slate-900/40 relative overflow-hidden">
+      {/* Header-Bereich mit Titel und Info */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
         <div>
            <h3 className="text-2xl font-black text-white italic uppercase tracking-tighter mb-2">Globaler Wirtschaftsvergleich</h3>
@@ -24,6 +26,7 @@ export function EconomicPowerhouse() {
         </div>
       </div>
 
+      {/* Balkendiagramm für den BIP-Vergleich */}
       <div className="space-y-8">
         {bipComparison.map((item, i) => (
           <div key={item.name} className="space-y-2">

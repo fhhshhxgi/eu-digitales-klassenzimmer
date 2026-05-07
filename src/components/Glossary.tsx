@@ -49,6 +49,7 @@ export const GlossaryTerm: React.FC<GlossaryTermProps> = ({ termKey, children, c
 
   return (
     <span className="relative inline-block group">
+      {/* Tooltip-Container für Glossarbegriffe */}
       <span
         role="button"
         tabIndex={0}
@@ -94,7 +95,7 @@ export const GlossaryTerm: React.FC<GlossaryTermProps> = ({ termKey, children, c
               </span>
             </span>
             
-            {/* Arrow */}
+            {/* Pfeil-Indikator */}
             <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-slate-900 border-r border-b border-cyan-500/30 rotate-45" />
           </motion.span>
         )}

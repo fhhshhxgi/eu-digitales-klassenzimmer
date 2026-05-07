@@ -6,6 +6,7 @@ export function FutureExpansion() {
   return (
     <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
       <div className="md:col-span-2 glass-card p-8 border-white/5 bg-slate-900/40">
+         {/* Erweiterungs-Übersicht */}
          <div className="flex items-center gap-4 mb-6">
             <div className="p-3 bg-eu-blue/20 rounded-2xl text-eu-blue">
                <Map size={24} />
@@ -44,6 +45,7 @@ export function FutureExpansion() {
       </div>
 
       <div className="glass-card p-8 border-eu-gold/20 flex flex-col">
+         {/* Fokus-Thema: Migration */}
          <div className="mb-6">
             <Info size={32} className="text-eu-gold mb-4" />
             <h4 className="font-bold text-white mb-2">Migration gemeinsam lösen</h4>

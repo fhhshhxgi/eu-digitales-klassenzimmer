@@ -16,6 +16,7 @@ export function QuizPrompt({ groupId, topicTitle, tasks }: QuizPromptProps) {
       viewport={{ once: true }}
       className="mt-12 md:mt-20 p-6 md:p-8 glass-card border-eu-gold/30 bg-eu-gold/5 relative overflow-hidden"
     >
+      {/* Hintergrund-Icon (Gruppe) */}
       <div className="absolute top-0 right-0 p-4 opacity-10">
         <Group size={120} className="text-eu-gold" />
       </div>

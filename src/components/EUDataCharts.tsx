@@ -192,7 +192,7 @@ export function EUDataCharts() {
           </div>
         </motion.div>
 
-        {/* EU Budget Pie Chart */}
+        {/* Kuchendiagramm: EU-Budgetverteilung */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -247,7 +247,7 @@ export function EUDataCharts() {
         </motion.div>
       </div>
 
-      {/* Info Cards */}
+      {/* Info-Karten: Zusammenfassung */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="glass-card p-6 border-l-4 border-l-eu-gold bg-gradient-to-br from-eu-gold/5 to-transparent">
           <DollarSign className="text-eu-gold mb-3" size={20} />

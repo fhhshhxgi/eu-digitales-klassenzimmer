@@ -128,9 +128,9 @@ export function EUDashboard() {
 
   return (
     <div className="space-y-8 py-8">
-      {/* Controls */}
+      {/* Steuerungselemente (Themen, Länder, Zeit) */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4 md:p-6 glass-card bg-eu-dark/60 border border-white/5 shadow-2xl">
-        {/* Metric Selector */}
+        {/* Metrik-Auswahl (Thema) */}
         <div className="space-y-2">
           <label className="text-[10px] text-eu-gold uppercase tracking-widest font-black flex items-center gap-2">
             <Activity size={12} /> Thema
@@ -149,7 +149,7 @@ export function EUDashboard() {
           </div>
         </div>
 
-        {/* Country 1 */}
+        {/* Primäres Land (Basis für Vergleich) */}
         <div className="space-y-2">
           <label className="text-[10px] text-white/40 uppercase tracking-widest font-black">Primäres Land</label>
           <div className="relative group">
@@ -166,7 +166,7 @@ export function EUDashboard() {
           </div>
         </div>
 
-        {/* Comparison Toggle & Selector */}
+        {/* Vergleichs-Umschalter & Länder-Selektor */}
         <div className="space-y-2">
           <div className="flex justify-between items-center">
             <label className="text-[10px] text-white/40 uppercase tracking-widest font-black">Vergleich</label>
@@ -192,7 +192,7 @@ export function EUDashboard() {
           </div>
         </div>
 
-        {/* Year Slider */}
+        {/* Schieberegler für den Zeitraum */}
         <div className="space-y-2">
            <label className="text-[10px] text-white/40 uppercase tracking-widest font-black flex justify-between">
             Zeitraum <span>{yearRange[0]} - {yearRange[1]}</span>
@@ -210,9 +210,9 @@ export function EUDashboard() {
         </div>
       </div>
 
-      {/* Main Visualization Area */}
+      {/* Haupt-Visualisierungsbereich */}
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-        {/* Legend / Info Cards */}
+        {/* Legende / Detail-Karten */}
         <div className="space-y-4">
           <motion.div 
             key={metric}
@@ -249,7 +249,7 @@ export function EUDashboard() {
             </div>
           </motion.div>
 
-          {/* Mini Fact */}
+          {/* Kleiner Fakten-Check */}
           <div className="p-4 glass-card bg-eu-blue/10 border border-eu-blue/20">
             <div className="flex items-center gap-2 mb-2">
               <Info size={14} className="text-eu-blue" />
@@ -267,7 +267,7 @@ export function EUDashboard() {
           </div>
         </div>
 
-        {/* Main Chart */}
+        {/* Haupt-Diagramm (Liniengrafik) */}
         <div className="xl:col-span-2 glass-card p-4 md:p-6 bg-slate-900/40 relative overflow-hidden h-[300px] md:h-[450px]">
           <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
             <ArrowLeftRight size={200} />
@@ -322,7 +322,7 @@ export function EUDashboard() {
         </div>
       </div>
 
-      {/* Comparison Grid */}
+      {/* Metriken-Vergleichsraster (Schnellauswahl) */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {Object.entries(metrics).map(([id, m]) => (
           <button

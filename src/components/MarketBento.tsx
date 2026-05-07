@@ -67,7 +67,7 @@ export function MarketBento() {
 
   return (
     <div className="w-full space-y-8">
-      {/* Visual Simulation Area */}
+      {/* Visualisierungs-Bereich für die Simulation */}
       <div className="glass-card h-64 md:h-80 relative overflow-hidden bg-slate-950/80 border-eu-blue/20">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
@@ -81,7 +81,7 @@ export function MarketBento() {
             exit={{ opacity: 0 }}
             className="absolute inset-0 flex items-center justify-center p-8"
           >
-            {/* Background Glow */}
+            {/* Hintergrund-Glow Effekt */}
             <div className={`absolute w-64 h-64 rounded-full blur-[100px] opacity-20 bg-gradient-to-r ${activeTab.color}`} />
             
             <div className="relative z-10 w-full max-w-2xl flex flex-col md:flex-row items-center justify-between gap-8">
@@ -113,7 +113,7 @@ export function MarketBento() {
                </div>
             </div>
 
-            {/* Simulated Movement */}
+            {/* Partikel-Stromeffekt im Hintergrund */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                {[...Array(5)].map((_, i) => (
                  <motion.div
@@ -137,7 +137,7 @@ export function MarketBento() {
         </AnimatePresence>
       </div>
 
-      {/* Selectors */}
+      {/* Auswahl-Kacheln (Bento-Grid) */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {marketFeatures.map((feature) => (
           <motion.button
@@ -164,7 +164,7 @@ export function MarketBento() {
               )}
             </AnimatePresence>
 
-            {/* Sweep effect on hover */}
+            {/* Überroll-Effekt (Sweep) */}
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
               <motion.div 
                 initial={{ x: "-100%" }}
@@ -192,7 +192,7 @@ export function MarketBento() {
               </p>
             </div>
             
-            {/* Active Glow Dot */}
+            {/* Indikator-Punkt für aktiven Tab */}
             {activeTab.id === feature.id && (
               <motion.div 
                 layoutId="active-dot"

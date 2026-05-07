@@ -23,7 +23,7 @@ export function DisclaimerModal({ isOpen, onClose }: DisclaimerModalProps) {
             exit={{ scale: 0.9, opacity: 0, y: 20 }}
             className="glass-card max-w-lg w-full p-8 border-eu-gold/30 relative overflow-hidden"
           >
-            {/* Background Accent */}
+            {/* Hintergrund-Akzent (Glow) */}
             <div className="absolute -top-24 -right-24 w-48 h-48 bg-eu-gold/10 rounded-full blur-3xl pointer-events-none" />
             
             <div className="flex flex-col items-center text-center relative z-10">

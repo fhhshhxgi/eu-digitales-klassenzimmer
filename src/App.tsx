@@ -23,6 +23,7 @@ import { FutureScenarios } from './components/FutureScenarios';
 import { EconomicPowerhouse } from './components/EconomicPowerhouse';
 import { LoadingScreen } from './components/LoadingScreen';
 import { IntroTutorial } from './components/IntroTutorial';
+import { AudioCheckModal } from './components/AudioCheckModal';
 import { GuidedTour, TourStep } from './components/GuidedTour';
 import { TabletNav } from './components/TabletNav';
 import { CouncilSimulator } from './components/CouncilSimulator';
@@ -78,6 +79,7 @@ const EU_GOLD = '#FFCC00';
 
 export default function App() {
   const [isDisclaimerOpen, setIsDisclaimerOpen] = useState(true);
+  const [isAudioCheckOpen, setIsAudioCheckOpen] = useState(false);
   const [isImpressumOpen, setIsImpressumOpen] = useState(false);
   const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
   const [activeDetailedTopic, setActiveDetailedTopic] = useState<number | null>(null);
@@ -89,17 +91,17 @@ export default function App() {
   const [showIntro, setShowIntro] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
   const { playClick, playHero, playGroupSelect } = useSounds();
-
-  // Handle Initial Loading
+  
+  // Initialer Ladestatus
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 1500); // 1.5 seconds loading
-
+    }, 1500); // 1,5 Sekunden Ladezeit
+  
     return () => clearTimeout(timer);
   }, []);
-
-  // Lock scroll until archive is opened
+  
+  // Scroll-Sperre bis zum Archiv-Start
   useEffect(() => {
     if (!hasStarted) {
       document.body.style.overflow = 'hidden';
@@ -110,8 +112,8 @@ export default function App() {
       document.body.style.overflow = 'unset';
     };
   }, [hasStarted]);
-
-  // Monitor scroll position for "Back to Top" button
+  
+  // Scroll-Überwachung für "Nach oben"-Button
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 400) {
@@ -120,12 +122,12 @@ export default function App() {
         setShowScrollTop(false);
       }
     };
-
+  
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  // Lock body scroll when mobile menu is open
+  
+  // Scroll-Sperre bei offenem Mobile-Menü
   useEffect(() => {
     if (isMobileMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -618,7 +620,14 @@ export default function App() {
 
       <DisclaimerModal 
         isOpen={isDisclaimerOpen} 
-        onClose={() => setIsDisclaimerOpen(false)} 
+        onClose={() => {
+          setIsDisclaimerOpen(false);
+          setIsAudioCheckOpen(true);
+        }} 
+      />
+      <AudioCheckModal
+        isOpen={isAudioCheckOpen}
+        onClose={() => setIsAudioCheckOpen(false)}
       />
       <ImpressumModal 
         isOpen={isImpressumOpen} 
@@ -635,7 +644,7 @@ export default function App() {
         content={activeDetailedTopic !== null ? detailedContent[activeDetailedTopic] : { sections: [] }}
       />
 
-      {/* Device Orientation Notice - Visible on mobile/tablet and portrait orientations */}
+      {/* Orientierungshinweis für Mobilgeräte */}
       {showDeviceNotice && (
         <motion.div 
           initial={{ y: 100, opacity: 0 }}
@@ -663,7 +672,7 @@ export default function App() {
         </motion.div>
       )}
 
-      {/* Decorative background elements from theme */}
+      {/* Dekorative Background-Elemente */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         {!isLowDevice && (
           <>
@@ -692,7 +701,7 @@ export default function App() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,#003399_0%,#000F26_70%)] opacity-40" />
       </div>
 
-      {/* Navigation Layer */}
+      {/* Navigations-Ebene */}
       {hasStarted && !showIntro && activeTourGroup === null && (
         <nav className="fixed top-0 left-0 w-full h-16 z-50 px-6 md:px-10 flex justify-between items-center bg-eu-panel backdrop-blur-md border-b border-white/10">
           <a href="#" className="flex items-center gap-4 group">
@@ -719,7 +728,7 @@ export default function App() {
             <span className="tracking-[0.2em] font-light text-xs uppercase text-white/80 hidden sm:block group-hover:text-eu-gold transition-colors">EU Knowledge Archive</span>
           </a>
           
-          {/* Desktop Links */}
+          {/* Desktop-Navigation */}
           <div className="hidden md:flex items-center gap-8 text-[10px] font-semibold tracking-widest uppercase text-white/60">
             <a href="#history" className="hover:text-white transition-colors hover:border-b hover:border-eu-gold/50 pb-1">Geschichte</a>
             <a href="#diversity" className="hover:text-white transition-colors hover:border-b hover:border-eu-gold/50 pb-1">Staaten</a>
@@ -728,7 +737,7 @@ export default function App() {
             <a href="#future" className="hover:text-white transition-colors hover:border-b hover:border-eu-gold/50 pb-1">Zukunft</a>
           </div>
   
-          {/* Mobile Menu Toggle */}
+          {/* Mobile-Menü Toggle */}
           <button 
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="md:hidden text-white/80 hover:text-eu-gold p-2 transition-colors relative z-50"
@@ -737,7 +746,7 @@ export default function App() {
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
   
-          {/* Mobile Menu Overlay */}
+          {/* Mobile-Menü Overlay */}
           <AnimatePresence>
             {isMobileMenuOpen && (
               <motion.div
@@ -747,7 +756,7 @@ export default function App() {
                 transition={{ type: "spring", stiffness: 300, damping: 35 }}
                 className="fixed inset-0 bg-eu-dark/98 backdrop-blur-3xl z-40 flex flex-col items-center justify-center p-6 md:hidden"
               >
-                {/* Background Stars for menu */}
+                {/* Hintergrund-Sterne für das Menü */}
                 <div className="absolute inset-0 pointer-events-none opacity-20">
                   <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-eu-gold rounded-full blur-[100px]" />
                   <div className="absolute bottom-1/4 right-1/4 w-32 h-32 bg-eu-blue rounded-full blur-[100px]" />

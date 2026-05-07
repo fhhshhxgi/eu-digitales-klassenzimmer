@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Globe2, Ship, Truck, Plane, ArrowRightLeft, BarChart3 } from 'lucide-react';
 
+// Daten für den globalen Handel
 const tradeData = [
   { partner: "Intra-EU", export: "4,3 Bio. USD", import: "4,3 Bio. USD", color: "bg-eu-gold", isBig: true, expWidth: '98%', impWidth: '98%' },
   { partner: "USA", export: "2,1 Bio. USD", import: "3,2 Bio. USD", color: "bg-blue-500", expWidth: '48%', impWidth: '74%' },
@@ -13,6 +14,7 @@ const tradeData = [
 export function GlobalTrade() {
   return (
     <div className="mt-12 glass-card p-8 border-eu-blue/20 bg-slate-900/40 relative overflow-hidden">
+       {/* Hintergrund-Deko: Globus */}
        <div className="absolute top-0 right-0 p-8 opacity-5">
           <Globe2 size={120} />
        </div>
@@ -23,6 +25,7 @@ export function GlobalTrade() {
              Der Binnenhandel (Intra-EU) ist der größte Motor. Im globalen Vergleich verhandelt die EU als geschlossener Block mit Drittstaaten.
           </p>
 
+          {/* Grid für Handelspartner */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
              {tradeData.map((t, i) => (
                <motion.div 
@@ -70,6 +73,7 @@ export function GlobalTrade() {
              ))}
           </div>
 
+          {/* Handels-Statistik Panel */}
           <div className="mt-8 flex flex-col md:flex-row gap-6 items-center bg-black/40 p-6 rounded-3xl border border-white/5">
              <div className="flex items-center gap-6">
                 <div className="flex gap-2">

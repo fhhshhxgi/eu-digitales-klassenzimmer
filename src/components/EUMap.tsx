@@ -440,7 +440,7 @@ export function EUMap() {
 
   return (
     <div className="space-y-6">
-      {/* Time Control Bar */}
+      {/* Zeitstrahl-Steuerung (Play/Pause, Slider) */}
       <div className="glass-card p-4 md:p-6 bg-slate-900/60 flex flex-col md:flex-row items-center gap-4 md:gap-6 border-b-2 border-b-eu-blue relative z-20">
         <div className="flex items-center justify-between w-full md:w-auto gap-4 md:gap-6">
           <button 
@@ -501,7 +501,7 @@ export function EUMap() {
             </div>
           )}
 
-          {/* Floating Year Detail */}
+          {/* Detail-Anzeige für das Jahr */}
           <div className="absolute top-3 left-3 md:top-4 md:left-4 z-10 space-y-2 max-w-[200px] sm:max-w-[250px] md:max-w-none">
             <div className="inline-flex items-center gap-2 bg-eu-blue/80 backdrop-blur-sm px-2 py-1 md:px-3 md:py-1.5 rounded-full border border-white/10">
               <WavingEUFlag />
@@ -576,7 +576,7 @@ export function EUMap() {
                 animate={{ scale: 1, opacity: 1 }}
                 key={selectedCountry.id}
               >
-                {/* Outer pulsing ring */}
+                {/* Äußerer pulsierender Ring */}
                 <motion.circle
                   r={8}
                   fill="#FFCC00"
@@ -591,9 +591,9 @@ export function EUMap() {
                     ease: "easeInOut"
                   }}
                 />
-                {/* Inner dot */}
+                {/* Innerer Punkt */}
                 <circle r={3} fill="#FFCC00" stroke="#0f172a" strokeWidth={1} />
-                {/* Capital label */}
+                {/* Hauptstadt-Label */}
                 <motion.text
                   y={-15}
                   textAnchor="middle"
@@ -708,7 +708,7 @@ export function EUMap() {
               <h3 className="text-xl font-bold text-white mb-2 italic">Zeitreise-Modus</h3>
               <p className="text-sm text-slate-400 mb-6">Nutze den Slider oben oder drücke Play, um die Geschichte der EU-Erweiterung zu sehen.</p>
               
-              {/* List of countries joined in current year */}
+              {/* Liste der Länder, die im aktuellen Jahr beigetreten sind */}
               <div className="w-full text-left bg-white/5 p-4 rounded-xl border border-white/10">
                 <span className="text-[10px] text-eu-gold uppercase tracking-widest font-black block mb-2">Beitritte in {currentYear}:</span>
                 <div className="flex flex-wrap gap-2">

@@ -44,7 +44,7 @@ export function FutureScenarios() {
             transition={{ delay: i * 0.1 }}
             className="glass-card relative p-8 group hover:border-eu-gold/30 transition-all cursor-default"
           >
-            {/* Index number bubble */}
+            {/* Index-Nummer Blase */}
             <div className="absolute -top-4 -left-4 w-10 h-10 rounded-full bg-eu-dark border border-white/10 flex items-center justify-center text-xs font-bold font-mono">
                S{i+1}
             </div>

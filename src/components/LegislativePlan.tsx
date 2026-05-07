@@ -42,7 +42,7 @@ export function LegislativePlan() {
 
   return (
     <div className="relative mt-8 group">
-      {/* Visual Pipeline */}
+      {/* Visuelle Pipeline (Fortschrittslinie) */}
       <div className="hidden lg:block absolute top-[52px] left-0 right-0 h-[2px] bg-white/5 -z-10">
          <motion.div 
             initial={{ width: 0 }}
@@ -72,7 +72,7 @@ export function LegislativePlan() {
                )}
                {React.cloneElement(step.icon as React.ReactElement, { size: 32, className: activeStep === i ? "text-eu-gold" : "text-white/60" })}
                
-               {/* Label on the node */}
+               {/* Schritt-Nummer auf dem Knoten */}
                <div className={`absolute -top-3 -right-3 w-8 h-8 rounded-full font-black text-xs flex items-center justify-center border-2 border-eu-dark ${
                  activeStep === i ? 'bg-eu-gold text-eu-dark' : 'bg-white/20 text-white/60'
                }`}>
@@ -87,7 +87,7 @@ export function LegislativePlan() {
         ))}
       </div>
 
-      {/* Detail Display */}
+      {/* Detail-Anzeige des aktuellen Schritts */}
       <AnimatePresence mode="wait">
         <motion.div
            key={activeStep}
@@ -96,7 +96,7 @@ export function LegislativePlan() {
            exit={{ opacity: 0, scale: 0.98 }}
            className="glass-card p-1 md:p-8 bg-gradient-to-br from-eu-blue/10 to-transparent border-white/5 relative overflow-hidden"
         >
-          {/* Decorative Background Icon */}
+          {/* Dekoratives Icon im Hintergrund */}
           <div className="absolute -right-12 -bottom-12 opacity-5 scale-[5] pointer-events-none">
             {steps[activeStep].icon}
           </div>
