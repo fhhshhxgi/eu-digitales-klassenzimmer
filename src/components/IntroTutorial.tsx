@@ -12,6 +12,7 @@ import {
   Target
 } from 'lucide-react';
 import { cn } from '../lib/utils';
+import { GlossaryTerm } from './Glossary';
 
 type Phase = 'loading' | 'selection';
 
@@ -20,7 +21,7 @@ interface Group {
   name: string;
   color: string;
   icon: React.ReactNode;
-  briefing: string;
+  briefing: React.ReactNode;
 }
 
 const GROUPS: Group[] = [
@@ -29,35 +30,35 @@ const GROUPS: Group[] = [
     name: 'Geschichte & Entstehung', 
     color: 'text-amber-400', 
     icon: <History className="w-8 h-8" />, 
-    briefing: 'Anfänge der EU: Von Kohle und Stahl zum Friedensprojekt.'
+    briefing: <>Anfänge der EU: Von Kohle und Stahl (<GlossaryTerm termKey="EGKS">EGKS</GlossaryTerm>) zum <GlossaryTerm termKey="Friedensprojekt">Friedensprojekt</GlossaryTerm>.</>
   },
   { 
     id: 2, 
     name: 'Mitgliedsstaaten & Vielfalt', 
     color: 'text-cyan-400', 
     icon: <Globe className="w-8 h-8" />, 
-    briefing: 'Vielfalt der 27 Länder und Leben im Schengen-Raum.'
+    briefing: <>Vielfalt der 27 Länder und Leben im <GlossaryTerm termKey="Schengen-Raum">Schengen-Raum</GlossaryTerm>.</>
   },
   { 
     id: 3, 
     name: 'Institutionen & Prozesse', 
     color: 'text-purple-400', 
     icon: <Scale className="w-8 h-8" />, 
-    briefing: 'Die Machtzentralen: Wie die EU heute entscheidet.'
+    briefing: <>Die <GlossaryTerm termKey="Institutionen">Machtzentralen</GlossaryTerm>: Wie die EU heute gemeinsam entscheidet.</>
   },
   { 
     id: 4, 
     name: 'Wirtschaft & Binnenmarkt', 
     color: 'text-emerald-400', 
     icon: <Coins className="w-8 h-8" />, 
-    briefing: 'Binnenmarkt: Wirtschaft, Euro und freies Reisen.'
+    briefing: <><GlossaryTerm termKey="Binnenmarkt" />: Wirtschaft, Euro und freies Reisen im gemeinsamen <GlossaryTerm termKey="Wirtschaftsraum" />.</>
   },
   { 
     id: 5, 
     name: 'Herausforderungen & Zukunft', 
     color: 'text-blue-400', 
     icon: <Cpu className="w-8 h-8" />, 
-    briefing: 'Zukunft der Union: Klima, Technik und neue Visionen.'
+    briefing: 'Zukunft der Union: Klima, Technik und neue digitale Visionen.'
   },
 ];
 
@@ -120,7 +121,7 @@ export const IntroTutorial: React.FC<{ onComplete: (groupId: number) => void }> 
                 EU Archive
               </h1>
               <p className="text-cyan-400 font-mono tracking-[0.3em] uppercase text-[10px]">
-                European Exploration System
+                Analytical Database Access
               </p>
             </motion.div>
 
@@ -155,8 +156,8 @@ export const IntroTutorial: React.FC<{ onComplete: (groupId: number) => void }> 
           >
             <div className="text-center mb-12">
 
-              <h2 className="text-3xl md:text-5xl font-black tracking-tighter uppercase italic text-white mb-4">Themenbereich wählen</h2>
-              <p className="text-slate-400 font-medium tracking-tight">Wähle deinen Arbeitsbereich aus, um die Einführung zu beginnen.</p>
+              <h2 className="text-3xl md:text-5xl font-black tracking-tighter uppercase italic text-white mb-4">Sektor auswählen</h2>
+              <p className="text-slate-400 font-medium tracking-tight">Wählen Sie einen Analysebereich für die Recherche-Einführung.</p>
             </div>
 
             <div className="grid grid-cols-1 xl:grid-cols-5 gap-6 xl:gap-4 items-stretch">

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { HelpCircle, ChevronRight, ChevronLeft, X, Play, Target } from 'lucide-react';
 import { cn } from '../lib/utils';
+import { useSounds } from './SoundProvider';
 
 export interface TourStep {
   selector: string;
@@ -21,6 +22,7 @@ export const GuidedTour: React.FC<GuidedTourProps> = ({ steps, onComplete, group
   const [currentStep, setCurrentStep] = useState(0);
   const [coords, setCoords] = useState<{ top: number; left: number; width: number; height: number } | null>(null);
   const [isReady, setIsReady] = useState(true);
+  const { playTutorialStep } = useSounds();
   const containerRef = useRef<HTMLDivElement>(null);
 
   const scrollToCurrentStep = () => {
@@ -210,7 +212,10 @@ export const GuidedTour: React.FC<GuidedTourProps> = ({ steps, onComplete, group
           <div className="flex items-center space-x-2">
             {currentStep > 0 && (
               <button 
-                onClick={() => setCurrentStep(prev => prev - 1)}
+                onClick={() => {
+                  setCurrentStep(prev => prev - 1);
+                  playTutorialStep();
+                }}
                 className="p-3 hover:bg-white/5 rounded-xl transition-colors text-slate-500 hover:text-white"
               >
                 <ChevronLeft className="w-4 h-4" />
@@ -219,7 +224,10 @@ export const GuidedTour: React.FC<GuidedTourProps> = ({ steps, onComplete, group
             
             {currentStep < steps.length - 1 ? (
               <button 
-                onClick={() => setCurrentStep(prev => prev + 1)}
+                onClick={() => {
+                  setCurrentStep(prev => prev + 1);
+                  playTutorialStep();
+                }}
                 className="px-6 py-3 bg-eu-gold text-black text-xs font-black rounded-xl flex items-center group transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(255,204,0,0.3)]"
               >
                 WEITER
@@ -227,7 +235,10 @@ export const GuidedTour: React.FC<GuidedTourProps> = ({ steps, onComplete, group
               </button>
             ) : (
               <button 
-                onClick={onComplete}
+                onClick={() => {
+                  onComplete();
+                  playTutorialStep();
+                }}
                 className="px-6 py-3 bg-white text-black text-xs font-black rounded-xl flex items-center group transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.2)]"
               >
                 RECHERCHE STARTEN

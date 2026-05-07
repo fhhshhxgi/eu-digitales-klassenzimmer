@@ -10,7 +10,7 @@ interface DetailedSectionModalProps {
   content: {
     sections: {
       subtitle: string;
-      text: string;
+      text: React.ReactNode;
       points?: { title: string; detail: string }[];
     }[];
   };

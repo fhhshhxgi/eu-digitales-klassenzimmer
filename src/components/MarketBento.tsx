@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingBag, Users, Briefcase, Landmark, ArrowRightLeft, ShieldCheck, Globe2, Zap } from 'lucide-react';
+import { GlossaryTerm } from './Glossary';
 
 const marketFeatures = [
   {
@@ -9,7 +10,11 @@ const marketFeatures = [
     short: "Zollfrei",
     icon: <ShoppingBag />,
     color: "from-blue-500 to-cyan-400",
-    description: "Keine Zölle beim Grenzübertritt. Einheitliche Sicherheitsstandards für alle Produkte.",
+    description: (
+      <>
+        Keine Zölle beim Grenzübertritt. Einheitliche Sicherheitsstandards für alle Produkte im <GlossaryTerm termKey="Binnenmarkt" />.
+      </>
+    ),
     details: ["Gemeinsame Normen", "CE-Kennzeichnung", "Grenzen ohne Stau"],
     visual: "simulate-goods"
   },
@@ -19,7 +24,11 @@ const marketFeatures = [
     short: "Grenzenlos",
     icon: <Users />,
     color: "from-eu-gold to-orange-400",
-    description: "Freie Wahl des Wohn- und Arbeitsortes. Anerkennung von Abschlüssen in der ganzen EU.",
+    description: (
+      <>
+        Freie Wahl des Wohn- und Arbeitsortes. Anerkennung von Abschlüssen in der ganzen EU, besonders im <GlossaryTerm termKey="Schengen-Raum" />.
+      </>
+    ),
     details: ["Erasmus+ Programme", "Niederlassungsfreiheit", "Soziale Sicherheit"],
     visual: "simulate-people"
   },
@@ -29,7 +38,11 @@ const marketFeatures = [
     short: "Überregional",
     icon: <Briefcase />,
     color: "from-purple-500 to-indigo-400",
-    description: "Unternehmen können ihre Dienstleistungen überall anbieten, von IT bis zum Handwerk.",
+    description: (
+      <>
+        Unternehmen können ihre Dienstleistungen überall anbieten, von IT bis zum Handwerk, in einem großen <GlossaryTerm termKey="Wirtschaftsraum" />.
+      </>
+    ),
     details: ["Dienstleistungsrichtlinie", "Digitaler Binnenmarkt", "Grenzenloser E-Commerce"],
     visual: "simulate-services"
   },
@@ -39,7 +52,11 @@ const marketFeatures = [
     short: "Flüssig",
     icon: <Landmark />,
     color: "from-emerald-500 to-teal-400",
-    description: "Investitionen und Geldtransfers fließen ohne Hindernisse zwischen den Staaten.",
+    description: (
+      <>
+        Investitionen und Geldtransfers fließen ohne Hindernisse zwischen den Staaten unserer <GlossaryTerm termKey="Institutionen" />.
+      </>
+    ),
     details: ["Einheitlicher Euro-Zahlungsraum", "Bankenunion", "Investitionsschutz"],
     visual: "simulate-capital"
   }

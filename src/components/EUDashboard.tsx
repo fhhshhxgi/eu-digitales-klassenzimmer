@@ -7,6 +7,7 @@ import {
   Users, TrendingUp, Leaf, Briefcase, ChevronDown, 
   ArrowRight, ArrowLeftRight, Info, Activity
 } from 'lucide-react';
+import { GlossaryTerm } from './Glossary';
 
 // Historische Daten-Simulation für wichtige EU-Länder (Grobe Trends 2000-2024)
 const countryData: Record<string, any> = {
@@ -255,9 +256,13 @@ export function EUDashboard() {
               <span className="text-[10px] text-eu-blue font-black uppercase tracking-widest">Wusstest du schon?</span>
             </div>
             <p className="text-[11px] text-slate-400 leading-normal italic">
-              {metric === 'co2' ? 'Die EU hat sich zum Ziel gesetzt, bis 2050 klimaneutral zu werden. Der Green Deal ist das zentrale Werkzeug dafür.' : 
-               metric === 'unemployment' ? 'In Krisenzeiten zeigt sich oft eine starke Divergenz zwischen Nord- und Südeuropa.' :
-               'Seit 2000 hat die EU mehrere globale Krisen überstanden, was sich in den volatilen BIP-Kurven widerspiegelt.'}
+              {metric === 'co2' ? (
+                <>Die EU hat sich zum Ziel gesetzt, bis 2050 klimaneutral zu werden. Der Green Deal ist das zentrale Werkzeug in unserem <GlossaryTerm termKey="Wirtschaftsraum" />.</>
+              ) : 
+               metric === 'unemployment' ? (
+                <>In Krisenzeiten zeigt sich oft eine starke Divergenz zwischen Nord- und Südeuropa innerhalb der <GlossaryTerm termKey="Institutionen" />.</>
+              ) :
+               <>Seit 2000 hat die EU mehrere globale Krisen überstanden, was die Resilienz im <GlossaryTerm termKey="Binnenmarkt" /> widerspiegelt.</>}
             </p>
           </div>
         </div>

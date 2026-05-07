@@ -71,6 +71,7 @@ import {
 import { DemocracyCompass } from './components/DemocracyCompass';
 import { SecurityNodeNetwork } from './components/SecurityNodeNetwork';
 import { SteelCoalVisual } from './components/SteelCoalVisual';
+import { GlossaryTerm } from './components/Glossary';
 
 const EU_BLUE = '#003399';
 const EU_GOLD = '#FFCC00';
@@ -84,9 +85,10 @@ export default function App() {
   const [showDeviceNotice, setShowDeviceNotice] = useState(true);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [showIntro, setShowIntro] = useState(true);
   const [activeTourGroup, setActiveTourGroup] = useState<number | null>(null);
-  const { playClick } = useSounds();
+  const [showIntro, setShowIntro] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
+  const { playClick, playHero, playGroupSelect } = useSounds();
 
   // Handle Initial Loading
   useEffect(() => {
@@ -96,6 +98,18 @@ export default function App() {
 
     return () => clearTimeout(timer);
   }, []);
+
+  // Lock scroll until archive is opened
+  useEffect(() => {
+    if (!hasStarted) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [hasStarted]);
 
   // Monitor scroll position for "Back to Top" button
   useEffect(() => {
@@ -129,7 +143,11 @@ export default function App() {
       sections: [
         {
           subtitle: "Frieden durch wirtschaftliche Verflechtung",
-          text: "Nach 1945 stand Europa vor der Trümmerwüste zweier Weltkriege. Die zentrale Erkenntnis von Denkern wie Robert Schuman und Jean Monnet war: Nur wenn die kriegswichtigen Industrien (Kohle und Stahl) gemeinsam kontrolliert werden, kann kein Staat mehr heimlich aufrüsten. Dies war die Geburtsstunde der EGKS (1951).",
+          text: (
+            <>
+              Nach 1945 stand Europa vor der Trümmerwüste zweier Weltkriege. Die zentrale Erkenntnis von Denkern wie Robert Schuman und Jean Monnet war: Nur wenn die kriegswichtigen Industrien (Kohle und Stahl) gemeinsam kontrolliert werden, kann kein Staat mehr heimlich aufrüsten. Dies war die Geburtsstunde der <GlossaryTerm termKey="EGKS">EGKS</GlossaryTerm> (1951).
+            </>
+          ),
           points: [
             { 
               title: "Aussöhnung Deutschland-Frankreich", 
@@ -147,7 +165,11 @@ export default function App() {
         },
         {
           subtitle: "Vom gemeinsamen Markt zu den vier Freiheiten",
-          text: "1957 weiteten die 'Römischen Verträge' die Zusammenarbeit auf die gesamte Wirtschaft aus. Die Europäische Wirtschaftsgemeinschaft (EWG) zielte auf einen gemeinsamen Markt ab. Dies legte das Fundament für die heutigen vier Grundfreiheiten, die das Herzstück der EU bilden.",
+          text: (
+            <>
+              1957 weiteten die 'Römischen Verträge' die Zusammenarbeit auf die gesamte Wirtschaft aus. Die Europäische Wirtschaftsgemeinschaft (EWG) zielte auf einen gemeinsamen Markt ab. Dies legte das Fundament für die heutigen vier Grundfreiheiten, die das Herzstück der EU im <GlossaryTerm termKey="Binnenmarkt" /> bilden.
+            </>
+          ),
           points: [
              { 
               title: "Freier Waren- & Personenverkehr", 
@@ -224,7 +246,11 @@ export default function App() {
         },
         {
           subtitle: "Schengen: Ein Raum ohne Binnengrenzen",
-          text: "Das Schengener Abkommen ermöglicht Reisen ohne Grenzkontrollen. Dies ist für den Welthandel (Just-in-time-Lieferungen) und den Tourismus essenziell, fordert aber den verstärkten Schutz der Außengrenzen (Frontex).",
+          text: (
+            <>
+              Das Schengener Abkommen ermöglicht Reisen ohne Grenzkontrollen im <GlossaryTerm termKey="Schengen-Raum" />. Dies ist für den Welthandel (Just-in-time-Lieferungen) und den Tourismus essenziell, fordert aber den verstärkten Schutz der Außengrenzen (Frontex).
+            </>
+          ),
           points: [
             { 
               title: "Das SIS-System", 
@@ -247,7 +273,11 @@ export default function App() {
       sections: [
         {
           subtitle: "Die Hüterin der Verträge: Die Kommission",
-          text: "Die Kommission ist die Exekutive der EU und besitzt das sogenannte Initiativmonopol – sie ist die einzige Gruppe, die neue Gesetze vorschlagen darf. Sie besteht aus 27 Kommissaren (einer pro Land).",
+          text: (
+            <>
+              Die Kommission ist die Exekutive der EU und besitzt das sogenannte Initiativmonopol – sie ist die einzige Gruppe, die neue Gesetze vorschlagen darf. Sie gehört zu den zentralen <GlossaryTerm termKey="Institutionen" /> der Union. Sie besteht aus 27 Kommissaren (einer pro Land).
+            </>
+          ),
           points: [
             { 
               title: "Das Initiativmonopol", 
@@ -306,7 +336,11 @@ export default function App() {
       sections: [
         {
           subtitle: "Die vier Grundfreiheiten des Marktes",
-          text: "Der Binnenmarkt eliminiert nicht nur Zölle, sondern auch technische Hürden. Die vier Freiheiten (Waren, Personen, Dienstleistungen, Kapital) machen die EU zu einer der stärksten Wirtschaftsmächte der Welt.",
+          text: (
+            <>
+              Der Binnenmarkt eliminiert nicht nur Zölle, sondern auch technische Hürden. Die vier Freiheiten (Waren, Personen, Dienstleistungen, Kapital) machen die EU zu einer der stärksten Wirtschaftsmächte der Welt. Ein zentrales Element ist der <GlossaryTerm termKey="Binnenmarkt" />.
+            </>
+          ),
           points: [
             { 
               title: "Freier Warenverkehr", 
@@ -365,7 +399,11 @@ export default function App() {
       sections: [
         {
           subtitle: "Der Green Deal: Klima-Agenda 2050",
-          text: "Europa will der erste klimaneutrale Kontinent werden. Dies ist eine neue Wirtschaftsstrategie und erfordert den kompletten Umbau von Energie, Verkehr und Landwirtschaft unter hohem Zeitdruck.",
+          text: (
+            <>
+              Europa will der erste klimaneutrale Kontinent werden. Dies ist eine neue Wirtschaftsstrategie und erfordert den kompletten Umbau von Energie, Verkehr und Landwirtschaft unter hohem Zeitdruck in unserem gemeinsamen <GlossaryTerm termKey="Wirtschaftsraum" />.
+            </>
+          ),
           points: [
             { 
               title: "Klimaneutralität bis 2050", 
@@ -543,6 +581,7 @@ export default function App() {
           <IntroTutorial key="intro" onComplete={(groupId) => {
             setShowIntro(false);
             setActiveTourGroup(groupId);
+            playGroupSelect();
           }} />
         )}
         {activeTourGroup !== null && (
@@ -654,7 +693,7 @@ export default function App() {
       </div>
 
       {/* Navigation Layer */}
-      {!showIntro && activeTourGroup === null && (
+      {hasStarted && !showIntro && activeTourGroup === null && (
         <nav className="fixed top-0 left-0 w-full h-16 z-50 px-6 md:px-10 flex justify-between items-center bg-eu-panel backdrop-blur-md border-b border-white/10">
           <a href="#" className="flex items-center gap-4 group">
             <div className="flex items-center gap-2">
@@ -753,7 +792,11 @@ export default function App() {
       )}
 
       <header className="relative min-h-[100dvh] lg:min-h-screen flex items-center justify-center overflow-hidden pt-16">
-        <HeroScene />
+        <HeroScene onStart={() => {
+          setShowIntro(true);
+          setHasStarted(true);
+          playHero();
+        }} />
         
         {/* Left Focus Card - Hidden on mobile/tablet */}
         <div className="absolute top-32 left-10 w-80 z-20 hidden xl:block space-y-6">
@@ -836,15 +879,18 @@ export default function App() {
             </p>
             
             <div className="flex justify-center">
-              <motion.a
-                href="#history"
+              <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => playClick()}
-                className="px-8 py-4 md:px-10 md:py-5 bg-eu-gold text-black font-bold rounded-2xl flex items-center gap-3 transition-shadow shadow-[0_0_30px_rgba(255,204,0,0.2)] hover:shadow-[0_0_40px_rgba(255,204,0,0.4)] text-sm md:text-base"
+                onClick={() => {
+                  setShowIntro(true);
+                  setHasStarted(true);
+                  playHero();
+                }}
+                className="px-8 py-4 md:px-10 md:py-5 bg-eu-gold text-black font-bold rounded-2xl flex items-center gap-3 transition-shadow shadow-[0_0_30px_rgba(255,204,0,0.2)] hover:shadow-[0_0_40px_rgba(255,204,0,0.4)] text-sm md:text-base cursor-pointer"
               >
                 Archiv öffnen <ArrowRight size={20} />
-              </motion.a>
+              </motion.button>
             </div>
           </motion.div>
         </div>
@@ -859,12 +905,15 @@ export default function App() {
         </motion.div>
       </header>
 
-      {/* Intro Text */}
-      <div className="max-w-4xl mx-auto py-12 md:py-24 px-6 text-center">
-        <p className="text-lg sm:text-2xl md:text-3xl font-medium text-slate-300 leading-relaxed italic">
-          "Die Europäische Union ist eines der größten Projekte unserer Zeit. Sie verbindet 27 Länder mit ganz unterschiedlichen Kulturen, Sprachen und Werten zu einer starken Gemeinschaft."
-        </p>
-      </div>
+      {/* Main Content - Only visible after start */}
+      {hasStarted && (
+        <>
+          {/* Intro Text */}
+          <div className="max-w-4xl mx-auto py-12 md:py-24 px-6 text-center">
+            <p className="text-lg sm:text-2xl md:text-3xl font-medium text-slate-300 leading-relaxed italic">
+              "Die Europäische Union ist eines der größten Projekte unserer Zeit. Sie verbindet 27 Länder mit ganz unterschiedlichen Kulturen, Sprachen und Werten zu einer starken Gemeinschaft."
+            </p>
+          </div>
 
       {/* TOPIC 1: History */}
       <Section 
@@ -1452,6 +1501,8 @@ export default function App() {
           &copy; 2026 Cristian Liebrecht
         </div>
       </footer>
+    </>
+  )}
 
       {/* Floating Back to Top Button */}
       <AnimatePresence>

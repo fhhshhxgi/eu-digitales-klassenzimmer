@@ -73,7 +73,7 @@ const StarCircleOverlay = React.memo(({ windowSize }: { windowSize: { width: num
   );
 });
 
-export function HeroScene() {
+export function HeroScene({ onStart }: { onStart?: () => void }) {
   const globeRef = useRef<any>(null);
   const [countries, setCountries] = useState<any[]>([]);
   const [hoveredCountry, setHoveredCountry] = useState<any>(null);
@@ -290,7 +290,7 @@ export function HeroScene() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-900/20 via-transparent to-transparent" />
       </div>
 
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none w-full max-w-4xl px-6 text-center">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none w-full max-w-4xl px-6 text-center flex flex-col items-center">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 0.03, scale: 1 }}

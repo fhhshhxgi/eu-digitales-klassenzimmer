@@ -48,7 +48,19 @@ export const SteelCoalVisual = () => {
   const [prosperity, setProsperity] = useState(20);
   const [resistance, setResistance] = useState(0);
   const [showTutorial, setShowTutorial] = useState(true);
-  const { playClick, playSuccess } = useSounds();
+  const [hasPlayedEscalation, setHasPlayedEscalation] = useState(false);
+  const { playClick, playSuccess, playEscalation } = useSounds();
+
+  // Trigger escalation sound when tension reaches 50%
+  useEffect(() => {
+    if (tension >= 50 && !hasPlayedEscalation && !isAuthorityActive) {
+      playEscalation();
+      setHasPlayedEscalation(true);
+    } else if (tension < 40 && hasPlayedEscalation) {
+      // Reset trigger when tension drops below a threshold (with hysteresis)
+      setHasPlayedEscalation(false);
+    }
+  }, [tension, hasPlayedEscalation, playEscalation, isAuthorityActive]);
 
   // Simulation logic
   useEffect(() => {

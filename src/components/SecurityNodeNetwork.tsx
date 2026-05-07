@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Shield, Zap, Satellite, Users, Lock, Radio, Plus, Info } from 'lucide-react';
+import { useSounds } from './SoundProvider';
 
 const NODES = [
   {
@@ -72,6 +73,7 @@ const NODES = [
 
 export function SecurityNodeNetwork() {
   const [active, setActive] = useState<string | null>(null);
+  const { playSecurityNode } = useSounds();
 
   const activeNode = NODES.find(n => n.id === active);
 
@@ -214,7 +216,10 @@ export function SecurityNodeNetwork() {
 
                   {/* Node Button */}
                   <motion.button
-                    onClick={() => setActive(isActive ? null : node.id)}
+                    onClick={() => {
+                      setActive(isActive ? null : node.id);
+                      if (!isActive) playSecurityNode();
+                    }}
                     whileHover={{ scale: 1.15 }}
                     className={`relative z-10 w-20 h-20 md:w-24 md:h-24 rounded-full flex items-center justify-center transition-all duration-700
                       ${isActive ? `${node.bg} ${node.border} border-2 ${node.glow}` : 'bg-eu-dark/80 border border-white/10 hover:border-white/30'}
