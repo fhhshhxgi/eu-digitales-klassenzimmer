@@ -37,7 +37,7 @@ export function Section({ id, title, subtitle, children, className, color = 'blu
       ref={containerRef}
       style={{ opacity: displayOpacity, scale: displayScale }}
       className={cn(
-        "min-h-screen py-16 md:py-24 px-4 md:px-12 flex flex-col items-center justify-center relative overflow-hidden scroll-mt-16",
+        "min-h-screen py-16 md:py-24 px-4 md:px-12 flex flex-col items-center justify-center relative overflow-hidden scroll-mt-32",
         bgStyles[color],
         className
       )}

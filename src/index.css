@@ -184,3 +184,11 @@
 ::-webkit-scrollbar-thumb {
   @apply bg-eu-blue/50 rounded-full hover:bg-eu-gold/50 transition-colors;
 }
+
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}

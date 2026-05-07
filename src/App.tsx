@@ -22,6 +22,8 @@ import { GlobalTrade } from './components/GlobalTrade';
 import { FutureScenarios } from './components/FutureScenarios';
 import { EconomicPowerhouse } from './components/EconomicPowerhouse';
 import { LoadingScreen } from './components/LoadingScreen';
+import { IntroTutorial } from './components/IntroTutorial';
+import { GuidedTour, TourStep } from './components/GuidedTour';
 import { TabletNav } from './components/TabletNav';
 import { CouncilSimulator } from './components/CouncilSimulator';
 import { useSounds } from './components/SoundProvider';
@@ -82,6 +84,8 @@ export default function App() {
   const [showDeviceNotice, setShowDeviceNotice] = useState(true);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [showIntro, setShowIntro] = useState(true);
+  const [activeTourGroup, setActiveTourGroup] = useState<number | null>(null);
   const { playClick } = useSounds();
 
   // Handle Initial Loading
@@ -485,6 +489,45 @@ export default function App() {
     { name: 'Landwirtschaft', value: 10 },
   ];
 
+  const tourSteps: Record<number, TourStep[]> = {
+    1: [
+      { selector: '#history', title: 'Startpunkt: Geschichte', content: 'In diesem Bereich untersuchst du die Ursprünge der Europäischen Integration, beginnend mit der Montanunion.', offsetY: -100 },
+      { selector: '#visual-steel-coal', title: 'Friedenssicherung', content: 'Analysiere diese Visualisierung. Diese veranschaulicht, wie die gemeinsame Kontrolle über Kohle und Stahl kriegerische Auseinandersetzungen materiell unmöglich machte.', offsetY: -100 },
+      { selector: '#founding-fathers', title: 'Die Gründerväter', content: 'Lerne die Persönlichkeiten kennen, die das konzeptionelle Fundament für das heutige Europa gelegt haben.', offsetY: -120 },
+      { selector: '#eu-timeline', title: 'Entwicklungsphasen', content: 'Nutze den Zeitstrahl, um die wesentlichen Etappen der EU-Erweiterung und Vertragsentwicklung nachzuvollziehen.', offsetY: -120 },
+      { selector: '#detail-button-1', title: 'Fachwissenschaftliche Vertiefung', content: 'Hier findest du detaillierte Hintergrundinformationen und Quellen für deine Recherche.', offsetY: -200 },
+      { selector: '#quiz-prompt-1', title: 'Arbeitsauftrag', content: 'Abschließend bearbeitest du die hier aufgeführten Analyseaufgaben im Team.', offsetY: -200 },
+    ],
+    2: [
+      { selector: '#diversity', title: 'Themenschwerpunkt: Vielfalt', content: 'Dieser Sektor befasst sich mit der sozioökonomischen und kulturellen Diversität der 27 Mitgliedstaaten.', offsetY: -100 },
+      { selector: '#socio-models', title: 'Sozioökonomische Modelle', content: 'Untersuche die strukturellen Unterschiede zwischen den nordischen, südeuropäischen und östlichen Mitgliedstaaten.', offsetY: -100 },
+      { selector: '#eu-map', title: 'Geografische Übersicht', content: 'Nutze die interaktive Karte, um spezifische Daten zu den einzelnen Nationalstaaten abzurufen.', offsetY: -100 },
+      { selector: '#detail-button-2', title: 'Daten-Archiv', content: 'In diesem Archiv erhältst du vertiefende Einblicke in Themen wie Schengen, Kulturpolitik und Mehrsprachigkeit.', offsetY: -200 },
+      { selector: '#quiz-prompt-2', title: 'Arbeitsauftrag', content: 'Bearbeite die Aufgaben zur Analyse der europäischen Vielfalt.', offsetY: -200 },
+    ],
+    3: [
+      { selector: '#institutions', title: 'Institutionelles Gefüge', content: 'Erforsche hier die Organe der EU und ihre jeweiligen Kompetenzen im Entscheidungsprozess.', offsetY: -100 },
+      { selector: '#legislative-plan', title: 'Gesetzgebungsverfahren', content: 'Folge dem Pfad eines Rechtsakts von der Initiative bis zur Inkraftsetzung.', offsetY: -100 },
+      { selector: '#simulator-council', title: 'Ratssimulation', content: 'Teste im Simulator die Herausforderungen der Konsensfindung im Rat der Europäischen Union.', offsetY: -100 },
+      { selector: '#detail-button-3', title: 'Institutionelle Details', content: 'Hier findest du präzise Erläuterungen zu den Funktionen von Parlament, Rat und Kommission.', offsetY: -200 },
+      { selector: '#quiz-prompt-3', title: 'Arbeitsauftrag', content: 'Strukturiere deine Ergebnisse zum Machtgefüge in Brüssel.', offsetY: -200 },
+    ],
+    4: [
+      { selector: '#economy', title: 'Wirtschaftsraum EU', content: 'Dieser Bereich thematisiert den europäischen Binnenmarkt als zentralen Motor der Integration.', offsetY: -100 },
+      { selector: '#market-bento', title: 'Die vier Grundfreiheiten', content: 'Analysiere die Mechanismen des freien Waren-, Personen-, Dienstleistungs- und Kapitalverkehrs.', offsetY: -100 },
+      { selector: '#euro-zone', title: 'Die Währungsunion', content: 'Untersuche die Chancen und Herausforderungen der gemeinsamen Währung für die Eurozone.', offsetY: -100 },
+      { selector: '#detail-button-4', title: 'Wirtschaftsdaten', content: 'Nutze diese Datenbasis für deine Analyse des europäischen Wirtschaftsraums.', offsetY: -200 },
+      { selector: '#quiz-prompt-4', title: 'Arbeitsauftrag', content: 'Bereite deine ökonomische Analyse vor.', offsetY: -200 },
+    ],
+    5: [
+      { selector: '#future', title: 'Zukunftsperspektiven', content: 'Analysiere die strategischen Herausforderungen der EU für die kommenden Jahrzehnte.', offsetY: -100 },
+      { selector: '#challenge-radar', title: 'Strategie-Radar', content: 'Untersuche globale Spannungsfelder in den Bereichen Klimapolitik, Digitalisierung und Sicherheit.', offsetY: -100 },
+      { selector: '#future-scenarios', title: 'Zukunftsszenarien', content: 'Evaluiere verschiedene Modelle für die künftige Entwicklung der Union.', offsetY: -100 },
+      { selector: '#detail-button-5', title: 'Zukunfts-Archiv', content: 'Hier findest du Strategiepapiere zum Green Deal und zur digitalen Souveränität.', offsetY: -200 },
+      { selector: '#quiz-prompt-5', title: 'Arbeitsauftrag', content: 'Entwickle eine begründete Vision für die Zukunft der EU.', offsetY: -200 },
+    ]
+  };
+
   const [isLowDevice, setIsLowDevice] = useState(false);
   useEffect(() => {
     const checkLowDevice = () => setIsLowDevice(window.innerWidth < 1024);
@@ -496,10 +539,43 @@ export default function App() {
   return (
     <div className="bg-eu-dark min-h-screen relative selection:bg-eu-gold/30">
       <AnimatePresence>
-        {isLoading && <LoadingScreen key="loader" />}
+        {showIntro && (
+          <IntroTutorial key="intro" onComplete={(groupId) => {
+            setShowIntro(false);
+            setActiveTourGroup(groupId);
+          }} />
+        )}
+        {activeTourGroup !== null && (
+          <GuidedTour 
+            groupId={activeTourGroup}
+            steps={tourSteps[activeTourGroup] || []}
+            onComplete={() => {
+              const targetGroup = activeTourGroup;
+              setActiveTourGroup(null);
+              
+              const ids = ['history', 'diversity', 'institutions', 'economy', 'future'];
+              if (targetGroup !== null && targetGroup >= 1 && targetGroup <= ids.length) {
+                const targetId = ids[targetGroup - 1];
+                
+                // Use a combination of state settling and a more forceful scroll
+                setTimeout(() => {
+                  const element = document.getElementById(targetId);
+                  if (element) {
+                    const rect = element.getBoundingClientRect();
+                    const targetScrollTop = window.pageYOffset + rect.top - 80;
+                    window.scrollTo({
+                      top: targetScrollTop,
+                      behavior: 'smooth'
+                    });
+                  }
+                }, 200);
+              }
+            }} 
+          />
+        )}
       </AnimatePresence>
 
-      <TabletNav />
+      {!showIntro && activeTourGroup === null && <TabletNav />}
 
       <DisclaimerModal 
         isOpen={isDisclaimerOpen} 
@@ -578,101 +654,103 @@ export default function App() {
       </div>
 
       {/* Navigation Layer */}
-      <nav className="fixed top-0 left-0 w-full h-16 z-50 px-6 md:px-10 flex justify-between items-center bg-eu-panel backdrop-blur-md border-b border-white/10">
-        <a href="#" className="flex items-center gap-4 group">
-          <div className="flex items-center gap-2">
-            <motion.img 
-              src="https://flagcdn.com/w40/eu.png" 
-              alt="EU Flag" 
-              className="w-6 h-auto rounded-sm shadow-sm group-hover:scale-110 transition-transform"
-              animate={{
-                skewY: [0, 2, 0, -2, 0],
-                rotateZ: [0, 1, 0, -1, 0],
-              }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            />
-            <div className="w-8 h-8 relative flex items-center justify-center">
-              <div className="absolute inset-0 border border-eu-gold rounded-full animate-pulse group-hover:border-white transition-colors" />
-              <span className="text-eu-gold text-xl font-bold group-hover:text-white transition-colors">★</span>
+      {!showIntro && activeTourGroup === null && (
+        <nav className="fixed top-0 left-0 w-full h-16 z-50 px-6 md:px-10 flex justify-between items-center bg-eu-panel backdrop-blur-md border-b border-white/10">
+          <a href="#" className="flex items-center gap-4 group">
+            <div className="flex items-center gap-2">
+              <motion.img 
+                src="https://flagcdn.com/w40/eu.png" 
+                alt="EU Flag" 
+                className="w-6 h-auto rounded-sm shadow-sm group-hover:scale-110 transition-transform"
+                animate={{
+                  skewY: [0, 2, 0, -2, 0],
+                  rotateZ: [0, 1, 0, -1, 0],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
+              <div className="w-8 h-8 relative flex items-center justify-center">
+                <div className="absolute inset-0 border border-eu-gold rounded-full animate-pulse group-hover:border-white transition-colors" />
+                <span className="text-eu-gold text-xl font-bold group-hover:text-white transition-colors">★</span>
+              </div>
             </div>
+            <span className="tracking-[0.2em] font-light text-xs uppercase text-white/80 hidden sm:block group-hover:text-eu-gold transition-colors">EU Knowledge Archive</span>
+          </a>
+          
+          {/* Desktop Links */}
+          <div className="hidden md:flex items-center gap-8 text-[10px] font-semibold tracking-widest uppercase text-white/60">
+            <a href="#history" className="hover:text-white transition-colors hover:border-b hover:border-eu-gold/50 pb-1">Geschichte</a>
+            <a href="#diversity" className="hover:text-white transition-colors hover:border-b hover:border-eu-gold/50 pb-1">Staaten</a>
+            <a href="#institutions" className="hover:text-white transition-colors hover:border-b hover:border-eu-gold/50 pb-1">Institutionen</a>
+            <a href="#economy" className="hover:text-white transition-colors hover:border-b hover:border-eu-gold/50 pb-1">Wirtschaft</a>
+            <a href="#future" className="hover:text-white transition-colors hover:border-b hover:border-eu-gold/50 pb-1">Zukunft</a>
           </div>
-          <span className="tracking-[0.2em] font-light text-xs uppercase text-white/80 hidden sm:block group-hover:text-eu-gold transition-colors">EU Knowledge Archive</span>
-        </a>
-        
-        {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-8 text-[10px] font-semibold tracking-widest uppercase text-white/60">
-          <a href="#history" className="hover:text-white transition-colors hover:border-b hover:border-eu-gold/50 pb-1">Geschichte</a>
-          <a href="#diversity" className="hover:text-white transition-colors hover:border-b hover:border-eu-gold/50 pb-1">Staaten</a>
-          <a href="#institutions" className="hover:text-white transition-colors hover:border-b hover:border-eu-gold/50 pb-1">Institutionen</a>
-          <a href="#economy" className="hover:text-white transition-colors hover:border-b hover:border-eu-gold/50 pb-1">Wirtschaft</a>
-          <a href="#future" className="hover:text-white transition-colors hover:border-b hover:border-eu-gold/50 pb-1">Zukunft</a>
-        </div>
-
-        {/* Mobile Menu Toggle */}
-        <button 
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="md:hidden text-white/80 hover:text-eu-gold p-2 transition-colors relative z-50"
-          aria-label="Toggle Menu"
-        >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-
-        {/* Mobile Menu Overlay */}
-        <AnimatePresence>
-          {isMobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, x: "100%" }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: "100%" }}
-              transition={{ type: "spring", stiffness: 300, damping: 35 }}
-              className="fixed inset-0 bg-eu-dark/98 backdrop-blur-3xl z-40 flex flex-col items-center justify-center p-6 md:hidden"
-            >
-              {/* Background Stars for menu */}
-              <div className="absolute inset-0 pointer-events-none opacity-20">
-                <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-eu-gold rounded-full blur-[100px]" />
-                <div className="absolute bottom-1/4 right-1/4 w-32 h-32 bg-eu-blue rounded-full blur-[100px]" />
-              </div>
-
-              <div className="flex flex-col items-center gap-6 relative z-10 w-full max-w-xs">
-                {[
-                  { label: 'Geschichte', href: '#history' },
-                  { label: 'Staaten', href: '#diversity' },
-                  { label: 'Institutionen', href: '#institutions' },
-                  { label: 'Wirtschaft', href: '#economy' },
-                  { label: 'Zukunft', href: '#future' }
-                ].map((item, i) => (
-                  <motion.a
-                    key={item.label}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.05 + 0.2 }}
-                    href={item.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="group flex items-center justify-between w-full py-4 border-b border-white/5"
-                  >
-                    <span className="text-sm font-mono text-eu-gold/50">0{i+1}</span>
-                    <span className="text-2xl font-display font-black text-white group-hover:text-eu-gold transition-colors tracking-tight uppercase italic">{item.label}</span>
-                    <ChevronRight className="text-eu-gold/20 group-hover:text-eu-gold transition-colors" size={20} />
-                  </motion.a>
-                ))}
-              </div>
-              
-              <div className="mt-16 flex flex-col items-center gap-4 relative z-10">
-                <div className="flex gap-4">
-                  <div className="w-8 h-px bg-eu-gold/20 self-center" />
-                  <span className="text-eu-gold text-xl drop-shadow-[0_0_10px_rgba(255,204,0,0.5)]">★</span>
-                  <div className="w-8 h-px bg-eu-gold/20 self-center" />
+  
+          {/* Mobile Menu Toggle */}
+          <button 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden text-white/80 hover:text-eu-gold p-2 transition-colors relative z-50"
+            aria-label="Toggle Menu"
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+  
+          {/* Mobile Menu Overlay */}
+          <AnimatePresence>
+            {isMobileMenuOpen && (
+              <motion.div
+                initial={{ opacity: 0, x: "100%" }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: "100%" }}
+                transition={{ type: "spring", stiffness: 300, damping: 35 }}
+                className="fixed inset-0 bg-eu-dark/98 backdrop-blur-3xl z-40 flex flex-col items-center justify-center p-6 md:hidden"
+              >
+                {/* Background Stars for menu */}
+                <div className="absolute inset-0 pointer-events-none opacity-20">
+                  <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-eu-gold rounded-full blur-[100px]" />
+                  <div className="absolute bottom-1/4 right-1/4 w-32 h-32 bg-eu-blue rounded-full blur-[100px]" />
                 </div>
-                <p className="text-[10px] text-white/30 uppercase tracking-[0.4em] font-black">Knowledge Archive</p>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </nav>
+  
+                <div className="flex flex-col items-center gap-6 relative z-10 w-full max-w-xs">
+                  {[
+                    { label: 'Geschichte', href: '#history' },
+                    { label: 'Staaten', href: '#diversity' },
+                    { label: 'Institutionen', href: '#institutions' },
+                    { label: 'Wirtschaft', href: '#economy' },
+                    { label: 'Zukunft', href: '#future' }
+                  ].map((item, i) => (
+                    <motion.a
+                      key={item.label}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.05 + 0.2 }}
+                      href={item.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="group flex items-center justify-between w-full py-4 border-b border-white/5"
+                    >
+                      <span className="text-sm font-mono text-eu-gold/50">0{i+1}</span>
+                      <span className="text-2xl font-display font-black text-white group-hover:text-eu-gold transition-colors tracking-tight uppercase italic">{item.label}</span>
+                      <ChevronRight className="text-eu-gold/20 group-hover:text-eu-gold transition-colors" size={20} />
+                    </motion.a>
+                  ))}
+                </div>
+                
+                <div className="mt-16 flex flex-col items-center gap-4 relative z-10">
+                  <div className="flex gap-4">
+                    <div className="w-8 h-px bg-eu-gold/20 self-center" />
+                    <span className="text-eu-gold text-xl drop-shadow-[0_0_10px_rgba(255,204,0,0.5)]">★</span>
+                    <div className="w-8 h-px bg-eu-gold/20 self-center" />
+                  </div>
+                  <p className="text-[10px] text-white/30 uppercase tracking-[0.4em] font-black">Knowledge Archive</p>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </nav>
+      )}
 
       <header className="relative min-h-[100dvh] lg:min-h-screen flex items-center justify-center overflow-hidden pt-16">
         <HeroScene />
@@ -828,7 +906,7 @@ export default function App() {
             </div>
 
             {/* Rechte Spalte: Die krassere Visualisierung */}
-            <div className="xl:w-3/5 w-full">
+            <div className="xl:w-3/5 w-full" id="visual-steel-coal">
               <SteelCoalVisual />
             </div>
           </div>
@@ -859,7 +937,7 @@ export default function App() {
 
         <div className="mt-40">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-12 mb-24 px-4">
-            <div className="max-w-3xl border-l-4 border-eu-gold pl-10">
+            <div className="max-w-3xl border-l-4 border-eu-gold pl-10" id="founding-fathers">
               <h3 className="text-7xl font-black text-white italic uppercase tracking-tighter mb-4 leading-none">
                 DIE <br/> <span className="text-eu-gold">ARCHITEKTEN</span>
               </h3>
@@ -876,7 +954,9 @@ export default function App() {
             <h3 className="text-6xl font-black text-white italic uppercase tracking-tighter">MEILENSTEINE</h3>
             <div className="w-24 h-1 bg-eu-gold mx-auto mt-6" />
           </div>
-          <EUTimeline />
+          <div id="eu-timeline">
+            <EUTimeline />
+          </div>
         </div>
 
         <div className="flex justify-center mt-12 pb-8 border-b border-white/5">
@@ -884,21 +964,24 @@ export default function App() {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => setActiveDetailedTopic(0)}
+            id="detail-button-1"
             className="flex items-center gap-3 px-8 py-4 bg-white/5 border border-eu-gold/50 rounded-2xl text-eu-gold font-bold uppercase tracking-widest hover:bg-eu-gold/10 transition-all shadow-[0_0_15px_rgba(255,204,0,0.1)]"
           >
-            <BookOpen size={20} /> Detail-Archiv öffnen (Gruppe 1)
+            <BookOpen size={20} /> Facharchiv: Geschichte
           </motion.button>
         </div>
 
-        <QuizPrompt 
-          groupId={1} 
-          topicTitle="Entstehung und Entwicklung" 
-          tasks={[
-            "Analyse: Rekonstruiert die Motive hinter dem Schuman-Plan. Warum waren Kohle und Stahl der perfekte Schlüssel zum dauerhaften Frieden?",
-            "Anwendung: Erarbeitet eine fiktive Schlagzeile und einen kurzen Bericht für den 10. Mai 1950, der die Bedeutung dieses Tages erklärt.",
-            "Präsentation (5 Min.): 'Von Trümmern zum Fundament' – Stellt eure Ergebnisse kreativ vor (z.B. als kurzes Experten-Statement)."
-          ]}
-        />
+        <div id="quiz-prompt-1">
+          <QuizPrompt 
+            groupId={1} 
+            topicTitle="Entstehung und Entwicklung" 
+            tasks={[
+              "Analyse: Rekonstruiert die Motive hinter dem Schuman-Plan. Warum waren Kohle und Stahl der perfekte Schlüssel zum dauerhaften Frieden?",
+              "Anwendung: Erarbeitet eine fiktive Schlagzeile und einen kurzen Bericht für den 10. Mai 1950, der die Bedeutung dieses Tages erklärt.",
+              "Präsentation (5 Min.): 'Von Trümmern zum Fundament' – Stellt eure Ergebnisse kreativ vor (z.B. als kurzes Experten-Statement)."
+            ]}
+          />
+        </div>
       </Section>
 
       {/* TOPIC 2: Diversity */}
@@ -908,7 +991,7 @@ export default function App() {
         title="2. Staaten & Vielfalt" 
         subtitle="In Vielfalt geeint – von nordeuropäischen Wohlfahrtsstaaten bis zu den Transformationsstaaten des Ostens."
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="socio-models">
           <div className="md:col-span-2 glass-card p-6 md:p-10 flex flex-col justify-center">
             <h3 className="text-2xl md:text-3xl font-bold mb-6">Sozioökonomische Modelle</h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-1 lg:grid-cols-1 gap-4">
@@ -958,7 +1041,7 @@ export default function App() {
           </div>
         </div>
 
-        <div className="mt-16">
+        <div className="mt-16" id="eu-data-charts">
           <h3 className="text-3xl font-display font-bold text-white mb-4 text-center">Interaktive Datenanalyse</h3>
           <p className="text-slate-400 text-center mb-6 max-w-2xl mx-auto">
             Von der Wirtschaftskraft bis zur Budgetplanung – verstehe die materiellen Grundlagen der Union.
@@ -966,7 +1049,7 @@ export default function App() {
           <EUDataCharts />
         </div>
 
-        <div className="mt-20 pt-16 border-t border-white/5">
+        <div className="mt-20 pt-16 border-t border-white/5" id="eu-dashboard">
           <h3 className="text-3xl font-display font-bold text-white mb-4 text-center">Historisches Dashboard</h3>
           <p className="text-slate-400 text-center mb-6 max-w-2xl mx-auto">
             Analysiere und vergleiche die Entwicklung wichtiger Indikatoren über die letzten zwei Jahrzehnte.
@@ -974,7 +1057,7 @@ export default function App() {
           <EUDashboard />
         </div>
 
-        <div className="mt-16 border-t border-white/5 pt-16">
+        <div className="mt-16 border-t border-white/5 pt-16" id="eu-map">
            <h3 className="text-3xl font-display font-bold text-white mb-4 text-center">Interaktive EU-Karte</h3>
            <p className="text-slate-400 text-center mb-12 max-w-2xl mx-auto">Entdecke die Vielfalt der Mitgliedstaaten. Klicke auf ein Land, um Bevölkerung und Beitrittsjahr zu sehen.</p>
            <EUMap />
@@ -985,21 +1068,24 @@ export default function App() {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => setActiveDetailedTopic(1)}
+            id="detail-button-2"
             className="flex items-center gap-3 px-8 py-4 bg-white/5 border border-eu-gold/50 rounded-2xl text-eu-gold font-bold uppercase tracking-widest hover:bg-eu-gold/10 transition-all shadow-[0_0_15px_rgba(255,204,0,0.1)]"
           >
-            <BookOpen size={20} /> Detail-Archiv öffnen (Gruppe 2)
+            <BookOpen size={20} /> Facharchiv: Mitgliedsstaaten
           </motion.button>
         </div>
 
-        <QuizPrompt 
-          groupId={2} 
-          topicTitle="Mitgliedsstaaten und Vielfalt" 
-          tasks={[
-            "Analyse: Vergleicht zwei unterschiedliche EU-Regionen (z.B. Skandinavien vs. Mittelmeerraum) hinsichtlich ihrer wirtschaftlichen Schwerpunkte.",
-            "Anwendung: Entwerft ein Symbol oder Logo für das Motto 'In Vielfalt geeint' und begründet eure gestalterischen Entscheidungen.",
-            "Präsentation (5 Min.): 'Mosaik Europa' – Erklärt der Klasse, wie die EU trotz (oder wegen) ihrer großen Unterschiede funktioniert."
-          ]}
-        />
+        <div id="quiz-prompt-2">
+          <QuizPrompt 
+            groupId={2} 
+            topicTitle="Mitgliedsstaaten und Vielfalt" 
+            tasks={[
+              "Analyse: Vergleicht zwei unterschiedliche EU-Regionen (z.B. Skandinavien vs. Mittelmeerraum) hinsichtlich ihrer wirtschaftlichen Schwerpunkte.",
+              "Anwendung: Entwerft ein Symbol oder Logo für das Motto 'In Vielfalt geeint' und begründet eure gestalterischen Entscheidungen.",
+              "Präsentation (5 Min.): 'Mosaik Europa' – Erklärt der Klasse, wie die EU trotz (oder wegen) ihrer großen Unterschiede funktioniert."
+            ]}
+          />
+        </div>
       </Section>
 
       {/* TOPIC 3: Institutions */}
@@ -1045,7 +1131,7 @@ export default function App() {
             </TiltCard>
          </div>
 
-         <div className="mt-16 p-8 glass-card border-eu-gold/20 overflow-hidden relative">
+         <div className="mt-16 p-8 glass-card border-eu-gold/20 overflow-hidden relative" id="legislative-plan">
             <h4 className="text-center text-xl font-black mb-12 uppercase tracking-[0.2em] text-eu-gold italic">Interaktive Gesetzgebung</h4>
             <LegislativePlan />
             <div className="mt-8 text-center text-xs text-slate-500 italic">
@@ -1053,7 +1139,7 @@ export default function App() {
             </div>
          </div>
 
-         <div className="mt-16">
+         <div className="mt-16" id="simulator-council">
             <CouncilSimulator />
          </div>
 
@@ -1143,27 +1229,32 @@ export default function App() {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => setActiveDetailedTopic(2)}
+            id="detail-button-3"
             className="flex items-center gap-3 px-8 py-4 bg-white/5 border border-eu-gold/50 rounded-2xl text-eu-gold font-bold uppercase tracking-widest hover:bg-eu-gold/10 transition-all shadow-[0_0_15px_rgba(255,204,0,0.1)]"
           >
-            <BookOpen size={20} /> Detail-Archiv öffnen (Gruppe 3)
+            <BookOpen size={20} /> Facharchiv: Institutionen
           </motion.button>
         </div>
 
-        <QuizPrompt 
-          groupId={3} 
-          topicTitle="EU Institutionen und Prozesse" 
-          tasks={[
-            "Analyse: Klärt die Rollenverteilung zwischen Parlament, Kommission und Rat. Wer vertritt wen und wer hat das 'Sagen'?",
-            "Anwendung: Skizziert den Weg eines fiktiven Gesetzes (z.B. EU-weite Plastiksteuer) durch die drei Hauptinstitutionen.",
-            "Präsentation (5 Min.): 'Machtzentrum Brüssel' – Erklärt das Zusammenspiel der Institutionen anhand eures fiktiven Gesetzesfalls."
-          ]}
-        />
+        <div id="quiz-prompt-3">
+          <QuizPrompt 
+            groupId={3} 
+            topicTitle="EU Institutionen und Prozesse" 
+            tasks={[
+              "Analyse: Klärt die Rollenverteilung zwischen Parlament, Kommission und Rat. Wer vertritt wen und wer hat das 'Sagen'?",
+              "Anwendung: Skizziert den Weg eines fiktiven Gesetzes (z.B. EU-weite Plastiksteuer) durch die drei Hauptinstitutionen.",
+              "Präsentation (5 Min.): 'Machtzentrum Brüssel' – Erklärt das Zusammenspiel der Institutionen anhand eures fiktiven Gesetzesfalls."
+            ]}
+          />
+        </div>
       </Section>
 
       {/* TOPIC 4: Economy */}
       <Section id="economy" title="4. Wirtschaft & Binnenmarkt">
          <div className="space-y-12 w-full">
-            <MarketBento />
+            <div id="market-bento">
+              <MarketBento />
+            </div>
          
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                <div className="space-y-6">
@@ -1228,30 +1319,37 @@ export default function App() {
 
             <EconomicPowerhouse />
 
-            <GlobalTrade />
+            <div id="global-trade">
+              <GlobalTrade />
+            </div>
 
-            <EuroZone />
+            <div id="euro-zone">
+              <EuroZone />
+            </div>
 
             <div className="flex justify-center mt-12 pb-8 border-b border-white/5">
                <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setActiveDetailedTopic(3)}
+                  id="detail-button-4"
                   className="flex items-center gap-3 px-8 py-4 bg-white/5 border border-eu-gold/50 rounded-2xl text-eu-gold font-bold uppercase tracking-widest hover:bg-eu-gold/10 transition-all shadow-[0_0_15px_rgba(255,204,0,0.1)]"
                >
-                  <BookOpen size={20} /> Detail-Archiv öffnen (Gruppe 4)
-               </motion.button>
-            </div>
+                <BookOpen size={20} /> Facharchiv: Wirtschaft
+             </motion.button>
+          </div>
 
-            <QuizPrompt 
-          groupId={4} 
-          topicTitle="Wirtschaft und Euro" 
-          tasks={[
-            "Analyse: Erläutert die 'Vier Freiheiten' des Binnenmarkts und nennt für jede Freiheit ein konkretes Beispiel aus eurem Alltag.",
-            "Anwendung: Untersucht die Rolle des Euro: Wie erleichtert er den Handel und das Reisen, und wo liegen die Grenzen dieser Währung?",
-            "Präsentation (5 Min.): 'Marktplatz ohne Grenzen' – Demonstriert an einem Produkt, wie die EU-Wirtschaft euch als junge Konsumenten betrifft."
-          ]}
-        />
+            <div id="quiz-prompt-4">
+              <QuizPrompt 
+                groupId={4} 
+                topicTitle="Wirtschaft und Euro" 
+                tasks={[
+                  "Analyse: Erläutert die 'Vier Freiheiten' des Binnenmarkts und nennt für jede Freiheit ein konkretes Beispiel aus eurem Alltag.",
+                  "Anwendung: Untersucht die Rolle des Euro: Wie erleichtert er den Handel und das Reisen, und wo liegen die Grenzen dieser Währung?",
+                  "Präsentation (5 Min.): 'Marktplatz ohne Grenzen' – Demonstriert an einem Produkt, wie die EU-Wirtschaft euch als junge Konsumenten betrifft."
+                ]}
+              />
+            </div>
          </div>
       </Section>
 
@@ -1262,15 +1360,21 @@ export default function App() {
            <p className="text-slate-400">Das Projekt Europa steht niemals still. Entdecke die strategischen Prioritäten der kommenden Jahrzehnte.</p>
         </div>
 
-        <ChallengeRadar />
+        <div id="challenge-radar">
+           <ChallengeRadar />
+        </div>
         
         <div className="mt-16">
           <DemocracyCompass />
         </div>
         
-        <FutureExpansion />
+        <div id="future-expansion">
+          <FutureExpansion />
+        </div>
 
-        <FutureScenarios />
+        <div id="future-scenarios">
+          <FutureScenarios />
+        </div>
 
         <div className="mt-16">
           <SecurityNodeNetwork />
@@ -1282,21 +1386,24 @@ export default function App() {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => setActiveDetailedTopic(4)}
+            id="detail-button-5"
             className="flex items-center gap-3 px-8 py-4 bg-white/5 border border-eu-gold/50 rounded-2xl text-eu-gold font-bold uppercase tracking-widest hover:bg-eu-gold/10 transition-all shadow-[0_0_15px_rgba(255,204,0,0.1)]"
           >
-            <BookOpen size={20} /> Detail-Archiv öffnen (Gruppe 5)
+            <BookOpen size={20} /> Facharchiv: Zukunft
           </motion.button>
         </div>
 
-        <QuizPrompt 
-          groupId={5} 
-          topicTitle="Zukunft der EU" 
-          tasks={[
-            "Analyse: Identifiziert die drei größten Herausforderungen für die EU bis 2050 (z.B. Klima, KI, Erweiterung).",
-            "Anwendung: Entwerft ein 'Europa-Projekt 2050' – welche Vision habt ihr für das Zusammenleben im nächsten Vierteljahrhundert?",
-            "Präsentation (5 Min.): 'Morgenland Europa' – Stellt eure Zukunftsvision vor und erklärt, was sich dafür heute ändern müsste."
-          ]}
-        />
+        <div id="quiz-prompt-5">
+          <QuizPrompt 
+            groupId={5} 
+            topicTitle="Zukunft der EU" 
+            tasks={[
+              "Analyse: Identifiziert die drei größten Herausforderungen für die EU bis 2050 (z.B. Klima, KI, Erweiterung).",
+              "Anwendung: Entwerft ein 'Europa-Projekt 2050' – welche Vision habt ihr für das Zusammenleben im nächsten Vierteljahrhundert?",
+              "Präsentation (5 Min.): 'Morgenland Europa' – Stellt eure Zukunftsvision vor und erklärt, was sich dafür heute ändern müsste."
+            ]}
+          />
+        </div>
       </Section>
 
       {/* Footer */}
