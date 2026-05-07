@@ -94,14 +94,14 @@ export const IntroTutorial: React.FC<{ onComplete: (groupId: number) => void }> 
 
       {/* Cinematic Background Elements */}
       <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-600/10 rounded-full blur-[120px] animate-pulse delay-1000" />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-[80px] animate-pulse will-change-[opacity]" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-600/10 rounded-full blur-[80px] animate-pulse delay-1000 will-change-[opacity]" />
         <motion.div 
           animate={{ scaleX: [1, 1.2, 1], opacity: [0.1, 0.2, 0.1] }}
-          transition={{ duration: 5, repeat: Infinity }}
-          className="absolute inset-y-0 left-1/2 w-[1px] bg-gradient-to-b from-transparent via-cyan-500 to-transparent" 
+          transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+          className="absolute inset-y-0 left-1/2 w-[1px] bg-gradient-to-b from-transparent via-cyan-500 to-transparent will-change-transform" 
         />
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(18,24,38,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(18,24,38,0.1)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(18,24,38,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(18,24,38,0.1)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_90%)]" />
       </div>
 
       <AnimatePresence mode="wait">
@@ -177,11 +177,10 @@ export const IntroTutorial: React.FC<{ onComplete: (groupId: number) => void }> 
                 >
                   {/* Animated Border Glow */}
                   <motion.div 
-                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none will-change-opacity"
                     initial={false}
                   >
-                    <div className="absolute inset-0 border border-cyan-500/50 rounded-2xl" />
-                    <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-transparent to-transparent" />
+                    <div className="absolute inset-0 border border-cyan-500/30 rounded-2xl" />
                   </motion.div>
 
                   {/* Large Stylized Group Number Background */}
@@ -189,11 +188,11 @@ export const IntroTutorial: React.FC<{ onComplete: (groupId: number) => void }> 
                     {group.id}
                   </div>
 
-                  {/* Header: Prominent Group ID */}
-                  <div className="relative z-10 flex flex-col mb-6 p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/20 group-hover:bg-cyan-500/20 transition-all duration-500 hover:shadow-[0_0_20px_rgba(6,182,212,0.15)]">
+                   {/* Header: Prominent Group ID */}
+                  <div className="relative z-10 flex flex-col mb-6 p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/20 group-hover:bg-cyan-500/20 transition-colors duration-300">
                     <div className="flex items-center justify-between mb-2">
                        <span className="text-cyan-400 font-mono text-[9px] tracking-[0.3em] uppercase font-bold truncate">Sektor Zuweisung</span>
-                       <div className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
+                       <div className="w-1.5 h-1.5 rounded-full bg-cyan-500 shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
                     </div>
                     <div className="flex items-baseline gap-1 md:gap-2">
                        <span className="text-xl lg:text-2xl xl:text-3xl font-black italic text-white group-hover:text-cyan-400 transition-colors tracking-tighter shrink-0">GRUPPE</span>
@@ -242,7 +241,7 @@ export const IntroTutorial: React.FC<{ onComplete: (groupId: number) => void }> 
         {[...Array(20)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-[1px] h-[1px] bg-white rounded-full"
+            className="absolute w-[1px] h-[1px] bg-white rounded-full will-change-transform"
             initial={{ 
               x: Math.random() * 100 + "%", 
               y: Math.random() * 100 + "%" 
