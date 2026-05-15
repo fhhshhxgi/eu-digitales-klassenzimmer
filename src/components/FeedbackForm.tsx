@@ -118,7 +118,7 @@ export const FeedbackForm: React.FC<FeedbackFormProps> = ({ isVisible = true }) 
                 <div className="flex items-start justify-between">
                   <div>
                     <h2 className="text-3xl font-serif text-white italic mb-1">Abschluss-Feedback</h2>
-                    <p className="text-xs text-eu-gold/80 font-medium tracking-widest uppercase">Deine Einschätzung zur Projektwoche</p>
+                    <p className="text-xs text-eu-gold/80 font-medium tracking-widest uppercase">Deine Einschätzung zum Projekt</p>
                   </div>
                   <button 
                     onClick={() => setIsOpen(false)}
