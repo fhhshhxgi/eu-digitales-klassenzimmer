@@ -33,15 +33,15 @@ const SUCCESS_SOUND_URL = 'https://assets.mixkit.co/active_storage/sfx/2018/2018
 const AUDIO_CHECK_SOUND_URL = 'https://assets.mixkit.co/active_storage/sfx/2303/2303-preview.mp3';
 
 export const SoundProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [playClick] = useSound(CLICK_SOUND_URL, { volume: 0.25, interrupt: true });
-  const [playHero] = useSound(CLICK_SOUND_HERO, { volume: 0.25, interrupt: true});
+  const [playClick] = useSound(CLICK_SOUND_URL, { volume: 0.1, interrupt: true });
+  const [playHero] = useSound(CLICK_SOUND_HERO, { volume: 0.1, interrupt: true});
   const [playGroupSelect] = useSound(GROUP_SELECT_SOUND_URL, { volume: 0.15, interrupt: true });
   const [playTutorialStep] = useSound(TUTORIAL_STEP_SOUND_URL, { volume: 0.15, interrupt: true });
-  const [playSecurityNode] = useSound(SECURITY_NODE_SOUND_URL, { volume: 0.4, interrupt: true });
-  const [playEscalation] = useSound(ESCALATION_SOUND_URL, { volume: 1.5, interrupt: true });
-  const [playGeneralClick] = useSound(GENERAL_CLICK_SOUND_URL, { volume: 0.1, interrupt: true });
-  const [playSuccess] = useSound(SUCCESS_SOUND_URL, { volume: 0.2, interrupt: true });
-  const [playAudioCheck] = useSound(AUDIO_CHECK_SOUND_URL, { volume: 0.4, interrupt: true });
+  const [playSecurityNode] = useSound(SECURITY_NODE_SOUND_URL, { volume: 0.2, interrupt: true });
+  const [playEscalation] = useSound(ESCALATION_SOUND_URL, { volume: 0.25, interrupt: true });
+  const [playGeneralClick] = useSound(GENERAL_CLICK_SOUND_URL, { volume: 0.05, interrupt: true });
+  const [playSuccess] = useSound(SUCCESS_SOUND_URL, { volume: 0.15, interrupt: true });
+  const [playAudioCheck] = useSound(AUDIO_CHECK_SOUND_URL, { volume: 0.3, interrupt: true });
 
   const handleClick = useCallback((e: MouseEvent) => {
     const target = (e.target as HTMLElement).closest('button, a, [role="button"], .cursor-pointer');

@@ -24,6 +24,7 @@ import { EconomicPowerhouse } from './components/EconomicPowerhouse';
 import { LoadingScreen } from './components/LoadingScreen';
 import { IntroTutorial } from './components/IntroTutorial';
 import { AudioCheckModal } from './components/AudioCheckModal';
+import { FeedbackForm } from './components/FeedbackForm';
 import { GuidedTour, TourStep } from './components/GuidedTour';
 import { TabletNav } from './components/TabletNav';
 import { CouncilSimulator } from './components/CouncilSimulator';
@@ -82,6 +83,12 @@ export default function App() {
   const [isAudioCheckOpen, setIsAudioCheckOpen] = useState(false);
   const [isImpressumOpen, setIsImpressumOpen] = useState(false);
   const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
+  
+  // Exponiere die Modal-Steuerung für das Feedback-Formular
+  useEffect(() => {
+    (window as any).setIsPrivacyOpen = setIsPrivacyOpen;
+  }, []);
+
   const [activeDetailedTopic, setActiveDetailedTopic] = useState<number | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showDeviceNotice, setShowDeviceNotice] = useState(true);
@@ -1523,11 +1530,13 @@ export default function App() {
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-50 p-3 md:p-4 bg-eu-dark/80 text-eu-gold border border-eu-gold/20 backdrop-blur-md rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-transform"
             aria-label="Zurück zum Anfang scrollen"
+            key="scroll-top-button"
           >
             <ArrowUp size={24} />
           </motion.button>
         )}
       </AnimatePresence>
+      <FeedbackForm isVisible={hasStarted && !showIntro && activeTourGroup === null} />
     </div>
   );
 }

@@ -23,7 +23,7 @@ export const AudioCheckModal: React.FC<AudioCheckModalProps> = ({ isOpen, onClos
           <motion.div
             initial={{ scale: 0.9, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.9, opacity: 0, scale: 1.1 }}
+            exit={{ scale: 1.1, opacity: 0 }}
             className="w-full max-w-2xl px-8 py-12 text-center relative z-10 bg-slate-900/50 border border-white/10 rounded-[3rem] shadow-[0_0_100px_rgba(0,0,0,0.5)]"
           >
             {/* Kinematische Hintergrund-Elemente (Passend zum Intro) */}

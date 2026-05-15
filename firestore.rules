@@ -1,0 +1,40 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 0. Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Phase 3: Primitive Definitions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128;
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    // Phase 4: Entity Validation
+    function isValidFeedback(data) {
+      return data.keys().hasAll(['responses', 'group', 'createdAt', 'userId', 'userAgent'])
+        && data.responses is map
+        && data.group is string
+        && (data.userId == null || (isSignedIn() && data.userId == request.auth.uid))
+        && data.userAgent is string;
+    }
+
+    match /feedback_gruppen/{groupId} {
+      allow write: if true; 
+      
+      match /antworten/{feedbackId} {
+        allow create: if isValidId(feedbackId) && isValidFeedback(incoming());
+        allow read, update, delete: if false;
+      }
+    }
+  }
+}

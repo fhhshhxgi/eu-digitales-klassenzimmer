@@ -1,0 +1,39 @@
+{
+  "entities": {
+    "Feedback": {
+      "title": "Student Feedback",
+      "description": "Feedback submitted by students using the application",
+      "type": "object",
+      "properties": {
+        "responses": {
+          "type": "object",
+          "description": "Map of survey questions (German keys) and student answers"
+        },
+        "group": {
+          "type": "string",
+          "description": "Project group name (e.g., Gruppe A)"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the feedback was submitted"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Optional user ID if authenticated"
+        },
+        "userAgent": {
+          "type": "string",
+          "description": "Browser details for debugging"
+        }
+      },
+      "required": ["responses", "category", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/feedback_gruppen/{groupId}/antworten/{feedbackId}": {
+      "schema": "Feedback",
+      "description": "Collection of feedback entries separated by project group"
+    }
+  }
+}
