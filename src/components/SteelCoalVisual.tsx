@@ -51,6 +51,14 @@ export const SteelCoalVisual = () => {
   const [hasPlayedEscalation, setHasPlayedEscalation] = useState(false);
   const { playClick, playSuccess, playEscalation } = useSounds();
 
+  const [isPortable, setIsPortable] = useState(false);
+  useEffect(() => {
+    const check = () => setIsPortable(window.innerWidth < 1024);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
   // Eskalations-Sound bei 50% Spannung
   useEffect(() => {
     if (tension >= 50 && !hasPlayedEscalation && !isAuthorityActive) {
@@ -114,7 +122,7 @@ export const SteelCoalVisual = () => {
   };
 
   return (
-    <div className="relative w-full bg-eu-dark border border-white/10 rounded-[3rem] overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,0.6)] backdrop-blur-xl min-h-[600px] lg:min-h-[520px] flex flex-col group">
+    <div className={`relative w-full bg-eu-dark border border-white/10 rounded-[3rem] overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,0.6)] ${isPortable ? '' : 'backdrop-blur-xl'} min-h-[600px] lg:min-h-[520px] flex flex-col group`}>
       
       {/* Dynamischer Hintergrund (Stimmungs-Atmosphäre) */}
       <div className="absolute inset-0 pointer-events-none transition-colors duration-1000">
@@ -403,7 +411,7 @@ export const SteelCoalVisual = () => {
 
                 {/* Fluss-Partikel */}
                 <div className="absolute inset-0 pointer-events-none">
-                    {[...Array(isAuthorityActive ? 8 : 4)].map((_, i) => (
+                    {[...Array(isAuthorityActive ? (isPortable ? 3 : 8) : (isPortable ? 1 : 4))].map((_, i) => (
                       <ResourceParticle key={i} side={i % 2 === 0 ? 'left' : 'right'} isActive={isAuthorityActive} />
                     ))}
                 </div>

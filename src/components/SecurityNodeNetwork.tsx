@@ -75,10 +75,18 @@ export function SecurityNodeNetwork() {
   const [active, setActive] = useState<string | null>(null);
   const { playSecurityNode } = useSounds();
 
+  const [isPortable, setIsPortable] = useState(false);
+  React.useEffect(() => {
+    const check = () => setIsPortable(window.innerWidth < 1024);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
   const activeNode = NODES.find(n => n.id === active);
 
   return (
-    <div className="w-full bg-eu-dark/60 border border-white/5 rounded-[4rem] p-8 md:p-16 backdrop-blur-3xl overflow-hidden relative shadow-2xl">
+    <div className={`w-full bg-eu-dark/60 border border-white/5 rounded-[4rem] p-8 md:p-16 ${isPortable ? '' : 'backdrop-blur-3xl'} overflow-hidden relative shadow-2xl`}>
       {/* Mesh-Hintergrund */}
       <div className="absolute inset-0 opacity-[0.05] pointer-events-none" 
            style={{ backgroundImage: 'linear-gradient(to right, #fff 1px, transparent 1px), linear-gradient(to bottom, #fff 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
@@ -175,23 +183,25 @@ export function SecurityNodeNetwork() {
                       transition={{ duration: 0.5 }}
                     />
                   )}
-                  {/* Datenfluss-Partikel */}
-                  <motion.circle
-                    r="2"
-                    fill="currentColor"
-                    className="text-eu-gold/30"
-                    animate={{
-                      cx: [node.x, centerNode.x],
-                      cy: [node.y, centerNode.y],
-                      opacity: [0, 1, 0]
-                    }}
-                    transition={{
-                      duration: 3 + Math.random() * 2,
-                      repeat: Infinity,
-                      ease: "linear",
-                      delay: Math.random() * 5
-                    }}
-                  />
+                  {/* Datenfluss-Partikel (nur auf Desktop oder aktivierter Node) */}
+                  {(!isPortable || active === node.id) && (
+                    <motion.circle
+                      r="2"
+                      fill="currentColor"
+                      className="text-eu-gold/30"
+                      animate={{
+                        cx: [node.x, centerNode.x],
+                        cy: [node.y, centerNode.y],
+                        opacity: [0, 1, 0]
+                      }}
+                      transition={{
+                        duration: 3 + Math.random() * 2,
+                        repeat: Infinity,
+                        ease: "linear",
+                        delay: Math.random() * 5
+                      }}
+                    />
+                  )}
                 </g>
               );
             })}

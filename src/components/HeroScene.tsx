@@ -143,17 +143,17 @@ export function HeroScene({ onStart }: { onStart?: () => void }) {
 
   return (
     <motion.div 
-      className="absolute inset-0 z-0 bg-[#000103] overflow-hidden flex items-center justify-center"
+      className="absolute inset-0 z-0 bg-[#000103] overflow-hidden flex items-center justify-center gpu-accelerated"
     >
       {/* Dynamischer Galaxie-Hintergrund mit Maus-Parallaxe und Rotation */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {/* Deep Space Basis */}
         <div className="absolute inset-0 bg-black" />
         
-        {/* Himmelskörper-Sternenfeld (auf Mobilgeräten deaktiviert) */}
+        {/* Himmelskörper-Sternenfeld (auf Mobilgeräten/Tablets deaktiviert) */}
         {!isReduced && (
           <motion.div 
-            className="absolute inset-[-50%] animate-celestial opacity-30"
+            className="absolute inset-[-50%] animate-celestial opacity-30 gpu-accelerated"
           >
             <div 
               className="absolute inset-0"
@@ -169,17 +169,15 @@ export function HeroScene({ onStart }: { onStart?: () => void }) {
         
         {/* Sternenfeld Ebene 1 (langsame Parallaxe) */}
         <motion.div 
-          className="absolute inset-[-10%] animate-twinkle transition-transform duration-700 ease-out"
+          className="absolute inset-[-10%] animate-twinkle transition-transform duration-700 ease-out gpu-accelerated"
           style={{
             transform: isReduced ? 'none' : `translate(${mousePos.x * -5}px, ${mousePos.y * -5}px)`,
-            opacity: isReduced ? 0.4 : starOpacity,
+            opacity: isReduced ? 0.3 : starOpacity,
             backgroundImage: `radial-gradient(1.2px 1.2px at 20px 30px, #fff, rgba(0,0,0,0)), 
                               radial-gradient(1.1px 1.1px at 40px 70px, #fff, rgba(0,0,0,0)), 
-                              radial-gradient(2px 2px at 90px 40px, #e6f0ff, rgba(0,0,0,0)), 
-                              radial-gradient(1.2px 1.2px at 160px 120px, #fff, rgba(0,0,0,0)),
-                              radial-gradient(1.3px 1.3px at 10px 10px, #fff, rgba(0,0,0,0))`,
+                              radial-gradient(2px 2px at 90px 40px, #e6f0ff, rgba(0,0,0,0))`,
             backgroundSize: '280px 280px',
-            filter: 'none' // Teure Blur-Filter zugunsten der Stabilität entfernt
+            filter: 'none'
           }}
         />
         
@@ -212,46 +210,30 @@ export function HeroScene({ onStart }: { onStart?: () => void }) {
           />
         )}
 
-        {/* Dezente Nebel-Ebenen (optimiert für Mobilgeräte) */}
-        <div 
-          className="absolute top-[-30%] left-[-20%] w-[140%] h-[140%] opacity-15 animate-nebula bg-indigo-950 rounded-full transition-transform duration-[2000ms] ease-out"
-          style={{ 
-            filter: isReduced ? 'blur(40px)' : 'blur(160px)', 
-            mixBlendMode: 'screen',
-            transform: 'none'
-          }}
-        />
+        {/* Dezente Nebel-Ebenen (nur auf Desktop) */}
         {!isReduced && (
           <>
             <div 
-              className="absolute bottom-[-30%] right-[-20%] w-[140%] h-[140%] opacity-15 animate-nebula bg-blue-900 rounded-full delay-1000 transition-transform duration-[2500ms] ease-out"
+              className="absolute top-[-30%] left-[-20%] w-[140%] h-[140%] opacity-15 animate-nebula bg-indigo-950 rounded-full transition-transform duration-[2000ms] ease-out gpu-accelerated"
+              style={{ 
+                filter: 'blur(160px)', 
+                mixBlendMode: 'screen',
+                transform: 'none'
+              }}
+            />
+            <div 
+              className="absolute bottom-[-30%] right-[-20%] w-[140%] h-[140%] opacity-15 animate-nebula bg-blue-900 rounded-full delay-1000 transition-transform duration-[2500ms] ease-out gpu-accelerated"
               style={{ 
                 filter: 'blur(180px)', 
                 mixBlendMode: 'screen',
                 transform: `translate(${mousePos.x * -30}px, ${mousePos.y * -30}px)`
               }}
             />
-            <div 
-              className="absolute top-[20%] left-[10%] w-[80%] h-[80%] opacity-12 animate-nebula bg-purple-950 rounded-full delay-2000 transition-transform duration-[3000ms] ease-out"
-              style={{ 
-                filter: 'blur(120px)', 
-                mixBlendMode: 'screen',
-                transform: `translate(${mousePos.x * -50}px, ${mousePos.y * -50}px)`
-              }}
-            />
-          </>
-        )}
-
-        {/* Sternschnuppen (nur Desktop) */}
-        {!isReduced && (
-          <>
-            <div className="absolute top-[-20%] left-[20%] w-[1px] h-[300px] bg-gradient-to-t from-white via-eu-gold/40 to-transparent opacity-0 animate-shooting pointer-events-none" style={{ animationDelay: '8s', filter: 'blur(0.4px)' }} />
-            <div className="absolute top-[30%] left-[60%] w-[1px] h-[250px] bg-gradient-to-t from-white via-white/20 to-transparent opacity-0 animate-shooting pointer-events-none" style={{ animationDelay: '18s', filter: 'blur(0.4px)' }} />
           </>
         )}
 
         {/* Starker kosmischer Glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(33,150,243,0.35)_0%,_rgba(0,51,153,0.1)_40%,_transparent_75%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(33,150,243,0.2)_0%,_rgba(0,51,153,0.05)_40%,_transparent_75%)] opacity-50" />
       </div>
 
       <div className="relative w-full h-full flex items-center justify-center">
@@ -262,11 +244,11 @@ export function HeroScene({ onStart }: { onStart?: () => void }) {
           backgroundColor="rgba(0,0,0,0)"
           globeMaterial={new THREE.MeshStandardMaterial({
             color: '#001a4d',
-            roughness: 0.3,
-            metalness: 0.5
+            roughness: 0.4,
+            metalness: 0.4
           })}
           atmosphereColor="#3388ff"
-          atmosphereAltitude={0.15}
+          atmosphereAltitude={isReduced ? 0.1 : 0.15}
           
           polygonsData={countries}
           polygonCapColor={(d: any) => {
